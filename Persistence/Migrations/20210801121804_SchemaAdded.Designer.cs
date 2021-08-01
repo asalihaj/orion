@@ -4,19 +4,22 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210731232038_CompaniesAdded")]
-    partial class CompaniesAdded
+    [Migration("20210801121804_SchemaAdded")]
+    partial class SchemaAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("Domain.AppUser", b =>
                 {
@@ -28,7 +31,7 @@ namespace Persistence.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<DateTime>("Date_created");
+                    b.Property<DateTime>("DateCreated");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
@@ -89,6 +92,125 @@ namespace Persistence.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Companies");
+                });
+
+            modelBuilder.Entity("Domain.Contact", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Title");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Contacts");
+                });
+
+            modelBuilder.Entity("Domain.JobSeeker", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<DateTime>("Birthday");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("Gender");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<DateTime>("LastUpdated");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("JobSeekers");
+                });
+
+            modelBuilder.Entity("Domain.Offer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Category");
+
+                    b.Property<string>("CompanyId")
+                        .IsRequired();
+
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<string>("Description");
+
+                    b.Property<DateTime>("ExpDate");
+
+                    b.Property<DateTime>("LastUpdated");
+
+                    b.Property<string>("Location");
+
+                    b.Property<double>("Salary");
+
+                    b.Property<string>("Schedule");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("Offers");
+                });
+
+            modelBuilder.Entity("Domain.Report", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<Guid>("OfferId");
+
+                    b.Property<string>("Category");
+
+                    b.Property<DateTime>("LastUpdated");
+
+                    b.HasKey("UserId", "OfferId");
+
+                    b.HasIndex("OfferId");
+
+                    b.ToTable("Reports");
+                });
+
+            modelBuilder.Entity("Domain.Resume", b =>
+                {
+                    b.Property<Guid>("OfferId");
+
+                    b.Property<string>("JobSeekerId");
+
+                    b.Property<string>("CV");
+
+                    b.Property<DateTime>("Last_Updated");
+
+                    b.HasKey("OfferId", "JobSeekerId");
+
+                    b.HasIndex("JobSeekerId");
+
+                    b.ToTable("Resumes");
+                });
+
+            modelBuilder.Entity("Domain.SavedOffer", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<Guid>("OfferId");
+
+                    b.Property<DateTime>("LastUpdated");
+
+                    b.HasKey("UserId", "OfferId");
+
+                    b.HasIndex("OfferId");
+
+                    b.ToTable("SavedOffers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -203,6 +325,68 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.AppUser", "User")
                         .WithOne("Company")
                         .HasForeignKey("Domain.Company", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Domain.Contact", b =>
+                {
+                    b.HasOne("Domain.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Domain.JobSeeker", b =>
+                {
+                    b.HasOne("Domain.AppUser", "User")
+                        .WithOne("JobSeeker")
+                        .HasForeignKey("Domain.JobSeeker", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Domain.Offer", b =>
+                {
+                    b.HasOne("Domain.Company", "Company")
+                        .WithMany("Offers")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Domain.Report", b =>
+                {
+                    b.HasOne("Domain.Offer", "Offer")
+                        .WithMany("Reports")
+                        .HasForeignKey("OfferId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Domain.AppUser", "User")
+                        .WithMany("Reports")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Domain.Resume", b =>
+                {
+                    b.HasOne("Domain.JobSeeker", "JobSeeker")
+                        .WithMany("Resumes")
+                        .HasForeignKey("JobSeekerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Domain.Offer", "Offer")
+                        .WithMany("Resumes")
+                        .HasForeignKey("OfferId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Domain.SavedOffer", b =>
+                {
+                    b.HasOne("Domain.Offer", "Offer")
+                        .WithMany("SavedOffers")
+                        .HasForeignKey("OfferId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Domain.AppUser", "User")
+                        .WithMany("SavedOffers")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
