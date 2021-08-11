@@ -8,6 +8,6 @@ namespace Application.Offers
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string CV { get; set; }
-        public string Last_Updated { get; set; }
+        public string LastUpdated { get; set; }
     }
 }

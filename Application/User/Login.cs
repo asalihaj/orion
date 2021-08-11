@@ -61,7 +61,6 @@ namespace Application.User
 
                 if (result.Succeeded)
                 {
-                    //TODO: generate token
                     return new UserDto
                     {
                         Id = appUser.Id,

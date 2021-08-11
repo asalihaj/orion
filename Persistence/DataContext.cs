@@ -10,13 +10,13 @@ namespace Persistence
         {
         }
 
+        public DbSet<Offer> Offers { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<JobSeeker> JobSeekers { get; set; }
-        public DbSet<Offer> Offers { get; set; }
-        public DbSet<SavedOffer> SavedOffers { get; set; }  
-        public DbSet<Report> Reports { get; set; }
         public DbSet<Resume> Resumes { get; set; }
+        public DbSet<Report> Reports { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<SavedOffer> SavedOffers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
