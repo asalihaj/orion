@@ -6,9 +6,8 @@ export interface IOffer {
     location: string;
     schedule: string;
     salary: string;
-    exp_Date: Date;
+    expDate: Date;
     description: string;
-    file: string;
     applicants: IApplicants[];
     reports: IReports[];
 }
@@ -26,13 +25,12 @@ export class OfferFormValues implements IOfferFormValues {
     schedule: string = '';
     salary: string = '';
     time?: Date = undefined;
-    exp_Date?: Date = undefined;
+    expDate?: Date = undefined;
     description: string = '';
-    file: string = '';
 
     constructor(init?: IOfferFormValues) {
-        if (init && init.exp_Date) {
-            init.time = init.exp_Date;
+        if (init && init.expDate) {
+            init.time = init.expDate;
         }
         Object.assign(this, init);
     }
@@ -41,7 +39,6 @@ export class OfferFormValues implements IOfferFormValues {
 export interface IPublisher {
     username: string;
     name: string;
-    description: string;
 }
 
 export interface IApplicants {
@@ -49,7 +46,7 @@ export interface IApplicants {
     firstName: string;
     lastName: string;
     cv: string;
-    last_Updated: Date;
+    lastUpdated: Date;
 }
 
 export interface IReports {

@@ -25,16 +25,9 @@ export default class OfferStore {
       return this.groupOffersByDate(Array.from(this.userSaved.values()));
     }
 
-    @action test = () => {
-      console.log(this.userSaved);
-    }
-
     @action getOffers = () => {
-      let offers: IOffer[];
-      this.offerRegistry.forEach(offer => {
-        offers.push(offer);
-      });
-      console.log(offers);
+      let offers = new Array();
+      this.offerRegistry.forEach(offer => offers.push(offer))
       return offers;
     }
 
@@ -43,7 +36,7 @@ export default class OfferStore {
         const user = await agent.User.currnt();
         runInAction(() => {
           user.saved.forEach(o => {
-            o.exp_Date = new Date(o.exp_Date!);
+            o.expDate = new Date(o.expDate!);
             this.userSaved.set(o.id, o);
           })
         })
@@ -54,10 +47,10 @@ export default class OfferStore {
 
     groupOffersByDate(offers: IOffer[]) {
         const sortedOffers = offers.sort(
-          (a, b) => a.exp_Date.getTime() - b.exp_Date.getTime()
+          (a, b) => a.expDate.getTime() - b.expDate.getTime()
         );
         return Object.entries(sortedOffers.reduce((offers, offer) => {
-          const date = offer.exp_Date.toISOString().split('T')[0];
+          const date = offer.expDate.toISOString().split('T')[0];
           offers[date] = offers[date] ? [...offers[date], offer] : [offer];
           return offers;
         }, {} as {[key: string]: IOffer[]}));
@@ -69,7 +62,7 @@ export default class OfferStore {
           const offers = await agent.Offers.list();
           runInAction(() => {
             offers.forEach(offer => {
-              offer.exp_Date = new Date(offer.exp_Date!);
+              offer.expDate = new Date(offer.expDate!);
               this.offerRegistry.set(offer.id, offer);
             });
             this.loadingInitial = false;
@@ -91,7 +84,7 @@ export default class OfferStore {
           try {
             offer = await agent.Offers.details(id);
             runInAction(() => {
-              offer.exp_Date = new Date(offer.exp_Date);
+              offer.expDate = new Date(offer.expDate);
               this.offer = offer;
               this.offerRegistry.set(offer.id, offer);
               this.loadingInitial = false;
