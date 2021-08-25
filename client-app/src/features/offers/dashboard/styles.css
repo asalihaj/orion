@@ -1,0 +1,20 @@
+.offer-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.company-info {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.row {
+    flex-direction: row;
+}
+
+.offer:hover {
+    cursor: pointer;
+    background-color: #c0c0c023 !important;
+}

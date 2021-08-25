@@ -1,0 +1,19 @@
+.centered {
+    display: flex !important; 
+    justify-content: center;
+    align-items: center;
+}
+
+.font-blue {
+    color: #2977c9 !important;
+}
+
+.font-lg {
+    font-size: 3rem !important;
+    font-weight: 100 !important;
+}
+
+.font-md {
+    font-size: 2rem !important;
+    color: rgb(77, 77, 77);
+}

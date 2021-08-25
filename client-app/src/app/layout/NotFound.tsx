@@ -1,19 +1,24 @@
-import { Segment, Button, Header, Icon } from 'semantic-ui-react';
+import { Segment, Button, Header, Icon, Image, Container } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 const NotFound = () => {
     return (
-        <Segment placeholder>
-            <Header icon>
-                <Icon name='search' />
-                Oops - we've looked everywhere but couldn't find this.
-            </Header>
-            <Segment.Inline>
-                <Button as={Link} to='/offers' primary>
-                    Return to Home page
-                </Button>
-            </Segment.Inline>
-        </Segment>
+        <Container textAlign='center'>
+            <Image fluid size='massive' src='/assets/notfound.png' />
+            <Button size='massive' as={Link} to='/' primary>Return to Home page</Button>
+        </Container>
+        // <Segment placeholder>
+        //     <Header icon>
+        //         <Icon name='search' />
+                
+        //     </Header>
+        //     <Segment.Inline>
+        //     <Image size='huge' src='/assets/notfound.jpg'/>
+        //         <Button as={Link} to='/' primary>
+        //             Return to Home page
+        //         </Button>
+        //     </Segment.Inline>
+        // </Segment>
     );
 };
 

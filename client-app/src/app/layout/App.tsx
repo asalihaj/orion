@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import { Card, Container, Item } from "semantic-ui-react";
 import HomePage from "../../features/home/HomePage";
 import NavBar from "../../features/nav/NavBar";
+import OfferDashboard from "../../features/offers/dashboard/OfferDashboard";
 import ModalContainer from "../common/modals/ModalContainer";
 import { RootStoreContext } from "../stores/rootStore";
 import LoadingComponent from "./LoadingComponent";
@@ -16,20 +17,22 @@ const App = () => {
   const { offersByDate, loadOffers, getOffers } = rootStore.offerStore;
   const { appLoaded } = rootStore.commonStore;
 
-  if(!appLoaded) return <LoadingComponent content='Loading app...'/>
+  // if(!appLoaded) return <LoadingComponent content='Loading app...'/>
 
   return (
     <Fragment>
       <ModalContainer />
       <ToastContainer position='bottom-right' />
       <Route exact path='/' component={HomePage}/>
+      <NavBar />
 
       <Route path={'/(.+)'} 
       render={() => (
         <Fragment>
-             <NavBar />
+             
           <Container style={{ marginTop: '7em', width: 'auto' }}>
             <Switch>
+              <Route exact path='/offers' component={OfferDashboard} />
               <Route component={NotFound}/>
             </Switch>
           </Container>

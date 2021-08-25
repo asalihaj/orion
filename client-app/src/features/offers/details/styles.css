@@ -1,0 +1,13 @@
+.date-views-container {
+    display: flex;
+    justify-content: flex-start;
+    font-size: 13px;
+   }
+   
+   .date-details {
+       margin-right: 5px;
+   }
+   
+   .offer-button-group {
+       display: flex;
+   }

@@ -7,12 +7,10 @@ import { RootStoreContext } from "../../app/stores/rootStore";
 const NavBar: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
   const { user, logout} = rootStore.userStore;
-  const {openModal} = rootStore.modalStore;
   return (
     <Menu fixed="top" inverted>
       <Container>
         <Menu.Item header exact as={NavLink} to="/offers">
-          <img src="/assets/logo.png" alt="logo" style={{ marginRight: 10 }} />
           Offers
         </Menu.Item>
         {user && <Menu.Item as={NavLink} to="/saved">
@@ -47,28 +45,28 @@ const NavBar: React.FC = () => {
             </Dropdown>
           </Menu.Item>
         ) : (
-          <Fragment>
-            <Menu.Item 
-            position="right"
+          <Menu.Menu position='right'>
+            <Menu.Item
+            as={NavLink}
+            to='/register'
             >
-                <Button
-              as={Link} to='/joinUs'
-                >
-                  Register
-                </Button>
-                <Button
-                primary
+              Register
+            </Menu.Item>
+            <Menu.Item>
+              <Button
+                color='instagram'
                 name="Login" 
                 //TODO:
                 //Add Login Form on modal
                 //onClick={() => openModal()}
+                as={Link}
                 to="/login"
                 style={{ marginLeft: "8px" }}
                 >
                   Login
-                </Button>
+              </Button>
             </Menu.Item>
-          </Fragment>
+          </Menu.Menu>
         )}
       </Container>
     </Menu>
