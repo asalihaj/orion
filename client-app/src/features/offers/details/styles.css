@@ -2,12 +2,21 @@
     display: flex;
     justify-content: flex-start;
     font-size: 13px;
-   }
-   
-   .date-details {
-       margin-right: 5px;
-   }
-   
-   .offer-button-group {
-       display: flex;
-   }
+}
+
+.date-details {
+    margin-right: 5px;
+}
+
+.offer-button-group {
+    display: flex;
+}
+
+.offer-description {
+    height: 500px;
+    overflow-y: scroll;
+}
+
+.sticky {
+    position: sticky;
+}

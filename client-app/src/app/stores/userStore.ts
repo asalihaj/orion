@@ -20,9 +20,8 @@ export default class UserStore {
       runInAction(() => {
         this.user = user;
       });
-      console.log(user);
+      console.log(user)
       this.rootStore.commonStore.setToken(user.token);
-      this.rootStore.modalStore.closeModal();
       history.push('/');
     } catch (error) {
       throw error;
@@ -32,7 +31,6 @@ export default class UserStore {
     try {
     const user = await agent.User.register(values);
       this.rootStore.commonStore.setToken(user.token);
-      this.rootStore.modalStore.closeModal();
       history.push('/offers')
     } catch (error) {
       throw error;
@@ -41,7 +39,7 @@ export default class UserStore {
 
   @action getUser = async () => {
     try {
-      const user = await agent.User.currnt();
+      const user = await agent.User.current();
       runInAction(() => {
         this.user = user;
       })

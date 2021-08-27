@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const NotFound = () => {
     return (
         <Container textAlign='center'>
-            <Image fluid size='massive' src='/assets/notfound.png' />
+            <Image size='massive' src='/assets/notfound.png' />
             <Button size='massive' as={Link} to='/' primary>Return to Home page</Button>
         </Container>
         // <Segment placeholder>

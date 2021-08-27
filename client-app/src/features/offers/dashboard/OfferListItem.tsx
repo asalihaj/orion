@@ -21,7 +21,7 @@ const OfferListItem: React.FC<{ offer: IOffer, publisher: IPublisher }> = ({ off
         className='offer'
          onClick={() => loadOffer(offer.id)}
          style={{ border: '1px solid black !important'}}
-         >
+        >
             <Item.Image size='tiny' src='/assets/fb.png' />
             <Item.Content>
                 <Item.Extra >
@@ -36,26 +36,13 @@ const OfferListItem: React.FC<{ offer: IOffer, publisher: IPublisher }> = ({ off
                         {offer.location}
                     </Item.Meta>
                 </div>
-            <Item.Extra>
-                <div className='company-info row'>
-                    <Label>{format(offer.expDate!, 'dd/MM/yyyy')}</Label>
-                    <Item.Description>{offer.applicants.length} applicants</Item.Description>
-                </div>
-            </Item.Extra>
-                {/* <div className='offer-info'>
-                    <span>
-                        <p>
-                            {format(offer.expDate!, 'dd/MM/yyyy')}  
-                        </p>
-                        <p>{offer.applicants.length} applicants</p>
-                    </span>
-                        <Button 
-                        onClick={() => loadOffer(offer.id)}
-                        style={{ marginTop: '3rem'}} 
-                        color='instagram'
-                        >View</Button>
-                </div> */}
-                </Item.Content>
+                <Item.Extra>
+                    <div className='company-info row'>
+                        <Label>{format(offer.expDate!, 'dd/MM/yyyy')}</Label>
+                        <Item.Description>{offer.applicants.length} applicants</Item.Description>
+                    </div>
+                </Item.Extra>
+            </Item.Content>
         </Item>
     )
 }

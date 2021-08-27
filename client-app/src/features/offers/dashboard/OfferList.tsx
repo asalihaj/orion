@@ -3,19 +3,29 @@ import { observer } from 'mobx-react-lite';
 import OfferListItem from './OfferListItem';
 import { Card, Container, Divider, Item, Segment } from 'semantic-ui-react';
 import { RootStoreContext } from '../../../app/stores/rootStore';
+import { history } from '../../..';
 import { IOffer } from '../../../app/models/offer';
+import NotFound from '../../../app/layout/NotFound';
 
 const OfferList = () => {
     const rootStore = useContext(RootStoreContext);
     const url = window.location.pathname;
-    const { savedOffers, offersByDate, getOffers } = rootStore.offerStore;
-    const offers = getOffers(); //= url === '/saved' ? savedOffers : offersByDate;
+    const { savedOffers, getOffers } = rootStore.offerStore;
+    const offers = url === '/saved' ? savedOffers : getOffers();
     
     return (
         <Item.Group>
-            {offers.map(offer => (
+            { url === '/offers' ? (offers.map(offer => (
                 <OfferListItem key={offer.id} offer={offer} publisher={offer.publisher} />
-            ))}
+            ))) :
+            (
+                offers.map(([group, offers]) => (
+                    offers.map(offer => (
+                        <OfferListItem key={offer.id} offer={offer} publisher={offer.publisher} />
+                    ))
+                ))
+            )
+            }
             {/* {offers.map(([group, offers]) => (
                     <Segment>
                     {offers.map(offer => (

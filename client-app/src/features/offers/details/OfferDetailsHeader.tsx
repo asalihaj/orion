@@ -6,10 +6,12 @@ import { RootStoreContext } from '../../../app/stores/rootStore';
 import './styles.css';
 import { history } from '../../..';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 
-const OfferDetailedHeader: React.FC<{offer: IOffer}> = ({offer}) => {
+const OfferDetailedHeader = () => {
     const rootStore = useContext(RootStoreContext);
+    const { offer } = rootStore.offerStore;
     const { openModal } = rootStore.modalStore;
     const { user } = rootStore.userStore;
     return (     
@@ -25,7 +27,7 @@ const OfferDetailedHeader: React.FC<{offer: IOffer}> = ({offer}) => {
             
             <Item.Content>
                 <Item.Header>{offer.title}</Item.Header>
-                
+                <Item.Meta>{offer.publisher.name}</Item.Meta>
                     {/* <Nav as="ul">
                         <Nav.Item>
                             <Nav.Link style={{

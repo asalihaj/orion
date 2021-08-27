@@ -10,21 +10,21 @@ const NavBar: React.FC = () => {
   return (
     <Menu fixed="top" inverted>
       <Container>
-        <Menu.Item header exact as={NavLink} to="/offers">
+        <Menu.Item style={{ color: '#f1a1b1' }} header exact as={NavLink} to="/offers">
           Offers
         </Menu.Item>
         {user && <Menu.Item as={NavLink} to="/saved">
           Saved
         </Menu.Item>}
         
-        <Menu.Item>
+        {/* <Menu.Item>
           <Button
             as={NavLink}
             to="/createOffer"
             positive
             content="Create Offer"
           />
-        </Menu.Item>
+        </Menu.Item> */}
         {user ? (
           <Menu.Item position="right">
             <Image

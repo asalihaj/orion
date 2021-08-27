@@ -7,6 +7,7 @@ import { Card, Container, Item } from "semantic-ui-react";
 import HomePage from "../../features/home/HomePage";
 import NavBar from "../../features/nav/NavBar";
 import OfferDashboard from "../../features/offers/dashboard/OfferDashboard";
+import LoginForm from "../../features/user/LoginForm";
 import ModalContainer from "../common/modals/ModalContainer";
 import { RootStoreContext } from "../stores/rootStore";
 import LoadingComponent from "./LoadingComponent";
@@ -14,10 +15,18 @@ import NotFound from "./NotFound";
 
 const App = () => {
   const rootStore = useContext(RootStoreContext);
-  const { offersByDate, loadOffers, getOffers } = rootStore.offerStore;
-  const { appLoaded } = rootStore.commonStore;
+  const { appLoaded, token, setAppLoaded } = rootStore.commonStore;
+  const { getUser } = rootStore.userStore;
 
-  // if(!appLoaded) return <LoadingComponent content='Loading app...'/>
+  useEffect(() => {
+    if (token) {
+      getUser().finally(() => setAppLoaded());
+    } else {
+      setAppLoaded();
+    }
+  }, [getUser, setAppLoaded, token]);
+
+  if(!appLoaded) return <LoadingComponent content='Loading app...'/>
 
   return (
     <Fragment>
@@ -32,7 +41,9 @@ const App = () => {
              
           <Container style={{ marginTop: '7em', width: 'auto' }}>
             <Switch>
-              <Route exact path='/offers' component={OfferDashboard} />
+              <Route exact path='/offers'  component={withRouter(OfferDashboard)} />
+              <Route exact path='/saved'  component={withRouter(OfferDashboard)} />              
+              <Route exact path='/login' component={LoginForm} />
               <Route component={NotFound}/>
             </Switch>
           </Container>

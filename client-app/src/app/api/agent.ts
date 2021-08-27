@@ -11,7 +11,6 @@ axios.interceptors.request.use((config) => {
     const token = window.localStorage.getItem('jwt');
     if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
-
 }, error => {
     return Promise.reject(error);
 })
@@ -55,7 +54,7 @@ const Offers = {
 };
 
 const User = {
-    currnt: (): Promise<IUser> => requests.get('/user'),
+    current: (): Promise<IUser> => requests.get('/user'),
     login: (user: IUserFormValues): Promise<IUser> => requests.post(`/user/login`, user),
     register: (user: IUserFormValues): Promise<IUser> => requests.post(`/user/register`, user)
 };
