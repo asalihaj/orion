@@ -1,30 +1,29 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import { Menu, Container, Button, Dropdown, Image } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import { Link, NavLink } from "react-router-dom";
 import { RootStoreContext } from "../../app/stores/rootStore";
+import './navbar.css';
 
 const NavBar: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
   const { user, logout} = rootStore.userStore;
+
   return (
-    <Menu fixed="top" inverted>
-      <Container>
-        <Menu.Item style={{ color: '#f1a1b1' }} header exact as={NavLink} to="/offers">
+    <Menu
+    inverted>
+      <Container style={{ padding: '0' }}>
+        <Menu.Item
+        className='nav-item'
+        header
+        exact 
+        as={NavLink} 
+        to="/offers">
           Offers
         </Menu.Item>
         {user && <Menu.Item as={NavLink} to="/saved">
           Saved
         </Menu.Item>}
-        
-        {/* <Menu.Item>
-          <Button
-            as={NavLink}
-            to="/createOffer"
-            positive
-            content="Create Offer"
-          />
-        </Menu.Item> */}
         {user ? (
           <Menu.Item position="right">
             <Image
@@ -47,6 +46,7 @@ const NavBar: React.FC = () => {
         ) : (
           <Menu.Menu position='right'>
             <Menu.Item
+            className='nav-item'
             as={NavLink}
             to='/register'
             >

@@ -17,25 +17,9 @@ const OfferDetailedHeader = () => {
     return (     
         <Item>
             <Item.Image src='/assets/fb.png' size='tiny'/>
-            {/* <img
-                width={64}
-                height={64}
-                className="mr-3"
-                src="/assets/logo.png"
-                alt="Generic placeholder"
-            /> */}
-            
             <Item.Content>
                 <Item.Header>{offer.title}</Item.Header>
                 <Item.Meta>{offer.publisher.name}</Item.Meta>
-                    {/* <Nav as="ul">
-                        <Nav.Item>
-                            <Nav.Link style={{
-                                paddingLeft: '0'
-                            }} 
-                            href="#">Company Name</Nav.Link>
-                        </Nav.Item>
-                    </Nav> */}
                 <Item.Meta>
                     {offer.location}
                 </Item.Meta>

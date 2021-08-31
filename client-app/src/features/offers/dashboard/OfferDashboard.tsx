@@ -12,15 +12,14 @@ const OfferDashboard = () => {
 
     useEffect(() => {
         loadOffers();
-        if(user) {
+        if (user) {
             loadSavedOffers();
         }
     }, [loadOffers, loadSavedOffers, user]);
 
 
     return (
-        <Container>
-            <Grid>
+            <Grid style={{ marginTop: '5rem' }}>
                 <Grid.Column width={7}>
                     <OfferList />
                 </Grid.Column>
@@ -29,7 +28,6 @@ const OfferDashboard = () => {
                     <OfferDetails />}
                 </Grid.Column>
             </Grid>
-        </Container>
     )
 }
 

@@ -1,0 +1,11 @@
+.ui.menu {
+    margin: 0;
+}
+
+.ui.inverted.menu {
+    background-color: blue;
+}
+
+.nav-item {
+    color: black !important;
+}
