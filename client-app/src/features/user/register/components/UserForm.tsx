@@ -14,7 +14,7 @@ const validate = combineValidators({
     password: isRequired('Password')
 });
 
-const RegisterForm = () => {
+const UserForm = () => {
     const rootStore = useContext(RootStoreContext);
     const { login } = rootStore.userStore;
     return (
@@ -34,41 +34,41 @@ const RegisterForm = () => {
             dirtySinceLastSubmit
         }) => (
             <Form size='big' onSubmit={handleSubmit} error>
-            <Header
-                as='h2'
-                content='Login to JobPoint'
-                color='blue'
-                textAlign='left'
-            />
-            <Field
-                name='email' 
-                component={TextInput} 
-                placeholder='Email' />
-            <Field
-                name='password'
-                component={TextInput}
-                placeholder='Password'
-                type='password'
-            />
-            {submitError && !dirtySinceLastSubmit && (
-                <ErrorMessage
-                error={submitError}
-                text='Invalid email or password'
+                <Header
+                    as='h2'
+                    content='Login to JobPoint'
+                    color='blue'
+                    textAlign='left'
                 />
-            )}
-            <Button
-                disabled={(invalid && !dirtySinceLastSubmit) || pristine}
-                loading={submitting}
-                primary
-                content='Login'
-                size='big'
-                fluid
-                circular
-            />
+                <Field
+                    name='email' 
+                    component={TextInput} 
+                    placeholder='Email' />
+                <Field
+                    name='password'
+                    component={TextInput}
+                    placeholder='Password'
+                    type='password'
+                />
+                {submitError && !dirtySinceLastSubmit && (
+                    <ErrorMessage
+                    error={submitError}
+                    text='Invalid email or password'
+                    />
+                )}
+                <Button
+                    disabled={(invalid && !dirtySinceLastSubmit) || pristine}
+                    loading={submitting}
+                    primary
+                    content='Login'
+                    size='big'
+                    fluid
+                    circular
+                />
             </Form>
         )}
         />
     )
 }
 
-export default RegisterForm;
+export default UserForm;

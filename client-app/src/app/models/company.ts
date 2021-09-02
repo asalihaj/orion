@@ -1,12 +1,14 @@
 export interface ICompany {
     userId: string;
+    name: string;
     location: string;
     description: string;
     logo: string;
 }
 
-export interface ICompanyFormValues {
+export class CompanyFormValues {
     userId: string;
+    name: string;
     location: string;
     description: string;
     logo: string;

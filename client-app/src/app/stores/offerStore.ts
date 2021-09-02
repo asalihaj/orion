@@ -134,7 +134,6 @@ export default class OfferStore {
             this.offer = offer;
             this.submitting = false;
           });
-          // history.push(`/offers/${offer.id}`);
         } catch (error) {
           runInAction(() => {
             this.submitting = false;

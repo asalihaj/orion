@@ -20,13 +20,28 @@ export default class UserStore {
       runInAction(() => {
         this.user = user;
       });
-      console.log(user)
       this.rootStore.commonStore.setToken(user.token);
+      this.getProfile(user.id);
+      console.log(user);
       history.push('/');
     } catch (error) {
       throw error;
     }
   }
+
+  @action getProfile = async (id: string) => {
+    try {
+      this.rootStore.companyStore.get(id);
+      const profile = this.rootStore.companyStore.getCompany();
+      runInAction(() => {
+        this.user.profile = profile;
+      });
+      console.log("PRF: " + profile);
+    } catch (error) {
+      error;
+    }
+  }
+
   @action register = async (values: IUserFormValues) => {
     try {
     const user = await agent.User.register(values);

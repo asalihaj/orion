@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { ICompany } from '../models/company';
 import { IOffer } from '../models/offer';
 import { IUser, IUserFormValues } from '../models/user';
+import { IJobSeeker } from '../models/jobseeker';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
     
@@ -59,7 +60,7 @@ const User = {
     register: (user: IUserFormValues): Promise<IUser> => requests.post(`/user/register`, user)
 };
 
-const Companies = {
+const Company = {
     list: (): Promise<ICompany[]> => requests.get('/companies'),
     details: (id: string) => requests.get(`/companies/${id}`),
     create: (company: ICompany) => requests.post('/companies', company),
@@ -67,8 +68,17 @@ const Companies = {
     delete: (id: string) => requests.delete(`/companies/${id}`)
 }
 
+const JobSeeker = {
+    list: (): Promise<IJobSeeker[]> => requests.get('/jobseekers'),
+    details: (id: string) => requests.get(`/jobseekers/${id}`),
+    create: (jobSeeker: IJobSeeker) => requests.post('/jobseekers', jobSeeker),
+    update: (jobSeeker: IJobSeeker) => requests.put(`/jobseekers/${jobSeeker.userId}`, jobSeeker),
+    delete: (id: string) => requests.delete(`/jobseekers/${id}`)
+}
+
 export default {
     Offers,
     User,
-    Companies
+    Company,
+    JobSeeker
 }

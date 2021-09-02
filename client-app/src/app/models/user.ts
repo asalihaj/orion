@@ -1,3 +1,5 @@
+import { ICompany } from "./company";
+import { IJobSeeker } from "./jobseeker";
 import { IOffer } from "./offer";
 
 export interface IUser{
@@ -5,6 +7,7 @@ export interface IUser{
     username: string;
     token: string;
     image?: string;
+    profile: ICompany;
     saved: IOffer[];
 }
 
@@ -12,8 +15,4 @@ export interface IUserFormValues {
     email: string;
     password: string;
     username?: string;
-}
-
-export interface Saved {
-    saved: IOffer[];
 }
