@@ -1,7 +1,6 @@
 import { action, computed, observable, runInAction } from "mobx";
 import { history } from "../..";
 import agent from "../api/agent";
-import { IOffer } from "../models/offer";
 import { IUser, IUserFormValues } from "../models/user";
 import { RootStore } from "./rootStore";
 
@@ -21,24 +20,10 @@ export default class UserStore {
         this.user = user;
       });
       this.rootStore.commonStore.setToken(user.token);
-      this.getProfile(user.id);
       console.log(user);
       history.push('/');
     } catch (error) {
       throw error;
-    }
-  }
-
-  @action getProfile = async (id: string) => {
-    try {
-      this.rootStore.companyStore.get(id);
-      const profile = this.rootStore.companyStore.getCompany();
-      runInAction(() => {
-        this.user.profile = profile;
-      });
-      console.log("PRF: " + profile);
-    } catch (error) {
-      error;
     }
   }
 

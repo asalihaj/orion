@@ -14,14 +14,14 @@ namespace API.Controllers
         
        
         [HttpGet]
-        public async Task<ActionResult<List<Company>>> List()
+        public async Task<ActionResult<List<CompanyDto>>> List()
         {
             return await Mediator.Send(new List.Query());
         }
 
         [HttpGet("{id}")]
-        [Authorize]
-        public async Task<ActionResult<Company>> Details(Guid id)
+        [AllowAnonymous]
+        public async Task<ActionResult<CompanyDto>> Details(string id)
         {
             return await Mediator.Send(new Details.Query{Id = id});
         }
@@ -40,7 +40,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Unit>> Delete(Guid id)
+        public async Task<ActionResult<Unit>> Delete(string id)
         {
             return await Mediator.Send(new Delete.Command{Id = id});
         }

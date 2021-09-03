@@ -34,17 +34,20 @@ namespace Application.User
             private readonly UserManager<AppUser> _userManager;
             private readonly SignInManager<AppUser> _signInManager;
             private readonly IJwtGenerator _jwtGenerator;
+            private readonly IUserAccessor _userAccessor;
             private readonly IMapper _mapper;
 
             public Handler(
                 UserManager<AppUser> userManager, 
                 SignInManager<AppUser> signInManager,
                 IJwtGenerator jwtGenerator,
+                IUserAccessor userAccessor,
                 IMapper mapper)
             {
                 _jwtGenerator = jwtGenerator;
                 _signInManager = signInManager;
                 _userManager = userManager;
+                _userAccessor = userAccessor;
                 _mapper = mapper;
 
             }
@@ -61,12 +64,14 @@ namespace Application.User
 
                 if (result.Succeeded)
                 {
+                    var profile = _userAccessor.GetProfile(user.Id);
                     return new UserDto
                     {
                         Id = appUser.Id,
                         Token = _jwtGenerator.CreateToken(appUser),
                         Username = appUser.UserName,
                         Image = null,
+                        Profile = profile,
                         SavedOffers = user.SavedOffers
                     };
                 }

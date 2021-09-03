@@ -1,6 +1,7 @@
 import { action, observable, runInAction } from "mobx";
 import agent from "../api/agent";
 import { ICompany } from "../models/company";
+import { IUser } from "../models/user";
 import { RootStore } from "./rootStore";
 
 export default class CompanyStore {
@@ -10,13 +11,12 @@ export default class CompanyStore {
     }
     @observable company: ICompany | null = null;
 
-    @action get = async (id: string) => {
+    @action get = async (user: IUser) => {
         try {
-            const company = await agent.Company.details(id);
+            const company = await agent.Company.details(user.id);
             runInAction(() => {
                 this.company = company;
             });
-            console.log(company);
         } catch (error) {
             throw error;
         }

@@ -2,6 +2,8 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
+using Application.Interfaces;
+using AutoMapper;
 using Domain;
 using MediatR;
 using Persistence;
@@ -10,20 +12,26 @@ namespace Application.Companies
 {
     public class Details
     {
-        public class Query : IRequest<Company>
+        public class Query : IRequest<CompanyDto>
         {
-            public Guid Id { get; set; }
+            public string Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Company>
+        public class Handler : IRequestHandler<Query, CompanyDto>
         {
             private readonly DataContext _context;
-            public Handler(DataContext context)
+            private readonly IJwtGenerator _jwtGenerator;
+            private readonly IMapper _mapper;
+
+            public Handler(DataContext context, IMapper mapper, IJwtGenerator jwtGenerator)
             {
+                _jwtGenerator = jwtGenerator;
+                _mapper = mapper;
                 _context = context;
+
             }
 
-            public async Task<Company> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<CompanyDto> Handle(Query request, CancellationToken cancellationToken)
             {
                 var company = await _context.Companies.FindAsync(request.Id);
 
@@ -31,7 +39,9 @@ namespace Application.Companies
                     throw new RestException(System.Net.HttpStatusCode.NotFound,
                      new {company = "Not found"});
 
-                return company;
+                var companyToReturn = _mapper.Map<Company, CompanyDto>(company);
+
+                return companyToReturn;
             }
         }
     }
