@@ -1,15 +1,13 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Companies;
-using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-       public class CompaniesController : BaseController
+    public class CompaniesController : BaseController
     {
         
        

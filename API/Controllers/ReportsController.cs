@@ -13,6 +13,7 @@ namespace API.Controllers
     public class ReportsController : BaseController
     {
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<Report>>> List()
         {
             return await Mediator.Send(new List.Query());
@@ -26,12 +27,14 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Unit>> Create(Create.Command command)
         {
             return await Mediator.Send(command);
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Unit>> Delete(Guid id)
         {
             return await Mediator.Send(new Delete.Command{Id = id});

@@ -42,7 +42,7 @@ namespace API.Controllers
 
         [HttpDelete("{id}")]
         [Authorize(Policy = "IsOfferPublisher")]
-        [Authorize(Roles = "Company")]
+        [Authorize(Roles = "Company, Admin")]
         public async Task<ActionResult<Unit>> Delete(Guid id)
         {
             return await Mediator.Send(new Delete.Command{Id = id});
