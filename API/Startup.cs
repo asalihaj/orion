@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
+using System.Threading.Tasks;
 using API.Middleware;
 using Application.Interfaces;
 using Application.Offers;
@@ -17,6 +19,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Persistence;
 
@@ -39,6 +42,11 @@ namespace API
                 opt.UseLazyLoadingProxies();
                 opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddDefaultIdentity<AppUser>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<DataContext>();
+
             services.AddCors(opt =>
             {
                 opt.AddPolicy("CorsPolicy", policy => 
@@ -46,6 +54,7 @@ namespace API
                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
                 });
             });
+
             services.AddMediatR(typeof(List.Handler).Assembly);
             services.AddAutoMapper(typeof(List.Handler));
              services.AddMvc( opt =>
@@ -70,7 +79,6 @@ namespace API
                 });
             });
             services.AddTransient<IAuthorizationHandler, IsPublisherRequirementHandler>();
-
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
@@ -85,10 +93,15 @@ namespace API
                 });
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
+
+
+            // services.AddDefaultIdentity<IdentityUser>()
+            //     .AddRoles<IdentityRole>()
+            //     .AddEntityFrameworkStores<DataContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider services)
         {
             app.UseMiddleware<ErrorHandlingMiddleware>();
             if (env.IsDevelopment())
@@ -100,11 +113,50 @@ namespace API
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 // app.UseHsts();
             }
+            
 
             // app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseCors("CorsPolicy");
             app.UseMvc();
+            CreateRoles(services).Wait();
+        }
+
+        private async Task CreateRoles(IServiceProvider serviceProvider)
+        {
+            //initializing custom roles 
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
+            string[] roleNames = { "Admin", "Company", "JobSeeker" };
+            IdentityResult roleResult;
+
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = await RoleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                {
+                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+
+            var admin = new AppUser
+            {
+
+                UserName = Configuration["Administrator:Username"],
+                Email = Configuration["Administrator:Email"],
+            };
+            //Ensure you have these values in your appsettings.json file
+                string userPWD = Configuration["Administrator:Password"];
+                var _user = await UserManager.FindByEmailAsync(Configuration["Administrator:Email"]);
+
+            if(_user == null)
+            {
+                    var createPowerUser = await UserManager.CreateAsync(admin, userPWD);
+                    if (createPowerUser.Succeeded)
+                    {
+                        await UserManager.AddToRoleAsync(admin, "Admin");
+                    }
+            }
         }
     }
 }

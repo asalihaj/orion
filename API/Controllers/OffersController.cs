@@ -25,6 +25,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Company")]
         public async Task<ActionResult<Unit>> Create(Create.Command command)
         {
             return await Mediator.Send(command);
@@ -32,6 +33,7 @@ namespace API.Controllers
 
         [HttpPut("{id}")]
         [Authorize(Policy = "IsOfferPublisher")]
+        [Authorize(Roles = "Company")]
         public async Task<ActionResult<Unit>> Edit(Guid id, Edit.Command command)
         {
             command.Id = id;
@@ -40,6 +42,7 @@ namespace API.Controllers
 
         [HttpDelete("{id}")]
         [Authorize(Policy = "IsOfferPublisher")]
+        [Authorize(Roles = "Company")]
         public async Task<ActionResult<Unit>> Delete(Guid id)
         {
             return await Mediator.Send(new Delete.Command{Id = id});

@@ -1,6 +1,7 @@
 using Application.Offers;
 using AutoMapper;
 using Domain;
+using Microsoft.AspNetCore.Identity;
 
 namespace Application.User
 {
@@ -21,6 +22,7 @@ namespace Application.User
                 .ForMember(d => d.Company, o => o.MapFrom(s => s.Offer.Company))
                 .ForMember(d => d.Resumes, o => o.MapFrom(s => s.Offer.Resumes))
                 .ForMember(d => d.Reports, o => o.MapFrom(s => s.Offer.Reports));
+            
         }
     }
 }

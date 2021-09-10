@@ -36,8 +36,12 @@ namespace Application.User
             public async Task<UserDto> Handle(Query request, CancellationToken cancellationToken)
             {
                 var appUser = await _userManager.FindByNameAsync(_userAccessor.GetCurrentUsername());
-
+                
                 var user = _mapper.Map<AppUser, UserDto>(appUser);
+
+                var userRole = _userManager.GetRolesAsync(appUser).Result[0];
+
+                var profile = _userAccessor.GetProfile(user.Id);
 
                 return new UserDto
                 {
@@ -45,9 +49,10 @@ namespace Application.User
                     Username = user.Username,
                     Token = _jwtGenerator.CreateToken(appUser),
                     Image = null,
+                    Role = userRole,
+                    Profile = profile,
                     SavedOffers = user.SavedOffers
                 };
-                // return newUser;
             }
         }
     }

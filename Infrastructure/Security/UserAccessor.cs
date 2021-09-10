@@ -31,6 +31,25 @@ namespace Infrastructure.Security
             return username;
         }
 
+        public string GetRole(string id)
+        {
+            var user = _context.Users.SingleOrDefault(x => x.Id == id);
+            if (user == null)
+                throw new RestException(HttpStatusCode.BadRequest, new {error = "This user does not exist!"});
+
+            var userRole = _context.UserRoles.SingleOrDefault(x => x.UserId == id);
+
+            if (userRole == null)
+                throw new RestException(HttpStatusCode.NotFound, new {error = "This user does not have a role!"});
+
+            var roleName = _context.Roles.SingleOrDefault(x => x.Id == userRole.RoleId).Name;
+
+            if (roleName == null)
+                throw new RestException(HttpStatusCode.NotFound, new {error = "This role does not exist!"});
+
+            return roleName;
+        }
+
         public dynamic GetProfile(string Id)
         {
             var company = _context.Companies.SingleOrDefault(x => x.UserId == Id);
