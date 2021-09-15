@@ -10,7 +10,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210915160335_Schema")]
+    [Migration("20210915163840_Schema")]
     partial class Schema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,6 +56,8 @@ namespace Persistence.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("PhotoId");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
@@ -71,6 +73,8 @@ namespace Persistence.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasName("UserNameIndex");
+
+                    b.HasIndex("PhotoId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -169,15 +173,11 @@ namespace Persistence.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AppUserId");
-
                     b.Property<bool>("IsMain");
 
                     b.Property<string>("Url");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
 
                     b.ToTable("Photos");
                 });
@@ -342,6 +342,13 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Domain.AppUser", b =>
+                {
+                    b.HasOne("Domain.Photo", "Photo")
+                        .WithMany()
+                        .HasForeignKey("PhotoId");
+                });
+
             modelBuilder.Entity("Domain.Company", b =>
                 {
                     b.HasOne("Domain.AppUser", "User")
@@ -371,13 +378,6 @@ namespace Persistence.Migrations
                         .WithMany("Offers")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Domain.Photo", b =>
-                {
-                    b.HasOne("Domain.AppUser")
-                        .WithMany("Photos")
-                        .HasForeignKey("AppUserId");
                 });
 
             modelBuilder.Entity("Domain.Report", b =>

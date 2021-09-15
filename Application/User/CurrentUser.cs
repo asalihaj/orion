@@ -49,7 +49,7 @@ namespace Application.User
                     Id = user.Id,
                     Username = user.Username,
                     Token = _jwtGenerator.CreateToken(appUser),
-                    Photo = appUser.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+                    Photo = appUser.Photo != null ? appUser.Photo.Url : null,
                     Role = userRole,
                     Profile = profile,
                     SavedOffers = user.SavedOffers

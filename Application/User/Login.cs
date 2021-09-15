@@ -66,20 +66,7 @@ namespace Application.User
                 var userRole = _userManager.GetRolesAsync(appUser).Result[0];
 
                 if (result.Succeeded)
-                {
-                    if (!userRole.Equals("Admin"))
-                    {
-                        return new UserDto
-                        {
-                            Id = appUser.Id,
-                            Token = _jwtGenerator.CreateToken(appUser),
-                            Username = appUser.UserName,
-                            SavedOffers = user.SavedOffers,
-                            Photo = appUser.Photos.FirstOrDefault(x => x.IsMain)?.Url,
-                            Role = userRole
-                        };
-                    }
-                    
+                {                    
                     var profile = _userAccessor.GetProfile(user.Id);
                     return new UserDto
                         {
@@ -88,7 +75,7 @@ namespace Application.User
                             Username = appUser.UserName,
                             SavedOffers = user.SavedOffers,
                             Profile = profile,
-                            Photo = appUser.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+                            Photo = appUser.Photo != null ? appUser.Photo.Url : null,
                             Role = userRole
                         };
                     

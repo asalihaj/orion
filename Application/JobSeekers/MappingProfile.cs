@@ -8,8 +8,7 @@ namespace Application.JobSeekers
     {
         public MappingProfile()
         {
-            CreateMap<JobSeeker, JobSeekerDto>()
-               .ForMember(d => d.Photo, o => o.MapFrom(s => s.User.Photos.FirstOrDefault(x=> x.IsMain).Url));
+            CreateMap<JobSeeker, JobSeekerDto>();
 
         }
     }

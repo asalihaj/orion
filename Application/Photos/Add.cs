@@ -35,7 +35,6 @@ namespace Application.Photos
                 var photoUploadResult = _photoAccessor.AddPhoto(request.File);
 
                 var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername());
-                
 
                 var photo = new Photo
                 {
@@ -43,10 +42,18 @@ namespace Application.Photos
                     Id = photoUploadResult.PublicId
                 };
 
-                if (!user.Photos.Any(x => x.IsMain))
-                    photo.IsMain = true;
+                if (user.Photo != null)
+                {
+                    var result = _photoAccessor.DeletePhoto(user.Photo.Id);
+                    _context.Photos.Remove(user.Photo);
 
-                user.Photos.Add(photo);           
+                    var photoSuccess = await _context.SaveChangesAsync() > 0;
+
+                    if (result == null && !photoSuccess)
+                        throw new Exception("Problem updating photo");
+                }
+
+                user.Photo = photo;          
 
                 var success = await _context.SaveChangesAsync() > 0;
 

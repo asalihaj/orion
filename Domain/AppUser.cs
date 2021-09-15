@@ -14,6 +14,6 @@ namespace Domain
         public virtual JobSeeker JobSeeker { get; set; }
         public virtual ICollection<SavedOffer> SavedOffers { get; set; }
         public virtual ICollection<Report> Reports { get; set; }
-        public virtual ICollection<Photo> Photos { get; set; }
+        public virtual Photo Photo { get; set; }
     }
 }

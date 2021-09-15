@@ -34,24 +34,25 @@ namespace Application.Photos
             {
                 var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername());
 
-                var photo = user.Photos.FirstOrDefault(x => x.Id == request.Id);
+                var photo = user.Photo.Id == request.Id ? user.Photo : null;
 
                 if (photo == null)
                     throw new RestException(HttpStatusCode.NotFound, new {Photo = "Not found"});
-
-                // if (photo.IsMain)
-                //     throw new RestException(HttpStatusCode.BadRequest, new {Photo = "You cannot delete your main photo"});
 
                 var result = _photoAccessor.DeletePhoto(photo.Id);
 
                 if (result == null)
                     throw new Exception("Problem deleting photo");
 
-                user.Photos.Remove(photo);
+                
+                _context.Photos.Remove(user.Photo);
 
                 var success = await _context.SaveChangesAsync() > 0;
 
-                if (success) return Unit.Value;
+                if (success) 
+                {
+                    return Unit.Value;
+                }
 
                 throw new Exception("Problem saving changes");
             }
