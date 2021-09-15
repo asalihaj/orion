@@ -8,6 +8,7 @@ using Application.JobSeekers;
 using AutoMapper;
 using Domain;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Persistence;
 
 namespace Infrastructure.Security
@@ -17,11 +18,13 @@ namespace Infrastructure.Security
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly DataContext _context;
         private readonly IMapper _mapper; 
-        public UserAccessor(IHttpContextAccessor httpContextAccessor, DataContext context, IMapper mapper)
+        private readonly UserManager<AppUser> _userManager;
+        public UserAccessor(IHttpContextAccessor httpContextAccessor, DataContext context, IMapper mapper, UserManager<AppUser> userManager)
         {
             _httpContextAccessor = httpContextAccessor;
             _context = context;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         public string GetCurrentUsername()
@@ -52,6 +55,13 @@ namespace Infrastructure.Security
 
         public dynamic GetProfile(string Id)
         {
+            var user = _context.Users.SingleOrDefault(x => x.Id == Id);
+            var userRole = _userManager.GetRolesAsync(user).Result[0];
+            if (userRole == "Admin") 
+            {
+                return null;
+            }
+            
             var company = _context.Companies.SingleOrDefault(x => x.UserId == Id);
             if (company == null)
             {

@@ -61,8 +61,6 @@ namespace Persistence.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
-                    b.Property<string>("bio");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")

@@ -39,6 +39,9 @@ namespace Application.Photos
 
                 var currentMain = user.Photos.FirstOrDefault(x => x.IsMain);
 
+                if (photo.Id == currentMain.Id)
+                    throw new RestException(HttpStatusCode.BadRequest, new {Error = "Photo is already the main photo"});
+
                 currentMain.IsMain = false;
                 photo.IsMain = true;          
 

@@ -67,17 +67,31 @@ namespace Application.User
 
                 if (result.Succeeded)
                 {
+                    if (!userRole.Equals("Admin"))
+                    {
+                        return new UserDto
+                        {
+                            Id = appUser.Id,
+                            Token = _jwtGenerator.CreateToken(appUser),
+                            Username = appUser.UserName,
+                            SavedOffers = user.SavedOffers,
+                            Photo = appUser.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+                            Role = userRole
+                        };
+                    }
+                    
                     var profile = _userAccessor.GetProfile(user.Id);
                     return new UserDto
-                    {
-                        Id = appUser.Id,
-                        Token = _jwtGenerator.CreateToken(appUser),
-                        Username = appUser.UserName,
-                        SavedOffers = user.SavedOffers,
-                        Profile = profile,
-                        Photo = appUser.Photos.FirstOrDefault(x => x.IsMain)?.Url,
-                        Role = userRole
-                    };
+                        {
+                            Id = appUser.Id,
+                            Token = _jwtGenerator.CreateToken(appUser),
+                            Username = appUser.UserName,
+                            SavedOffers = user.SavedOffers,
+                            Profile = profile,
+                            Photo = appUser.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+                            Role = userRole
+                        };
+                    
                 }
                 throw new RestException(HttpStatusCode.Unauthorized);
             }
