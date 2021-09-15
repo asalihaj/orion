@@ -17,6 +17,7 @@ namespace Persistence
         public DbSet<Report> Reports { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<SavedOffer> SavedOffers { get; set; }
+        public DbSet<Photo> Photos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

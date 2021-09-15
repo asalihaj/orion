@@ -22,7 +22,7 @@ const Register = () => {
             else
                 setType('none');
         });
-    }, [user, history.listen]);
+    }, [user]);
     
     return(
         <>

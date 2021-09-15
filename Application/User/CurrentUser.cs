@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Interfaces;
@@ -21,9 +22,9 @@ namespace Application.User
             private readonly IUserAccessor _userAccessor;
             private readonly IMapper _mapper;
             public Handler(
-                UserManager<AppUser> userManager, 
-                IJwtGenerator jwtGenerator, 
-                IUserAccessor userAccessor, 
+                UserManager<AppUser> userManager,
+                IJwtGenerator jwtGenerator,
+                IUserAccessor userAccessor,
                 IMapper mapper
                 )
             {
@@ -44,10 +45,10 @@ namespace Application.User
                     Id = user.Id,
                     Username = user.Username,
                     Token = _jwtGenerator.CreateToken(appUser),
-                    Image = null,
+                    Photo = appUser.Photos.FirstOrDefault(x => x.IsMain)?.Url,
                     SavedOffers = user.SavedOffers
+
                 };
-                // return newUser;
             }
         }
     }

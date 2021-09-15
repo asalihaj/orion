@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
+
 namespace Application.User
 {
     public class Register
@@ -70,7 +71,7 @@ namespace Application.User
                         Id = user.Id,
                         Token = _jwtGenerator.CreateToken(user),
                         Username = user.UserName,
-                        Image = null
+                        Photo = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
                     };
                 }
 

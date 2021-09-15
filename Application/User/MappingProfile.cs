@@ -1,3 +1,4 @@
+using System.Linq;
 using Application.Offers;
 using AutoMapper;
 using Domain;
@@ -9,6 +10,7 @@ namespace Application.User
         public MappingProfile()
         {
             CreateMap<AppUser, UserDto>();
+         
             CreateMap<SavedOffer, OfferDto>()
                 .ForMember(d => d.Id, o => o.MapFrom(s => s.Offer.Id))
                 .ForMember(d => d.Title, o => o.MapFrom(s => s.Offer.Title))
@@ -21,6 +23,7 @@ namespace Application.User
                 .ForMember(d => d.Company, o => o.MapFrom(s => s.Offer.Company))
                 .ForMember(d => d.Resumes, o => o.MapFrom(s => s.Offer.Resumes))
                 .ForMember(d => d.Reports, o => o.MapFrom(s => s.Offer.Reports));
+
         }
     }
 }

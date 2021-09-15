@@ -9,6 +9,7 @@ using Application.Errors;
 using System.Net;
 using Application.Interfaces;
 using AutoMapper;
+using System.Linq;
 
 namespace Application.User
 {
@@ -70,9 +71,9 @@ namespace Application.User
                         Id = appUser.Id,
                         Token = _jwtGenerator.CreateToken(appUser),
                         Username = appUser.UserName,
-                        Image = null,
+                        SavedOffers = user.SavedOffers,
                         Profile = profile,
-                        SavedOffers = user.SavedOffers
+                        Photo = appUser.Photos.FirstOrDefault(x => x.IsMain)?.Url
                     };
                 }
                 throw new RestException(HttpStatusCode.Unauthorized);

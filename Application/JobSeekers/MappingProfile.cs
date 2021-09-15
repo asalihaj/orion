@@ -1,3 +1,4 @@
+using System.Linq;
 using AutoMapper;
 using Domain;
 
@@ -7,7 +8,9 @@ namespace Application.JobSeekers
     {
         public MappingProfile()
         {
-            CreateMap<JobSeeker, JobSeekerDto>();
+            CreateMap<JobSeeker, JobSeekerDto>()
+               .ForMember(d => d.Photo, o => o.MapFrom(s => s.User.Photos.FirstOrDefault(x=> x.IsMain).Url));
+
         }
     }
 }

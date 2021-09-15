@@ -11,8 +11,8 @@ namespace Application.User
         public string Id { get; set; }
         public string Token { get; set; }
         public string Username { get; set; }
-        public string Image { get; set; }
         public dynamic Profile { get; set; }
+        public string Photo { get; set; }
 
         [JsonProperty("saved")]
         public ICollection<OfferDto> SavedOffers { get; set; }
