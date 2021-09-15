@@ -63,6 +63,8 @@ namespace Application.User
 
                 var result = await _signInManager.CheckPasswordSignInAsync(appUser, request.Password, false);
 
+                var userRole = _userManager.GetRolesAsync(appUser).Result[0];
+
                 if (result.Succeeded)
                 {
                     var profile = _userAccessor.GetProfile(user.Id);
@@ -73,7 +75,8 @@ namespace Application.User
                         Username = appUser.UserName,
                         SavedOffers = user.SavedOffers,
                         Profile = profile,
-                        Photo = appUser.Photos.FirstOrDefault(x => x.IsMain)?.Url
+                        Photo = appUser.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+                        Role = userRole
                     };
                 }
                 throw new RestException(HttpStatusCode.Unauthorized);

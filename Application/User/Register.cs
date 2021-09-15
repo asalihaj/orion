@@ -18,11 +18,12 @@ namespace Application.User
 {
     public class Register
     {
-        public class Command : IRequest<UserDto>
+        public class Command : IRequest<string>
         {
             public string Username { get; set; }
             public string Email { get; set; }
             public string Password { get; set; }
+            public string Role { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -32,10 +33,11 @@ namespace Application.User
                 RuleFor(x => x.Username).NotEmpty();
                 RuleFor(x => x.Email).NotEmpty().EmailAddress();
                 RuleFor(x => x.Password).Password();
+                RuleFor(x => x.Role).Role();
             }
         }
 
-        public class Handler : IRequestHandler<Command, UserDto>
+        public class Handler : IRequestHandler<Command, string>
         {
             private readonly DataContext _context;
             private readonly UserManager<AppUser> _userManager;
@@ -47,7 +49,7 @@ namespace Application.User
                 _context = context;
             }
 
-            public async Task<UserDto> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<string> Handle(Command request, CancellationToken cancellationToken)
             {
                 if (await _context.Users.Where(x => x.Email == request.Email).AnyAsync())
                     throw new RestException(HttpStatusCode.BadRequest, new {Email = "Email already exists"});
@@ -66,13 +68,8 @@ namespace Application.User
 
                 if (result.Succeeded)
                 {
-                    return new UserDto
-                    {
-                        Id = user.Id,
-                        Token = _jwtGenerator.CreateToken(user),
-                        Username = user.UserName,
-                        Photo = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
-                    };
+                    await _userManager.AddToRoleAsync(user, request.Role);
+                    return user.Id;
                 }
 
                 throw new Exception("Problem creating user");

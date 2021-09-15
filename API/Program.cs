@@ -28,6 +28,7 @@ namespace API
                 {
                     var context = services.GetRequiredService<DataContext>();
                     var userManager = services.GetRequiredService<UserManager<AppUser>>();
+
                     context.Database.Migrate();
                     Seed.SeedData(context, userManager).Wait();
                 }
@@ -37,7 +38,6 @@ namespace API
                     logger.LogError(ex, "An error occured during migration");
                 }
             }
-
             host.Run();
         }
 

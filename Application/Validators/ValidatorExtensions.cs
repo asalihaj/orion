@@ -17,6 +17,17 @@ namespace Application.Validators
 
             return options;
         }
+
+        public static IRuleBuilder<T, string> Role<T>(this IRuleBuilder<T, string> ruleBuilder)
+        {
+            var options = ruleBuilder
+                .NotEmpty()
+                .Matches("Company|JobSeeker|Admin")
+                .WithMessage("Problem assiging role to user");
+                
+
+            return options;
+        }
      
     }
 }

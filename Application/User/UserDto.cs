@@ -13,6 +13,7 @@ namespace Application.User
         public string Username { get; set; }
         public dynamic Profile { get; set; }
         public string Photo { get; set; }
+        public string Role { get; set; }
 
         [JsonProperty("saved")]
         public ICollection<OfferDto> SavedOffers { get; set; }
