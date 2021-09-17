@@ -1,12 +1,10 @@
-import { FORM_ERROR } from 'final-form';
-import { useContext } from 'react';
 import { Field, Form as FinalForm } from 'react-final-form';
 import { combineValidators, isRequired } from 'revalidate';
-import { Button, Form, Header } from 'semantic-ui-react';
+import { Button, Form, Header, Icon } from 'semantic-ui-react';
 import ErrorMessage from '../../../../app/common/form/ErrorMessage';
 import TextInput from '../../../../app/common/form/TextInput';
-import { IUserFormValues } from '../../../../app/models/user';
-import { RootStoreContext } from '../../../../app/stores/rootStore';
+import { Formik } from 'formik';
+import FileInput from '../../../../app/common/form/FileInput';
 
 const validate = combineValidators({
     email: isRequired('Email'),
@@ -14,60 +12,77 @@ const validate = combineValidators({
     password: isRequired('Password')
 });
 
-const UserForm = () => {
-    const rootStore = useContext(RootStoreContext);
-    const { login } = rootStore.userStore;
+const UserForm = (props) => {
+    const handleSubmit = (values) => {
+        props.next(values);
+    }
+    
     return (
         <FinalForm
-        onSubmit={(values: IUserFormValues) => 
-            login(values).catch(error => ({
-                [FORM_ERROR]: error
-            }))
-        }
-        validate={validate}
-        render={({
-            handleSubmit,
-            submitting,
-            submitError,
-            invalid,
-            pristine,
-            dirtySinceLastSubmit
-        }) => (
-            <Form size='big' onSubmit={handleSubmit} error>
-                <Header
-                    as='h2'
-                    content='Login to JobPoint'
-                    color='blue'
-                    textAlign='left'
-                />
-                <Field
-                    name='email' 
-                    component={TextInput} 
-                    placeholder='Email' />
-                <Field
-                    name='password'
-                    component={TextInput}
-                    placeholder='Password'
-                    type='password'
-                />
-                {submitError && !dirtySinceLastSubmit && (
-                    <ErrorMessage
-                    error={submitError}
-                    text='Invalid email or password'
+            onSubmit={handleSubmit}
+            validate={validate}
+            render={({
+                handleSubmit,
+                submitting,
+                submitError,
+                invalid,
+                pristine,
+                dirtySinceLastSubmit
+            }) => (
+                <Form size='big' onSubmit={handleSubmit} error>
+                    <Header
+                        as='h2'
+                        content='Register'
+                        color='blue'
+                        textAlign='left'
                     />
-                )}
-                <Button
-                    disabled={(invalid && !dirtySinceLastSubmit) || pristine}
-                    loading={submitting}
-                    primary
-                    content='Login'
-                    size='big'
-                    fluid
-                    circular
-                />
-            </Form>
-        )}
-        />
+                    <Field
+                        name='username' 
+                        component={TextInput}
+                        icon='user'
+                        iconPosition='left'
+                        placeholder='Username'
+                        initialValue={props.data.username}
+                        />
+                    <Field
+                        name='email' 
+                        component={TextInput}
+                        icon='at'
+                        iconPosition='left'
+                        initialValue={props.data.email}
+                        placeholder='Email' />
+                    <Field
+                        name='password'
+                        component={TextInput}
+                        icon='lock'
+                        iconPosition='left'
+                        initialValue={props.data.password}
+                        placeholder='Password'
+                        type='password'
+                    />
+                    <Field
+                        name='logo'
+                        component={FileInput}
+                        placeholder='Logo'
+                    />
+                    {submitError && !dirtySinceLastSubmit && (
+                        <ErrorMessage
+                        error={submitError}
+                        text='Invalid email or password'
+                        />
+                    )}
+                    <Button
+                        disabled={invalid && !dirtySinceLastSubmit}
+                        loading={submitting}
+                        primary
+                        size='large'
+                        floated='right'
+                        circular>
+                        Next
+                    </Button>
+                </Form>
+            )}
+            />
     )
 }
 

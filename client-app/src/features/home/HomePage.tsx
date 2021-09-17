@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Button, Container, Divider, Grid, Header, Image, Segment } from "semantic-ui-react";
+import { Button, Container, Divider, Grid, Header, Image } from "semantic-ui-react";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { history } from "../..";
 import './style.css';

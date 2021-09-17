@@ -8,5 +8,6 @@
     ) !important; */
 
 body {
-  height: 2000px;
+  height: 100vh!important;
+  background-color: #fffcf2;
 }

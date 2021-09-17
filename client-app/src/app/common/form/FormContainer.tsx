@@ -2,15 +2,16 @@ import { Container, Grid, Message, Segment } from "semantic-ui-react";
 import { RootStoreContext } from "../../stores/rootStore";
 import { useContext } from "react";
 
-const FormContainer = ({form, message = null}) => {
+const FormContainer = ({form, header = null, footer = null}) => {
     return (
-        <Container style={{ marginTop: '20rem' }}>
+        <Container style={{ marginTop: '7rem' }}>
             <Grid centered>
                 <Grid.Column textAlign='center' width={6}>
-                    <Segment padded>
+                    {header}
+                    <Segment padded clearing>
                         {form}
                     </Segment>
-                    {message}
+                    {footer}
                 </Grid.Column>
             </Grid>
         </Container>

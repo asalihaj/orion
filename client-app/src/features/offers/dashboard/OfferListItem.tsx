@@ -12,10 +12,6 @@ const OfferListItem: React.FC<{ offer: IOffer, publisher: IPublisher }> = ({ off
     const rootStore = useContext(RootStoreContext);
     const { loadOffer } = rootStore.offerStore;
 
-    const offerStyle = {
-        border: '1px solid black !important'
-    }
-
     return (
         <Item 
         className='offer'

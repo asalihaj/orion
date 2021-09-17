@@ -1,6 +1,6 @@
 import React from 'react'
 import { FieldRenderProps } from 'react-final-form'
-import { Form, FormFieldProps, Label } from 'semantic-ui-react'
+import { Form, FormFieldProps, Grid, Label, TextArea } from 'semantic-ui-react'
 
 interface IProps extends FieldRenderProps<string, HTMLTextAreaElement>, FormFieldProps {}
 
@@ -8,16 +8,20 @@ export const TextAreaInput: React.FC<IProps> = ({
     input, 
     width,
     rows,
-    placeholder, 
+    placeholder,
     meta: {touched, error}
 }) => {
     return (
         <Form.Field error={touched && !!error} width={width}>
-            <textarea rows={rows} {...input} placeholder={placeholder} />
+            <TextArea rows={rows} {...input} placeholder={placeholder} />
             {touched && error && (
-                <Label basic color='red'>
-                    {error}
-                </Label>
+                <Grid stretched>
+                    <Grid.Column width={8} floated='left'>
+                        <Label size='small' prompt  pointing='above' basic color='red'>
+                            {error}
+                        </Label>
+                    </Grid.Column>
+                </Grid>
             )}
         </Form.Field>
     )

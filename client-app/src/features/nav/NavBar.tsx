@@ -54,11 +54,8 @@ const NavBar: React.FC = () => {
             </Menu.Item>
             <Menu.Item>
               <Button
-                color='instagram'
+                color='twitter'
                 name="Login" 
-                //TODO:
-                //Add Login Form on modal
-                //onClick={() => openModal()}
                 as={Link}
                 to="/login"
                 style={{ marginLeft: "8px" }}

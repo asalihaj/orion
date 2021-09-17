@@ -1,6 +1,6 @@
 import React from 'react'
 import { FieldRenderProps } from 'react-final-form'
-import { Form, FormFieldProps, Input, Label } from 'semantic-ui-react'
+import { Form, FormFieldProps, Grid, Input, Label } from 'semantic-ui-react'
 
 interface IProps extends FieldRenderProps<string, HTMLInputElement>, FormFieldProps {}
 
@@ -9,17 +9,23 @@ const TextInput: React.FC<IProps> = ({
     width, 
     type, 
     placeholder,
+    icon,
+    iconPosition,
     size,
-    meta: {touched, error}
+    meta: {touched, error, submitting}
 }) => {
     return (
-        <Form.Field error={touched && !!error} type={type} width={width}>
+        <Form.Field error={submitting && !!error} type={type} width={width}>
+            <Input icon={icon} iconPosition={iconPosition}  size={size} {...input} placeholder={placeholder} />
             {touched && error && (
-                <Label size='small' pointing='below' basic color='red'>
-                    {error}
-                </Label>
+                <Grid stretched>
+                    <Grid.Column width={8} floated='left'>
+                        <Label size='small' prompt  pointing='above' basic color='red'>
+                            {error}
+                        </Label>
+                    </Grid.Column>
+                </Grid>
             )}
-            <Input size={size} {...input} placeholder={placeholder} />
         </Form.Field>
     )
 }

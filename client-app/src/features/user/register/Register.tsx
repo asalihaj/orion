@@ -2,44 +2,28 @@ import { useContext, useEffect, useState } from "react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import RegisterList from "./RegisterList";
 import { history } from "../../..";
-import { Button } from "semantic-ui-react";
+import RegisterForm from "./components/RegisterForm";
 
 const Register = () => {
     const rootStore = useContext(RootStoreContext);
     const [type, setType] = useState('none');
     const { user } = rootStore.userStore;
+    const path = document.location.search;
+    
 
     useEffect(() => {
         if (user) {
             history.push('/offers');
         }
-        history.listen((location) => {
-            const type = location.search.slice(6);
-            if (type === 'company')
-                setType('company');
-            else if (type === 'jobseeker')
-                setType('jobseeker');
-            else
-                setType('none');
-        });
     }, [user]);
     
     return(
         <>
-        {type === 'company' ? (
-            <div>
-                <Button
-                onClick={() => {
-                    setType('none')
-                    history.push({ search: null })
-                    
-                }}
-                >
-                    Back
-                </Button>
-            </div>
-        ) : type === 'jobseeker' ? (
-            <div>JOBSEEKER FORM</div>
+        { path.includes('type=company') ? (
+            <RegisterForm formType='company' />
+            
+        ) : path.includes('type=jobseeker') ? (
+            <RegisterForm formType='jobseeker' />
         ) : (
             <RegisterList />
         )}

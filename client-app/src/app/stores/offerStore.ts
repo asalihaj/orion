@@ -34,12 +34,12 @@ export default class OfferStore {
     @action loadSavedOffers = async () => {
       try {
         const user = await agent.User.current();
-        runInAction(() => {
-          user.saved.forEach(o => {
-            o.expDate = new Date(o.expDate!);
-            this.userSaved.set(o.id, o);
+          runInAction(() => {
+            user.saved.forEach(o => {
+              o.expDate = new Date(o.expDate!);
+              this.userSaved.set(o.id, o);
+            })
           })
-        })
       } catch (error) {
         console.log(error);
       }

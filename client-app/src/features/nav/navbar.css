@@ -3,9 +3,9 @@
 }
 
 .ui.inverted.menu {
-    background-color: blue;
+    background-color: rgb(33 133 208);
 }
 
 .nav-item {
-    color: black !important;
+    color: white !important;
 }

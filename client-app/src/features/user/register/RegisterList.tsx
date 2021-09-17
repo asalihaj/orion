@@ -19,7 +19,7 @@ const RegisterList = () => {
                                 icon='chevron right' 
                                 labelPosition='right' 
                                 content='Continue' 
-                                color='instagram' 
+                                color='twitter' 
                                 />
                             </Item.Extra>
                         </Item.Content>
@@ -38,7 +38,7 @@ const RegisterList = () => {
                                     icon='chevron right' 
                                     labelPosition='right' 
                                     content='Continue' 
-                                    color='instagram' />
+                                    color='twitter' />
                                 </Item.Extra>
                             </Item.Content>
                         </Item>

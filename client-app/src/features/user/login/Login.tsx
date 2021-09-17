@@ -15,7 +15,7 @@ const Login = () => {
     }, [user]);
     
     return (
-        <FormContainer form={<LoginForm />} message={<LoginMessage />}/>
+        <FormContainer form={<LoginForm />} footer={<LoginMessage />}/>
     )
 }
 
