@@ -78,7 +78,6 @@ namespace Persistence
                     Name = "Facebook",
                     Location = "California",
                     Description = "Connect the world",
-                    Logo = "FB",
                     LastUpdated = DateTime.Now
                 },
                 new Company
@@ -87,7 +86,6 @@ namespace Persistence
                     Name = "Instagram",
                     Location = "California",
                     Description = "Connect the world",
-                    Logo = "Insta",
                     LastUpdated = DateTime.Now
                 },
                 new Company
@@ -96,7 +94,6 @@ namespace Persistence
                     Name = "Snapchat",
                     Location = "California",
                     Description = "Connect with friends",
-                    Logo = "Snap",
                     LastUpdated = DateTime.Now
                 },
             };

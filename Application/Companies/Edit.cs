@@ -15,8 +15,6 @@ namespace Application.Companies
             public string Name { get; set; }
             public string Location { get; set; }
            public string Description { get; set; }
-            public string Logo {get; set;}
-            public string User {get; set;}
             public DateTime? LastUpdated { get; set; }
         }
         
@@ -39,7 +37,6 @@ namespace Application.Companies
                 company.Name = request.Name ?? company.Name;
                 company.Location = request.Location ?? company.Location;
                 company.Description = request.Description ?? company.Description;
-                company.Logo = request.Logo ?? company.Logo;
                 company.LastUpdated = DateTime.Now;
 
                 var success = await _context.SaveChangesAsync() > 0;

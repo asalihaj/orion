@@ -87,8 +87,6 @@ namespace Persistence.Migrations
 
                     b.Property<string>("Location");
 
-                    b.Property<string>("Logo");
-
                     b.Property<string>("Name");
 
                     b.HasKey("UserId");
@@ -170,8 +168,6 @@ namespace Persistence.Migrations
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("IsMain");
 
                     b.Property<string>("Url");
 

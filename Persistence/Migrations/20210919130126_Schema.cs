@@ -27,8 +27,7 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    Url = table.Column<string>(nullable: true),
-                    IsMain = table.Column<bool>(nullable: false)
+                    Url = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -183,7 +182,6 @@ namespace Persistence.Migrations
                     Name = table.Column<string>(nullable: true),
                     Location = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    Logo = table.Column<string>(nullable: true),
                     LastUpdated = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>

@@ -2,7 +2,6 @@ export interface ICompany {
     userId: string;
     name: string;
     location: string;
-    logo: string;
 }
 
 export class CompanyFormValues {
@@ -10,5 +9,4 @@ export class CompanyFormValues {
     name: string;
     location: string;
     description: string;
-    logo: string;
 }

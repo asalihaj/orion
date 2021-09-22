@@ -1,6 +1,6 @@
 import { action, observable } from "mobx";
 import agent from "../api/agent";
-import { IJobSeeker } from "../models/jobseeker";
+import { IJobSeeker, JobSeekerFormValues } from "../models/jobseeker";
 import { RootStore } from "./rootStore";
 
 export default class JobSeekerStore {
@@ -18,7 +18,7 @@ export default class JobSeekerStore {
         }
     }
 
-    @action create = async (jobSeeker: IJobSeeker) => {
+    @action create = async (jobSeeker: JobSeekerFormValues) => {
         try {
             await agent.JobSeeker.create(jobSeeker);
         } catch (error) {

@@ -1,9 +1,8 @@
 import { Field, Form as FinalForm } from 'react-final-form';
 import { combineValidators, isRequired } from 'revalidate';
-import { Button, Form, Header, Icon } from 'semantic-ui-react';
+import { Button, Form, Header } from 'semantic-ui-react';
 import ErrorMessage from '../../../../app/common/form/ErrorMessage';
 import TextInput from '../../../../app/common/form/TextInput';
-import { Formik } from 'formik';
 import FileInput from '../../../../app/common/form/FileInput';
 
 const validate = combineValidators({
@@ -14,6 +13,7 @@ const validate = combineValidators({
 
 const UserForm = (props) => {
     const handleSubmit = (values) => {
+        console.log(values);
         props.next(values);
     }
     
@@ -26,7 +26,6 @@ const UserForm = (props) => {
                 submitting,
                 submitError,
                 invalid,
-                pristine,
                 dirtySinceLastSubmit
             }) => (
                 <Form size='big' onSubmit={handleSubmit} error>
@@ -61,9 +60,9 @@ const UserForm = (props) => {
                         type='password'
                     />
                     <Field
-                        name='logo'
+                        name='photo'
                         component={FileInput}
-                        placeholder='Logo'
+                        placeholder='photo'
                     />
                     {submitError && !dirtySinceLastSubmit && (
                         <ErrorMessage

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Domain;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Persistence;
 
 namespace Application.Companies
@@ -16,8 +17,6 @@ namespace Application.Companies
             public string Name { get; set; }
             public string Location { get; set; }
             public string Description { get; set; }
-            public string Logo {get; set;}
-            public DateTime LastUpdated {get; set;}
         }
                public class CommandValidator : AbstractValidator<Command>
         {
@@ -27,16 +26,17 @@ namespace Application.Companies
                 RuleFor(x => x.Description).NotEmpty();
                 RuleFor(x => x.Name).NotEmpty();
                 RuleFor(x => x.Location).NotEmpty();
-                RuleFor(x => x.LastUpdated).NotEmpty();
             }
         }
 
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
-            public Handler(DataContext context)
+            private readonly UserManager<AppUser> _userManager;
+            public Handler(DataContext context, UserManager<AppUser> userManager)
             {
                 _context = context;
+                _userManager = userManager;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
@@ -47,12 +47,14 @@ namespace Application.Companies
                     Name = request.Name,
                     Location = request.Location,
                     Description = request.Description,
-                    Logo = request.Logo,
-                    LastUpdated = request.LastUpdated
+                    LastUpdated = DateTime.Now
                 };
 
                 _context.Companies.Add(company);
                 var success = await _context.SaveChangesAsync() > 0;
+
+                var user = await _userManager.FindByIdAsync(request.UserId);
+                await _userManager.AddToRoleAsync(user, "Company");
 
                 if (success) return Unit.Value;
 

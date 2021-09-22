@@ -40,9 +40,10 @@ namespace Application.User
                 
                 var user = _mapper.Map<AppUser, UserDto>(appUser);
 
-                var userRole = _userManager.GetRolesAsync(appUser).Result[0];
-
                 var profile = _userAccessor.GetProfile(user.Id);
+                
+                var userRole = await _userManager.GetRolesAsync(appUser);
+                var role = userRole[0];
 
                 return new UserDto
                 {
@@ -50,7 +51,7 @@ namespace Application.User
                     Username = user.Username,
                     Token = _jwtGenerator.CreateToken(appUser),
                     Photo = appUser.Photo != null ? appUser.Photo.Url : null,
-                    Role = userRole,
+                    Role = role,
                     Profile = profile,
                     SavedOffers = user.SavedOffers
 

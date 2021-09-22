@@ -21,17 +21,8 @@ const RegisterForm = ({formType}) => {
   });
   const [step, setStep] = useState(0);
 
-  const makeRequest = (formData) => {
-    console.log("Form submitted", formData);
-  }
-
-  const handleNextStep = (newData, final = false) => {
+  const handleNextStep = (newData) => {
     setData(prev => ({...prev, ...newData}));
-    
-    if (final) {
-      makeRequest(newData);
-      return
-    }
 
     setStep(prev => prev + 1);
   }
@@ -54,12 +45,9 @@ const RegisterForm = ({formType}) => {
       next={handleNextStep} 
       prev={handlePrevStep} 
       data={data} />];
-
-  console.log(data);
   
   return (
       <FormContainer form={steps[step]} header={<RegisterSteps currentStep={step} type={formType} />} />
-        
   );
 }
 

@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Application.Companies;
 using Application.Errors;
 using Application.Interfaces;
@@ -56,7 +57,9 @@ namespace Infrastructure.Security
         public dynamic GetProfile(string Id)
         {
             var user = _context.Users.SingleOrDefault(x => x.Id == Id);
-            var userRole = _userManager.GetRolesAsync(user).Result[0];
+            var role = _context.UserRoles.SingleOrDefault(x => x.UserId == user.Id).RoleId;
+            var userRole = _context.Roles.SingleOrDefault(x => x.Id == role).Name;
+
             if (userRole == "Admin") 
             {
                 return null;

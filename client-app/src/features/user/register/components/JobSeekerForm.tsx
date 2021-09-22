@@ -1,3 +1,5 @@
+import { FORM_ERROR } from 'final-form';
+import { useContext } from 'react';
 import { Field, Form as FinalForm } from 'react-final-form';
 import { combineValidators, isRequired } from 'revalidate';
 import { Button, Form, Header, Icon } from 'semantic-ui-react';
@@ -6,6 +8,9 @@ import ErrorMessage from '../../../../app/common/form/ErrorMessage';
 import SelectInput from '../../../../app/common/form/SelectInput';
 import TextInput from '../../../../app/common/form/TextInput';
 import { gender } from '../../../../app/common/options/gender/genderOptions';
+import { JobSeekerFormValues } from '../../../../app/models/jobseeker';
+import { IUserFormValues } from '../../../../app/models/user';
+import { RootStoreContext } from '../../../../app/stores/rootStore';
 
 const validate = combineValidators({
     firstName: isRequired('First Name'),
@@ -15,8 +20,34 @@ const validate = combineValidators({
 });
 
 const JobSeekerForm = (props) => {
+    const rootStore = useContext(RootStoreContext);
+    const { register, getUser } = rootStore.userStore;
+    const { create } = rootStore.jobSeekerStore;
+    
     const handleSubmit = (values) => {
-        props.next(values, true);
+        const user: IUserFormValues = {
+            username: values.username,
+            email: values.email,
+            password: values.password
+        }
+        const result = register(user);
+
+        result.then(data => {
+            const profile: JobSeekerFormValues = {
+                userId: data.id,
+                firstName: values.firstName,
+                lastName: values.lastName,
+                gender: values.gender,
+                birthday: values.birthday
+            }
+            create(profile)
+            .then(() => getUser())
+            .catch(error => ({
+                [FORM_ERROR]: error
+            }))
+        }).catch(error => ({
+            [FORM_ERROR]: error
+        }));;
     }
 
     return (

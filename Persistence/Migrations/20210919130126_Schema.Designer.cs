@@ -10,7 +10,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210915163840_Schema")]
+    [Migration("20210919130126_Schema")]
     partial class Schema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -88,8 +88,6 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("LastUpdated");
 
                     b.Property<string>("Location");
-
-                    b.Property<string>("Logo");
 
                     b.Property<string>("Name");
 
@@ -172,8 +170,6 @@ namespace Persistence.Migrations
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("IsMain");
 
                     b.Property<string>("Url");
 

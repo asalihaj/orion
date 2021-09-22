@@ -1,11 +1,14 @@
-import { Formik } from 'formik';
+import { FORM_ERROR } from 'final-form';
+import { useContext } from 'react';
 import { Field, Form as FinalForm } from 'react-final-form';
 import { combineValidators, isRequired } from 'revalidate';
 import { Form, Button, Header, Icon } from 'semantic-ui-react';
 import ErrorMessage from '../../../../app/common/form/ErrorMessage';
-import FileInput from '../../../../app/common/form/FileInput';
 import { TextAreaInput } from '../../../../app/common/form/TextAreaInput';
 import TextInput from '../../../../app/common/form/TextInput';
+import { CompanyFormValues } from '../../../../app/models/company';
+import { IUserFormValues } from '../../../../app/models/user';
+import { RootStoreContext } from '../../../../app/stores/rootStore';
 
 const validate = combineValidators({
     name: isRequired('Name'),
@@ -14,8 +17,33 @@ const validate = combineValidators({
 });
 
 const CompanyForm = (props) => {
+    const rootStore = useContext(RootStoreContext);
+    const { register, getUser } = rootStore.userStore;
+    const { create } = rootStore.companyStore;
+    
     const handleSubmit = (values) => {
-        props.next(values, true);
+        const user: IUserFormValues = {
+            username: values.username,
+            email: values.email,
+            password: values.password
+        }
+        const result = register(user);
+
+        result.then(data => {
+            const profile: CompanyFormValues = {
+                userId: data.id,
+                name: values.name,
+                location: values.location,
+                description: values.description
+            }
+            create(profile)
+            .then(() => getUser())
+            .catch(error => ({
+                [FORM_ERROR]: error
+            }))
+        }).catch(error => ({
+            [FORM_ERROR]: error
+        }));;
     }
     
     return (

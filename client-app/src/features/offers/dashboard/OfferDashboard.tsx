@@ -14,6 +14,7 @@ const OfferDashboard = () => {
         loadOffers();
         if (user) {
             loadSavedOffers();
+            console.log(user);
         }
     }, [loadOffers, loadSavedOffers, user]);
 

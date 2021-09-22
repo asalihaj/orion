@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Domain;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Persistence;
 
 namespace Application.JobSeekers
@@ -34,9 +35,11 @@ namespace Application.JobSeekers
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
-            public Handler(DataContext context)
+            private readonly UserManager<AppUser> _userManager;
+            public Handler(DataContext context, UserManager<AppUser> userManager)
             {
                 _context = context;
+                _userManager = userManager;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
@@ -53,6 +56,9 @@ namespace Application.JobSeekers
 
                 _context.JobSeekers.Add(jobSeekers);
                 var success = await _context.SaveChangesAsync() > 0;
+
+                var user  = await _userManager.FindByIdAsync(request.UserId);
+                await _userManager.AddToRoleAsync(user, "JobSeeker");
 
                 if (success) return Unit.Value;
 
