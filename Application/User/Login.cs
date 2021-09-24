@@ -73,7 +73,6 @@ namespace Application.User
                             Id = appUser.Id,
                             Token = _jwtGenerator.CreateToken(appUser),
                             Username = appUser.UserName,
-                            SavedOffers = user.SavedOffers,
                             Profile = profile,
                             Photo = appUser.Photo != null ? appUser.Photo.Url : null,
                             Role = userRole

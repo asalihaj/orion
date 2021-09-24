@@ -31,7 +31,15 @@ namespace Application.Offers
             {
                 var offers = await _context.Offers.ToListAsync();
 
-                return _mapper.Map<List<Offer>, List<OfferDto>>(offers);
+                var offerList = _mapper.Map<List<Offer>, List<OfferDto>>(offers);
+
+                var resumes = await _context.Resumes.ToListAsync();
+
+                offerList.ForEach(o => {
+                    o.Applicants = resumes.FindAll(x => x.OfferId == o.Id).Count;
+                });
+
+                return offerList;
             }
         }
     }

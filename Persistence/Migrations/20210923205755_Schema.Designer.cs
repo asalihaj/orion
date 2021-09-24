@@ -10,7 +10,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210919130126_Schema")]
+    [Migration("20210923205755_Schema")]
     partial class Schema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -218,9 +218,13 @@ namespace Persistence.Migrations
 
                     b.Property<Guid>("OfferId");
 
+                    b.Property<string>("AppUserId");
+
                     b.Property<DateTime>("LastUpdated");
 
                     b.HasKey("UserId", "OfferId");
+
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("OfferId");
 
@@ -404,12 +408,16 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.SavedOffer", b =>
                 {
+                    b.HasOne("Domain.AppUser")
+                        .WithMany("SavedOffers")
+                        .HasForeignKey("AppUserId");
+
                     b.HasOne("Domain.Offer", "Offer")
                         .WithMany("SavedOffers")
                         .HasForeignKey("OfferId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Domain.AppUser", "User")
+                    b.HasOne("Domain.JobSeeker", "User")
                         .WithMany("SavedOffers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

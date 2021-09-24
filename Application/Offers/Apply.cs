@@ -49,7 +49,6 @@ namespace Application.Offers
                 application = new SavedOffer
                 {
                     Offer = offer,
-                    User = user,
                     LastUpdated = DateTime.Now
                 };
 

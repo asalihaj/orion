@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Application.Companies;
-using Domain;
 using Newtonsoft.Json;
 
 namespace Application.Offers
@@ -19,11 +18,6 @@ namespace Application.Offers
 
         [JsonProperty("publisher")]
         public CompanyDto Company { get; set; }
-
-        [JsonProperty("applicants")]
-        public ICollection<ApplicantDto> Resumes { get; set; }
-
-        [JsonProperty("reports")]
-        public ICollection<ReportDto> Reports { get; set; }
+        public int Applicants { get; set; }
     }
 }

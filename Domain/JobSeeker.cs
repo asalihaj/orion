@@ -14,5 +14,6 @@ namespace Domain
         public string UserId { get; set; } 
         public virtual AppUser User { get; set; }
         public virtual ICollection<Resume> Resumes { get; set; }
+        public virtual ICollection<SavedOffer> SavedOffers { get; set; }
     }
 }

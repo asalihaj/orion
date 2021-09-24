@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using Application.Offers;
+using Newtonsoft.Json;
 
 namespace Application.JobSeekers
 {
@@ -8,5 +11,9 @@ namespace Application.JobSeekers
         public string LastName { get; set; }
         public string Gender { get; set; }
         public DateTime Birthday { get; set; }
+
+        
+        [JsonProperty("saved")]
+        public ICollection<OfferDto> SavedOffers { get; set; }
     }
 }

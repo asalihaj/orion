@@ -10,8 +10,9 @@ import NotFound from '../../../app/layout/NotFound';
 const OfferList = () => {
     const rootStore = useContext(RootStoreContext);
     const url = window.location.pathname;
-    const { savedOffers, getOffers } = rootStore.offerStore;
-    const offers = url === '/saved' ? savedOffers : getOffers();
+    const { getOffers } = rootStore.offerStore;
+    const { user } = rootStore.userStore;
+    const offers = url === '/saved' ? user.profile.saved : getOffers();
     
     return (
         <Item.Group>
@@ -19,10 +20,8 @@ const OfferList = () => {
                 <OfferListItem key={offer.id} offer={offer} publisher={offer.publisher} />
             ))) :
             (
-                offers.map(([group, offers]) => (
-                    offers.map(offer => (
-                        <OfferListItem key={offer.id} offer={offer} publisher={offer.publisher} />
-                    ))
+                offers.map(offer => (
+                    <OfferListItem key={offer.id} offer={offer} publisher={offer.publisher} />
                 ))
             )
             }

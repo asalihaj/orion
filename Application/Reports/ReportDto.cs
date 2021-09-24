@@ -1,6 +1,6 @@
 using System;
 
-namespace Application.Offers
+namespace Application.Reports
 {
     public class ReportDto
     {

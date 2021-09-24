@@ -52,8 +52,7 @@ namespace Application.User
                     Token = _jwtGenerator.CreateToken(appUser),
                     Photo = appUser.Photo != null ? appUser.Photo.Url : null,
                     Role = role,
-                    Profile = profile,
-                    SavedOffers = user.SavedOffers
+                    Profile = profile
 
                 };
             }

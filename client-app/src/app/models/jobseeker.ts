@@ -6,6 +6,7 @@ export interface IJobSeeker {
     lastName: string;
     gender: string;
     birthday: Date;
+    saved: string;
     offersApplied: IOffer[];
 }
 

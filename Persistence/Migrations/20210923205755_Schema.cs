@@ -322,11 +322,18 @@ namespace Persistence.Migrations
                 {
                     UserId = table.Column<string>(nullable: false),
                     OfferId = table.Column<Guid>(nullable: false),
-                    LastUpdated = table.Column<DateTime>(nullable: false)
+                    LastUpdated = table.Column<DateTime>(nullable: false),
+                    AppUserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SavedOffers", x => new { x.UserId, x.OfferId });
+                    table.ForeignKey(
+                        name: "FK_SavedOffers_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SavedOffers_Offers_OfferId",
                         column: x => x.OfferId,
@@ -334,10 +341,10 @@ namespace Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_SavedOffers_AspNetUsers_UserId",
+                        name: "FK_SavedOffers_JobSeekers_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        principalTable: "JobSeekers",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -404,6 +411,11 @@ namespace Persistence.Migrations
                 column: "JobSeekerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SavedOffers_AppUserId",
+                table: "SavedOffers",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SavedOffers_OfferId",
                 table: "SavedOffers",
                 column: "OfferId");
@@ -442,10 +454,10 @@ namespace Persistence.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "JobSeekers");
+                name: "Offers");
 
             migrationBuilder.DropTable(
-                name: "Offers");
+                name: "JobSeekers");
 
             migrationBuilder.DropTable(
                 name: "Companies");

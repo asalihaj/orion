@@ -15,7 +15,5 @@ namespace Application.User
         public string Photo { get; set; }
         public string Role { get; set; }
 
-        [JsonProperty("saved")]
-        public ICollection<OfferDto> SavedOffers { get; set; }
     }
 }

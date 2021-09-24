@@ -7,16 +7,12 @@ import { RootStoreContext } from '../../../app/stores/rootStore';
 
 const OfferDashboard = () => {
     const rootStore = useContext(RootStoreContext);
-    const { offer, loadOffers, loadSavedOffers } = rootStore.offerStore;
+    const { offer, loadOffers } = rootStore.offerStore;
     const { user } = rootStore.userStore;
 
     useEffect(() => {
         loadOffers();
-        if (user) {
-            loadSavedOffers();
-            console.log(user);
-        }
-    }, [loadOffers, loadSavedOffers, user]);
+    }, [loadOffers, user]);
 
 
     return (

@@ -20,7 +20,7 @@ export default class UserStore {
         this.user = user;
       });
       this.rootStore.commonStore.setToken(user.token);
-      console.log(user);
+      console.log(user.profile.saved);
       history.push('/');
     } catch (error) {
       throw error;

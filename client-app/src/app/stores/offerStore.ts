@@ -15,34 +15,15 @@ export default class OfferStore {
     @observable offer: IOffer | null = null;
     @observable loadingInitial = false;
     @observable submitting = false;
-    @observable userSaved = new Map();
 
     @computed get offersByDate() {
       return this.groupOffersByDate(Array.from(this.offerRegistry.values()));
-    }
-
-    @computed get savedOffers() {
-      return this.groupOffersByDate(Array.from(this.userSaved.values()));
     }
 
     @action getOffers = () => {
       let offers = new Array();
       this.offerRegistry.forEach(offer => offers.push(offer))
       return offers;
-    }
-
-    @action loadSavedOffers = async () => {
-      try {
-        const user = await agent.User.current();
-          runInAction(() => {
-            user.saved.forEach(o => {
-              o.expDate = new Date(o.expDate!);
-              this.userSaved.set(o.id, o);
-            })
-          })
-      } catch (error) {
-        console.log(error);
-      }
     }
 
     groupOffersByDate(offers: IOffer[]) {
