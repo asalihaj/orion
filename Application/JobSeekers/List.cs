@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -10,25 +11,27 @@ namespace Application.JobSeekers
 {
     public class List
     {
-        public class Query : IRequest<List<JobSeeker>>
+        public class Query : IRequest<List<JobSeekerDto>>
         {
 
         }
 
-        public class Handler : IRequestHandler<Query, List<JobSeeker>>
+        public class Handler : IRequestHandler<Query, List<JobSeekerDto>>
         {
             private readonly DataContext _context;
+            private readonly IMapper _mapper;
 
-            public Handler(DataContext context)
+            public Handler(DataContext context, IMapper mapper)
             {
                 _context = context;
+                _mapper = mapper;
 
             }
-            public async Task<List<JobSeeker>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<JobSeekerDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var JobSeekers = await _context.JobSeekers.ToListAsync(); 
+                var jobSeekers = await _context.JobSeekers.ToListAsync(); 
 
-                return JobSeekers;
+                return _mapper.Map<List<JobSeeker>, List<JobSeekerDto>>(jobSeekers);
             }
         }
     }

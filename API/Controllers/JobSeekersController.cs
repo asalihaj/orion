@@ -12,19 +12,20 @@ namespace API.Controllers
     public class JobSeekersController : BaseController
     {
         [HttpGet]
-        public async Task<ActionResult<List<JobSeeker>>> List()
+        public async Task<ActionResult<List<JobSeekerDto>>> List()
         {
             return await Mediator.Send(new List.Query());
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+        [AllowAnonymous]
         public async Task<ActionResult<JobSeeker>> Details(string id)
         {
             return await Mediator.Send(new Details.Query{Id = id});
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult<Unit>> Create(Create.Command command)
         {
             return await Mediator.Send(command);

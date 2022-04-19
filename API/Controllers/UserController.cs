@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Application.Errors;
 using Application.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,9 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<UserDto>> CurrentUser()
         {
+            UserDto user = await Mediator.Send(new CurrentUser.Query());
+            if (user.Role != "Admin")
+                throw new RestException(System.Net.HttpStatusCode.Unauthorized, "You don't have premission");
             return await Mediator.Send(new CurrentUser.Query());
         }
     }

@@ -14,13 +14,12 @@ namespace API.Controllers
     {
         
         [HttpGet]
-        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<Contact>>> List()
         {
             return await Mediator.Send(new List.Query());
         }
+        
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Contact>> Details(Guid id)
         {
             return await Mediator.Send(new Details.Query { Id = id });

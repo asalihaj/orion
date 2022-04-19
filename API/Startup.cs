@@ -46,6 +46,9 @@ namespace API
 
             services.AddDefaultIdentity<AppUser>()
                 .AddRoles<IdentityRole>()
+                .AddRoleManager<RoleManager<IdentityRole>>()                         
+                .AddDefaultUI()
+                .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<DataContext>();
 
             services.AddCors(opt =>
@@ -72,14 +75,6 @@ namespace API
             identityBuilder.AddEntityFrameworkStores<DataContext>();
             identityBuilder.AddSignInManager<SignInManager<AppUser>>();
 
-            services.AddAuthorization(opt => 
-            {
-                opt.AddPolicy("IsOfferPublisher", policy => 
-                {
-                    policy.Requirements.Add(new IsPublisherRequirement());
-                });
-            });
-            services.AddTransient<IAuthorizationHandler, IsPublisherRequirementHandler>();
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
@@ -133,7 +128,8 @@ namespace API
                 var roleExist = await RoleManager.RoleExistsAsync(roleName);
                 if (!roleExist)
                 {
-                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                    var role = new IdentityRole(roleName);
+                    roleResult = await RoleManager.CreateAsync(role);
                 }
             }
 

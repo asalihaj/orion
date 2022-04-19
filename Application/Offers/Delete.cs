@@ -2,7 +2,9 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
+using Application.User;
 using MediatR;
+using System.Net;
 using Persistence;
 
 namespace Application.Offers

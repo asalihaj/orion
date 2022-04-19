@@ -1,9 +1,6 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Interfaces;
-using Application.Offers;
 using AutoMapper;
 using Domain;
 using MediatR;
@@ -38,13 +35,13 @@ namespace Application.User
             {
                 var appUser = await _userManager.FindByNameAsync(_userAccessor.GetCurrentUsername());
                 
-                var user = _mapper.Map<AppUser, UserDto>(appUser);
+                var user = _mapper.Map<AppUser, UserDto>(appUser);      
 
                 var profile = _userAccessor.GetProfile(user.Id);
                 
                 var userRole = await _userManager.GetRolesAsync(appUser);
                 var role = userRole[0];
-
+                    
                 return new UserDto
                 {
                     Id = user.Id,
