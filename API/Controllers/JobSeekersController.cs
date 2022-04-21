@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Application.Errors;
 using Application.JobSeekers;
+using Application.User;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -34,14 +36,12 @@ namespace API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<Unit>> Edit(string id, Edit.Command command)
         {
+            UserDto user = await GetUser();
+            if (user.Id != id)
+                throw new RestException(System.Net.HttpStatusCode.Unauthorized, "You don't have premission to complete this action");
+                
             command.Id = id;
             return await Mediator.Send(command);
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Unit>> Delete(string id)
-        {
-            return await Mediator.Send(new Delete.Command{Id = id});
         }
     }
 }

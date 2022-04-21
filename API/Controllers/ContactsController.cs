@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Contacts;
+using Application.Errors;
+using Application.User;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -16,12 +18,20 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Contact>>> List()
         {
+            UserDto user = await GetUser();
+            if (user.Id != "Admin")
+                throw new RestException(System.Net.HttpStatusCode.Unauthorized, "You don't have premission to complete this action");
+                
             return await Mediator.Send(new List.Query());
         }
         
         [HttpGet("{id}")]
         public async Task<ActionResult<Contact>> Details(Guid id)
         {
+            UserDto user = await GetUser();
+            if (user.Id != "Admin")
+                throw new RestException(System.Net.HttpStatusCode.Unauthorized, "You don't have premission to complete this action");
+
             return await Mediator.Send(new Details.Query { Id = id });
         }
         [HttpPost]

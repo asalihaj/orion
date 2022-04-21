@@ -5,7 +5,7 @@ using Application.Errors;
 using MediatR;
 using Persistence;
 
-namespace Application.Companies
+namespace Application.User
 {
     public class Delete
     {
@@ -13,7 +13,7 @@ namespace Application.Companies
         {
             public string Id { get; set; }
         }
-        
+
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
@@ -24,13 +24,13 @@ namespace Application.Companies
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var company = await _context.Companies.FindAsync(request.Id);
+                var user = await _context.Users.FindAsync(request.Id);
 
-                if (company == null)
+                if (user == null)
                     throw new RestException(System.Net.HttpStatusCode.NotFound,
-                     new {company = "Not found"});
+                     new {user = "Not found"});
 
-                _context.Remove(company);
+                _context.Remove(user);
 
                 var success = await _context.SaveChangesAsync() > 0;
 

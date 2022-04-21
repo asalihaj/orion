@@ -44,7 +44,7 @@ namespace Application.Offers
 
                 if (application != null)
                     throw new RestException(HttpStatusCode.BadRequest, 
-                        new{Attendance = "Already atending this activity"});
+                        new{Attendance = "You already applied to this offer"});
 
                 application = new SavedOffer
                 {

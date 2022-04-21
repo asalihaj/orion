@@ -57,7 +57,7 @@ namespace Application.User
                 var appUser = await _userManager.FindByEmailAsync(request.Email);
 
                 if (appUser == null)
-                    throw new RestException(HttpStatusCode.Unauthorized);
+                    throw new RestException(HttpStatusCode.Unauthorized, "This email is not associated with an account");
 
                 var user = _mapper.Map<AppUser, UserDto>(appUser);
 

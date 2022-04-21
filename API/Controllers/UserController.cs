@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Application.Errors;
 using Application.User;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,10 +26,17 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<UserDto>> CurrentUser()
         {
-            UserDto user = await Mediator.Send(new CurrentUser.Query());
-            if (user.Role != "Admin")
-                throw new RestException(System.Net.HttpStatusCode.Unauthorized, "You don't have premission");
             return await Mediator.Send(new CurrentUser.Query());
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Unit>> Delete(string id)
+        {
+            UserDto user = await GetUser();
+            if (user.Id != id && user.Role != "Admin")
+                throw new RestException(System.Net.HttpStatusCode.Unauthorized, "You don't have premission to delete this account");
+
+            return await Mediator.Send(new Delete.Command{Id = id});
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using API.Middleware;
@@ -117,7 +118,8 @@ namespace API
 
         private async Task CreateRoles(IServiceProvider serviceProvider)
         {
-            //initializing custom roles 
+            //initializing custom roles
+            var Context = serviceProvider.GetRequiredService<DataContext>();
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
             string[] roleNames = { "Admin", "Company", "JobSeeker" };
@@ -139,6 +141,12 @@ namespace API
                 UserName = Configuration["Administrator:Username"],
                 Email = Configuration["Administrator:Email"],
             };
+
+            List<AppUser> users = await Context.Users.ToListAsync(); 
+            foreach (var user in users)
+            {
+                await UserManager.AddToRoleAsync(user, "Company");
+            }
             //Ensure you have these values in your appsettings.json file
                 string userPWD = Configuration["Administrator:Password"];
                 var _user = await UserManager.FindByEmailAsync(Configuration["Administrator:Email"]);

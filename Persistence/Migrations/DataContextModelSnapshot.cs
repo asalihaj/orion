@@ -216,13 +216,9 @@ namespace Persistence.Migrations
 
                     b.Property<Guid>("OfferId");
 
-                    b.Property<string>("AppUserId");
-
                     b.Property<DateTime>("LastUpdated");
 
                     b.HasKey("UserId", "OfferId");
-
-                    b.HasIndex("AppUserId");
 
                     b.HasIndex("OfferId");
 
@@ -406,10 +402,6 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.SavedOffer", b =>
                 {
-                    b.HasOne("Domain.AppUser")
-                        .WithMany("SavedOffers")
-                        .HasForeignKey("AppUserId");
-
                     b.HasOne("Domain.Offer", "Offer")
                         .WithMany("SavedOffers")
                         .HasForeignKey("OfferId")

@@ -35,7 +35,7 @@ namespace API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<Unit>> Edit(Guid id, Edit.Command command)
         {
-            UserDto user = await Mediator.Send(new CurrentUser.Query());
+            UserDto user = await GetUser();
             if (user.Role == "Company")
             {
                 OfferDto offer = await Mediator.Send(new Details.Query{Id = id});
@@ -51,7 +51,12 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Unit>> Delete(Guid id)
         {
-            return await Mediator.Send(new Delete.Command{Id = id});
+            UserDto user = await GetUser();
+            OfferDto offer = await Mediator.Send(new Details.Query{Id = id});
+            if (user.Id != offer.Company.Id)
+                throw new RestException(System.Net.HttpStatusCode.Unauthorized, "You are not the offer publisher");
+
+            return await Mediator.Send(new Application.Offers.Delete.Command{Id = id});
         }
     }
 }
