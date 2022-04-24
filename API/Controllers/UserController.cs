@@ -34,7 +34,7 @@ namespace API.Controllers
         {
             UserDto user = await GetUser();
             if (user.Id != id && user.Role != "Admin")
-                throw new RestException(System.Net.HttpStatusCode.Unauthorized, "You don't have premission to delete this account");
+                throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to delete this account");
 
             return await Mediator.Send(new Delete.Command{Id = id});
         }

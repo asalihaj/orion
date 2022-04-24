@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Errors;
@@ -38,10 +39,41 @@ namespace API.Controllers
         {
             UserDto user = await GetUser();
             if (user.Id != id)
-                throw new RestException(System.Net.HttpStatusCode.Unauthorized, "You don't have premission to complete this action");
+                throw new RestException(System.Net.HttpStatusCode.Forbidden, 
+                    "You don't have premission to complete this action");
                 
             command.Id = id;
             return await Mediator.Send(command);
+        }
+
+        [HttpPost("save")]
+        public async Task<ActionResult<Unit>> SaveOffer(Guid offerId)
+        {
+            UserDto user = await GetUser();
+            if (user.Role != "JobSeeker")
+                throw new RestException(System.Net.HttpStatusCode.Forbidden, 
+                    "You don't have premission to save offers");
+            
+            return await Mediator.Send(new Save.Command
+            {
+                JobSeekerId = user.Id, 
+                OfferId = offerId
+            });
+        }
+
+        [HttpDelete("remove")]
+        public async Task<ActionResult<Unit>> RemoveOffer(Guid offerId)
+        {
+            UserDto user = await GetUser();
+            if (user.Role != "JobSeeker")
+                throw new RestException(System.Net.HttpStatusCode.Forbidden, 
+                    "You don't have premission to save offers");
+            
+            return await Mediator.Send(new Remove.Command
+            {
+                JobSeekerId = user.Id, 
+                OfferId = offerId
+            });
         }
     }
 }

@@ -10,8 +10,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210923205755_Schema")]
-    partial class Schema
+    [Migration("20220423162826_DbSchema")]
+    partial class DbSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -214,17 +214,13 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.SavedOffer", b =>
                 {
-                    b.Property<string>("UserId");
+                    b.Property<string>("JobSeekerId");
 
                     b.Property<Guid>("OfferId");
 
-                    b.Property<string>("AppUserId");
-
                     b.Property<DateTime>("LastUpdated");
 
-                    b.HasKey("UserId", "OfferId");
-
-                    b.HasIndex("AppUserId");
+                    b.HasKey("JobSeekerId", "OfferId");
 
                     b.HasIndex("OfferId");
 
@@ -408,18 +404,14 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.SavedOffer", b =>
                 {
-                    b.HasOne("Domain.AppUser")
+                    b.HasOne("Domain.JobSeeker", "JobSeeker")
                         .WithMany("SavedOffers")
-                        .HasForeignKey("AppUserId");
+                        .HasForeignKey("JobSeekerId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Domain.Offer", "Offer")
                         .WithMany("SavedOffers")
                         .HasForeignKey("OfferId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Domain.JobSeeker", "User")
-                        .WithMany("SavedOffers")
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

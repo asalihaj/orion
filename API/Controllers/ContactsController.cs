@@ -20,7 +20,7 @@ namespace API.Controllers
         {
             UserDto user = await GetUser();
             if (user.Id != "Admin")
-                throw new RestException(System.Net.HttpStatusCode.Unauthorized, "You don't have premission to complete this action");
+                throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to complete this action");
                 
             return await Mediator.Send(new List.Query());
         }
@@ -30,7 +30,7 @@ namespace API.Controllers
         {
             UserDto user = await GetUser();
             if (user.Id != "Admin")
-                throw new RestException(System.Net.HttpStatusCode.Unauthorized, "You don't have premission to complete this action");
+                throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to complete this action");
 
             return await Mediator.Send(new Details.Query { Id = id });
         }

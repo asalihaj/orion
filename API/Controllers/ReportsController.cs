@@ -17,19 +17,19 @@ namespace API.Controllers
         {
             UserDto user = await GetUser();
             if (user.Role != "Admin")
-                throw new RestException(System.Net.HttpStatusCode.Unauthorized, "You don't have premission to complete this action");
+                throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to complete this action");
                 
             return await Mediator.Send(new List.Query());
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Report>> Details(Guid id)
+        [HttpGet("q")]
+        public async Task<ActionResult<ReportDto>> Details(string userId, Guid offerId)
         {
             UserDto user = await GetUser();
-            Report report = await Mediator.Send(new Details.Query{Id = id});
+            ReportDto report = await Mediator.Send(new Details.Query{UserId = userId, OfferId = offerId});
 
-            if (user.Id != report.UserId || user.Role != "Admin")
-                throw new RestException(System.Net.HttpStatusCode.Unauthorized, "You don't have premission to complete this action");
+            if (user.Role != "Admin")
+                throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to complete this action");
 
             return report;
         }
@@ -40,14 +40,14 @@ namespace API.Controllers
             return await Mediator.Send(command);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Unit>> Delete(Guid id)
+        [HttpDelete("delete")]
+        public async Task<ActionResult<Unit>> Delete(string userId, Guid offerId)
         {
             UserDto user = await GetUser();
             if (user.Role != "Admin")
-                throw new RestException(System.Net.HttpStatusCode.Unauthorized, "You don't have premission to complete this action");
+                throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to complete this action");
 
-            return await Mediator.Send(new Application.Reports.Delete.Command{Id = id});
+            return await Mediator.Send(new Application.Reports.Delete.Command{UserId = userId, OfferId = offerId});
         }
     }
 }

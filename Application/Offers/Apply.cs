@@ -40,7 +40,7 @@ namespace Application.Offers
                     x.UserName == _userAccessor.GetCurrentUsername());
 
                 var application = await _context.SavedOffers.SingleOrDefaultAsync(x => 
-                    x.OfferId == offer.Id && x.UserId == user.Id);
+                    x.OfferId == offer.Id && x.JobSeekerId == user.Id);
 
                 if (application != null)
                     throw new RestException(HttpStatusCode.BadRequest, 

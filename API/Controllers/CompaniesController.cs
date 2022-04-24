@@ -35,7 +35,7 @@ namespace API.Controllers
         {
             UserDto user = await GetUser();
             if (user.Id != id)
-                throw new RestException(System.Net.HttpStatusCode.Unauthorized, "You don't have premission to complete this action");
+                throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to complete this action");
 
             command.UserId = id;
             return await Mediator.Send(command);

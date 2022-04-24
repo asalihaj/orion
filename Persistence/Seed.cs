@@ -44,27 +44,79 @@ namespace Persistence
                             Email = "rick@gmail.com",
                             DateCreated = DateTime.Now,
                             LastUpdated = DateTime.Now
+                        },
+                        new AppUser
+                        {
+                            UserName = "rio",
+                            Email = "rio@gmail.com",
+                            DateCreated = DateTime.Now,
+                            LastUpdated = DateTime.Now
+                        },
+                        new AppUser
+                        {
+                            UserName = "asd",
+                            Email = "asd@gmail.com",
+                            DateCreated = DateTime.Now,
+                            LastUpdated = DateTime.Now
                         }
                     };
                     foreach(var user in users)
                     {
                         await userManager.CreateAsync(user, "Pa$$w0rd");
                     }
-                }
 
-                var companies = CreateCompanies(users);
-                if(!context.Companies.Any())
-                {
-                    context.Companies.AddRange(companies);
-                }
+                    var companies = CreateCompanies(users);
+                    if(!context.Companies.Any())
+                    {
+                        context.Companies.AddRange(companies);
+                    }
 
+                    var offers = CreateOffers(companies);
+                    if(!context.Offers.Any())
+                    {
+                        context.Offers.AddRange(offers);
+                    }
+
+                    var jobseekers = CreateJobSeekers(users);
+                    if(!context.JobSeekers.Any())
+                    {
+                        context.JobSeekers.AddRange(jobseekers);
+                    }
+
+                    var savedoffers = CreateSavedOffers(offers, jobseekers);
+                    if(!context.SavedOffers.Any())
+                    {
+                        context.SavedOffers.AddRange(savedoffers);
+                    }
+                }
                 
-                var offers = CreateOffers(companies);
-                if(!context.Offers.Any())
-                {
-                    context.Offers.AddRange(offers);
-                }
             context.SaveChanges();
+        }
+
+        private static List<JobSeeker> CreateJobSeekers(List<AppUser> users)
+        {
+            var jobseekers = new List<JobSeeker>
+            {
+                new JobSeeker
+                {
+                    User = users.ElementAt(4),
+                    FirstName = "Rio",
+                    LastName = "Williams",
+                    Gender = "m",
+                    Birthday = DateTime.Now,
+                    LastUpdated = DateTime.Now
+                },
+                new JobSeeker
+                {
+                    User = users.ElementAt(5),
+                    FirstName = "John",
+                    LastName = "Adams",
+                    Gender = "m",
+                    Birthday = DateTime.Now,
+                    LastUpdated = DateTime.Now
+                }
+            };
+            return jobseekers;
         }
 
       
@@ -157,6 +209,38 @@ namespace Persistence
                 };
 
             return offers;
+        }
+
+        private static List<SavedOffer> CreateSavedOffers(List<Offer> offers, List<JobSeeker> jobSeekers)
+        {
+            var savedOffers = new List<SavedOffer>
+            {
+                new SavedOffer
+                {
+                    JobSeekerId = jobSeekers.ElementAt(0).UserId,
+                    OfferId = offers.ElementAt(0).Id,
+                    LastUpdated = DateTime.Now
+                },
+                new SavedOffer
+                {
+                    JobSeekerId = jobSeekers.ElementAt(0).UserId,
+                    OfferId = offers.ElementAt(1).Id,
+                    LastUpdated = DateTime.Now
+                },
+                new SavedOffer
+                {
+                    JobSeekerId = jobSeekers.ElementAt(0).UserId,
+                    OfferId = offers.ElementAt(2).Id,
+                    LastUpdated = DateTime.Now
+                },
+                new SavedOffer
+                {
+                    JobSeekerId = jobSeekers.ElementAt(1).UserId,
+                    OfferId = offers.ElementAt(0).Id,
+                    LastUpdated = DateTime.Now
+                },
+            };
+            return savedOffers;
         }
     }
 }

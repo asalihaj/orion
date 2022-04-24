@@ -45,7 +45,7 @@ namespace API.Controllers
                     return await Mediator.Send(command);
                 }
             }
-            throw new RestException(System.Net.HttpStatusCode.Unauthorized, "You are not the offer publisher");
+            throw new RestException(System.Net.HttpStatusCode.Forbidden, "You are not the offer publisher");
         }
 
         [HttpDelete("{id}")]
@@ -54,7 +54,7 @@ namespace API.Controllers
             UserDto user = await GetUser();
             OfferDto offer = await Mediator.Send(new Details.Query{Id = id});
             if (user.Id != offer.Company.Id)
-                throw new RestException(System.Net.HttpStatusCode.Unauthorized, "You are not the offer publisher");
+                throw new RestException(System.Net.HttpStatusCode.Forbidden, "You are not the offer publisher");
 
             return await Mediator.Send(new Application.Offers.Delete.Command{Id = id});
         }

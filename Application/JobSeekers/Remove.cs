@@ -1,19 +1,20 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Errors;
 using MediatR;
 using Persistence;
 
-namespace Application.Reports
+namespace Application.JobSeekers
 {
-    public class Delete
+    public class Remove
     {
-        public class Command : IRequest
+         public class Command : IRequest
         {
-            public string UserId { get; set; }
+            public string JobSeekerId { get; set; }
             public Guid OfferId { get; set; }
         }
-        
+
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
@@ -24,12 +25,13 @@ namespace Application.Reports
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var report = await _context.Reports.FindAsync(request.UserId, request.OfferId);
+                var savedOffer = await _context.SavedOffers.FindAsync(request.JobSeekerId, request.OfferId);
 
-                if (report == null)
-                    throw new Exception("Report could not be found");
+                if (savedOffer == null)
+                    throw new RestException(System.Net.HttpStatusCode.NoContent, 
+                    new {offer = "Offer is not saved"});
 
-                _context.Remove(report);
+                _context.Remove(savedOffer);
 
                 var success = await _context.SaveChangesAsync() > 0;
 

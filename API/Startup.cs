@@ -137,15 +137,21 @@ namespace API
 
             var admin = new AppUser
             {
-
                 UserName = Configuration["Administrator:Username"],
                 Email = Configuration["Administrator:Email"],
             };
 
             List<AppUser> users = await Context.Users.ToListAsync(); 
-            foreach (var user in users)
+            for (var i = 0; i < users.Count; i++)
             {
-                await UserManager.AddToRoleAsync(user, "Company");
+                if (users[i].Id != admin.Id)
+                {
+                    if(users[i].UserName != "rio" && users[i].UserName != "asd")
+                        await UserManager.AddToRoleAsync(users[i], "Company");
+                    else
+                        await UserManager.AddToRoleAsync(users[i], "JobSeeker");
+                }
+                    
             }
             //Ensure you have these values in your appsettings.json file
                 string userPWD = Configuration["Administrator:Password"];

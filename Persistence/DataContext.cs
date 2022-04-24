@@ -34,12 +34,12 @@ namespace Persistence
         private void BuildSavedOffer(ModelBuilder builder)
         {
             builder.Entity<SavedOffer>(x => x.HasKey(uo =>
-            new {uo.UserId, uo.OfferId}));
+            new {uo.JobSeekerId, uo.OfferId}));
 
             builder.Entity<SavedOffer>()
-                .HasOne(u => u.User)
+                .HasOne(u => u.JobSeeker)
                 .WithMany(o => o.SavedOffers)
-                .HasForeignKey(u => u.UserId);
+                .HasForeignKey(u => u.JobSeekerId);
             
             builder.Entity<SavedOffer>()
                 .HasOne(o => o.Offer)

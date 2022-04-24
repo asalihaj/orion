@@ -212,13 +212,13 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.SavedOffer", b =>
                 {
-                    b.Property<string>("UserId");
+                    b.Property<string>("JobSeekerId");
 
                     b.Property<Guid>("OfferId");
 
                     b.Property<DateTime>("LastUpdated");
 
-                    b.HasKey("UserId", "OfferId");
+                    b.HasKey("JobSeekerId", "OfferId");
 
                     b.HasIndex("OfferId");
 
@@ -402,14 +402,14 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.SavedOffer", b =>
                 {
+                    b.HasOne("Domain.JobSeeker", "JobSeeker")
+                        .WithMany("SavedOffers")
+                        .HasForeignKey("JobSeekerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Domain.Offer", "Offer")
                         .WithMany("SavedOffers")
                         .HasForeignKey("OfferId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Domain.JobSeeker", "User")
-                        .WithMany("SavedOffers")
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

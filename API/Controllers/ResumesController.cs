@@ -29,7 +29,7 @@ namespace API.Controllers
             OfferDto offer = await Mediator.Send(new Application.Offers.Details.Query{Id = resume.OfferId});
 
             if (offer.Company.Id != user.Id && user.Role != "Admin")
-                throw new RestException(System.Net.HttpStatusCode.Unauthorized, "You don't have premission to view this resume");
+                throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to view this resume");
             
             return resume;
         }
@@ -39,7 +39,7 @@ namespace API.Controllers
         {
             UserDto user = await GetUser();
             if (user.Role != "JobSeeker")
-                throw new RestException(System.Net.HttpStatusCode.Unauthorized, "You need to be a JobSeeker to apply to this offer");
+                throw new RestException(System.Net.HttpStatusCode.Forbidden, "You need to be a JobSeeker to apply to this offer");
             return await Mediator.Send(command);
         }
     }
