@@ -1,3 +1,5 @@
+import { string } from "yup";
+
 export interface IOffer {
     id: string;
     publisher: IPublisher;
@@ -37,6 +39,7 @@ export class OfferFormValues implements IOfferFormValues {
 }
 
 export interface IPublisher {
+    id: string;
     username: string;
     name: string;
 }

@@ -3,9 +3,6 @@ import { observer } from 'mobx-react-lite';
 import OfferListItem from './OfferListItem';
 import { Card, Container, Divider, Item, Segment } from 'semantic-ui-react';
 import { RootStoreContext } from '../../../app/stores/rootStore';
-import { history } from '../../..';
-import { IOffer } from '../../../app/models/offer';
-import NotFound from '../../../app/layout/NotFound';
 
 const OfferList = () => {
     const rootStore = useContext(RootStoreContext);

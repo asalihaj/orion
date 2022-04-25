@@ -73,7 +73,9 @@ const JobSeeker = {
     details: (id: string) => requests.get(`/jobseekers/${id}`),
     create: (jobSeeker: JobSeekerFormValues) => requests.post('/jobseekers', jobSeeker),
     update: (jobSeeker: IJobSeeker) => requests.put(`/jobseekers/${jobSeeker.userId}`, jobSeeker),
-    delete: (id: string) => requests.delete(`/jobseekers/${id}`)
+    delete: (id: string) => requests.delete(`/jobseekers/${id}`),
+    save: (id: string) => requests.post(`/jobseekers/save?offerId=${id}`, id),
+    remove: (id: string) => requests.delete(`/jobseekers/remove?offerId=${id}`)
 }
 
 export default {

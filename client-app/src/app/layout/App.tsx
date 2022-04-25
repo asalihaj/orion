@@ -41,7 +41,7 @@ const App = () => {
           <Container style={{ padding: '0' }}>
             <Switch>
               <Route path='/offers'  component={withRouter(OfferDashboard)} />
-              {user && <Route path='/saved'  component={withRouter(OfferDashboard)} />}              
+              {user && user.role === 'JobSeeker' && <Route path='/saved'  component={withRouter(OfferDashboard)} />}              
               <Route path='/login' component={Login} />
               <Route path='/register' component={Register} />
               <Route component={NotFound}/>

@@ -13,7 +13,17 @@ const OfferDetailedHeader = () => {
     const rootStore = useContext(RootStoreContext);
     const { offer } = rootStore.offerStore;
     const { openModal } = rootStore.modalStore;
-    const { user } = rootStore.userStore;
+    const { user, getUser } = rootStore.userStore;
+    const { save, remove } = rootStore.jobSeekerStore;
+
+    const saveOffer = (id: string) => {
+        return save(id);
+    }
+
+    const removeOffer = (id: string) => {
+        return remove(id);
+    }
+    
     return (     
         <Item>
             <Item.Image src='/assets/fb.png' size='tiny'/>
@@ -27,35 +37,46 @@ const OfferDetailedHeader = () => {
                 <Item.Extra>
                     Posted 2 days ago
                 </Item.Extra>
+                
                 <Fragment>
+                    {((user && user.role !== 'Company' 
+                        && user.role !== 'Admin') || !user) &&
                     <Button 
                     color='blue'
                     onClick={
-                        () => {
-                            user ?
-                            openModal(<div></div>)
-                            :
-                            history.push('/login')
+                        () => {user ? (
+                            openModal(<div></div>)) : 
+                            history.push('/login')                            
                         }} 
                     style={{ marginTop: '3rem', marginRight: '0.7rem'}}
                     size='medium'
                     >
                         Apply
                     </Button>
+                    }
+                    {user && user.role === 'JobSeeker' &&
                     <Button 
-                        style={{ marginTop: '3rem'}}
-                        size='medium'
-                        color='blue'
-                        inverted
-                        onClick={
-                            () => {
-                                user ?
-                                toast.success("Offer saved")
-                                :
-                                history.push('/login')
-                            }} 
-                    >Save</Button>{' '}
-                </Fragment>     
+                    style={{ marginTop: '3rem'}}
+                    size='medium'
+                    color='blue'
+                    inverted
+                    onClick={() => {
+                        const saved = user.profile.saved.find(e => e.id === offer.id)
+                        if(saved) {
+                            removeOffer(offer.id).then(() => {
+                                toast.success("Offer removed");
+                            }).then(() => getUser())
+                            .catch(error => toast.error(error));
+                        } else {
+                            saveOffer(offer.id).then(() => {
+                                toast.success("Offer saved");
+                            }).then(() => getUser())
+                            .catch(error => toast.error(error));
+                        }
+                    }
+                }
+                >{user.profile.saved.find(e => e.id === offer.id)? 'Unsave' : 'Save'}</Button>}
+                </Fragment>
             </Item.Content>
         </Item>
     )

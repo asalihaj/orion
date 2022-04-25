@@ -21,7 +21,7 @@ const NavBar: React.FC = () => {
         to="/offers">
           Offers
         </Menu.Item>
-        {user && <Menu.Item as={NavLink} to="/saved">
+        {user && user.role === 'JobSeeker' && <Menu.Item as={NavLink} to="/saved">
           Saved
         </Menu.Item>}
         {user ? (

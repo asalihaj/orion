@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 
 const OfferListItem: React.FC<{ offer: IOffer, publisher: IPublisher }> = ({ offer, publisher }) => {
     const rootStore = useContext(RootStoreContext);
+    const { user } = rootStore.userStore;
     const { loadOffer } = rootStore.offerStore;
 
     return (
@@ -20,9 +21,10 @@ const OfferListItem: React.FC<{ offer: IOffer, publisher: IPublisher }> = ({ off
         >
             <Item.Image size='tiny' src='/assets/fb.png' />
             <Item.Content>
+                {user &&
                 <Item.Extra >
                     <OfferOptions offer={offer} />
-                </Item.Extra>
+                </Item.Extra>}
                 <Item.Header>{offer.title}</Item.Header>
                 <div className='company-info'>
                     <Item.Meta as={Link} to='#'>

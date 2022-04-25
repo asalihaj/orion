@@ -41,4 +41,20 @@ export default class JobSeekerStore {
             throw error;
         }
     }
+
+    @action save = async (id: string) => {
+        try {
+            await agent.JobSeeker.save(id);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    @action remove = async (id: string) => {
+        try {
+            await agent.JobSeeker.remove(id);
+        } catch (error) {
+            throw error;
+        }
+    }
 }
