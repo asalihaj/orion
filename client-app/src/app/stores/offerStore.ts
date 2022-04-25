@@ -59,7 +59,6 @@ export default class OfferStore {
         let offer = this.getOffer(id);
         if (offer) {
           this.offer = offer;
-          console.log(offer);
           return offer;
         } else {
           this.loadingInitial = true;

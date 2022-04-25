@@ -17,7 +17,9 @@ const RegisterForm = ({formType}) => {
     username: '',
     email: '',
     password: '',
-    ...(formType === 'company') ? {...companyProfile} : {...jobseekerProfile}
+    errorCode: 0,
+    errorMessage: '',
+    ...(formType === 'company') ? {...companyProfile} : {...jobseekerProfile},
   });
   const [step, setStep] = useState(0);
 

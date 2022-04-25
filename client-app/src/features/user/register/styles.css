@@ -1,3 +1,16 @@
 .top-space {
     margin-top: 20rem !important;
 }
+
+.field-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+}
+
+.error-messsage-container {
+    margin-top: 0px !important;
+    width: auto;
+    color: #9f3a38!important;
+}

@@ -45,9 +45,23 @@ const JobSeekerForm = (props) => {
             .catch(error => ({
                 [FORM_ERROR]: error
             }))
-        }).catch(error => ({
-            [FORM_ERROR]: error
-        }));;
+        }).catch(error => {
+            const errorType = error.data.errors;
+            if(errorType.Email) {
+                values.errorCode = 1;
+                values.errorMessage = errorType.Email;
+            } else if (errorType.Username) {
+                values.errorCode = 2;
+                values.errorMessage = errorType.Username;
+            } else if (errorType.Password) {
+                values.errorCode = 3;
+                values.errorMessage = errorType.Password;
+            } else {
+                values.errorCode = 4;
+                values.errorMessage = 'Something went wrong during registration'
+            }
+            props.prev(values);
+        });
     }
 
     return (
