@@ -5,6 +5,7 @@ import CompanyStore from "./companyStore";
 import JobSeekerStore from "./jobSeekerStore";
 import ModalStore from "./modalStore";
 import OfferStore from "./offerStore";
+import ResumeStore from "./resumeStore";
 import UserStore from "./userStore";
 
 configure({enforceActions: 'always'});
@@ -16,6 +17,7 @@ export class RootStore {
     commonStore: CommonStore;
     companyStore: CompanyStore;
     jobSeekerStore: JobSeekerStore;
+    resumeStore: ResumeStore;
 
     constructor() {
         this.offerStore = new OfferStore(this);
@@ -24,6 +26,7 @@ export class RootStore {
         this.commonStore = new CommonStore(this);
         this.companyStore = new CompanyStore(this);
         this.jobSeekerStore = new JobSeekerStore(this);
+        this.resumeStore = new ResumeStore(this);
     }
 }
 

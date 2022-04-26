@@ -15,9 +15,6 @@ namespace Application.Offers
         public double Salary { get; set; }
         public DateTime ExpDate { get; set; }
         public string Description { get; set; }
-
-        [JsonProperty("publisher")]
-        public CompanyDto Company { get; set; }
         public int Applicants { get; set; }
     }
 }

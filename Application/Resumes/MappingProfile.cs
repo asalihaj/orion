@@ -1,14 +1,15 @@
+using Application.Companies;
+using Application.User;
 using AutoMapper;
 using Domain;
 
-namespace Application.Offers
+namespace Application.Resumes
 {
     public class MappingProfile : Profile
     {
         public MappingProfile()
         {
-            CreateMap<Offer, OfferDto>();
-            CreateMap<Offer, OfferPublisherDto>();
+            CreateMap<Resume, ApplicantDto>();
         }
     }
 }

@@ -1,12 +1,14 @@
 using System;
+using Application.Offers;
+using Application.User;
 
 namespace Application.Reports
 {
     public class ReportDto
     {
-        public Guid OfferId { get; set;}
-        public string Title { get; set;}
+        public OfferDto Offer { get; set;}
         public string Username { get; set;}
         public string Category { get; set;}
+        public string LastUpdated { get; set; }
     }
 }

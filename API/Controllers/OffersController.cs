@@ -14,14 +14,14 @@ namespace API.Controllers
     {
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<List<OfferDto>>> List()
+        public async Task<ActionResult<List<OfferPublisherDto>>> List()
         {
             return await Mediator.Send(new List.Query());
         }
         
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<OfferDto>> Details(Guid id)
+        public async Task<ActionResult<OfferPublisherDto>> Details(Guid id)
         {
             return await Mediator.Send(new Details.Query{Id = id});
         }
@@ -38,7 +38,7 @@ namespace API.Controllers
             UserDto user = await GetUser();
             if (user.Role == "Company")
             {
-                OfferDto offer = await Mediator.Send(new Details.Query{Id = id});
+                OfferPublisherDto offer = await Mediator.Send(new Details.Query{Id = id});
                 if (offer.Company.Id == user.Id)
                 {
                     command.Id = id;
@@ -52,7 +52,7 @@ namespace API.Controllers
         public async Task<ActionResult<Unit>> Delete(Guid id)
         {
             UserDto user = await GetUser();
-            OfferDto offer = await Mediator.Send(new Details.Query{Id = id});
+            OfferPublisherDto offer = await Mediator.Send(new Details.Query{Id = id});
             if (user.Id != offer.Company.Id)
                 throw new RestException(System.Net.HttpStatusCode.Forbidden, "You are not the offer publisher");
 

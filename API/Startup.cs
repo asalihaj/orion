@@ -148,7 +148,7 @@ namespace API
                 {
                     if(users[i].UserName != "rio" && users[i].UserName != "asd")
                         await UserManager.AddToRoleAsync(users[i], "Company");
-                    else
+                    else if(users[i].UserName != "Administrator")
                         await UserManager.AddToRoleAsync(users[i], "JobSeeker");
                 }
                     

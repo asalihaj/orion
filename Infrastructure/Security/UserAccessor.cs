@@ -74,7 +74,7 @@ namespace Infrastructure.Security
                     throw new RestException(HttpStatusCode.BadRequest, 
                         new {error = "User is not registered as a company or jobseeker"});
                 
-                var jsProfile = _mapper.Map<JobSeeker, JobSeekerDto>(jobSeeker);
+                var jsProfile = _mapper.Map<JobSeeker, JSProfileDto>(jobSeeker);
 
                 return jsProfile;
             }

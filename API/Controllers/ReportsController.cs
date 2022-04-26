@@ -22,11 +22,11 @@ namespace API.Controllers
             return await Mediator.Send(new List.Query());
         }
 
-        [HttpGet("q")]
-        public async Task<ActionResult<ReportDto>> Details(string userId, Guid offerId)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List<ReportDto>>> Details(Guid id)
         {
             UserDto user = await GetUser();
-            ReportDto report = await Mediator.Send(new Details.Query{UserId = userId, OfferId = offerId});
+            List<ReportDto> report = await Mediator.Send(new Details.Query{OfferId = id});
 
             if (user.Role != "Admin")
                 throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to complete this action");

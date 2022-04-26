@@ -1,6 +1,8 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Errors;
 using Domain;
 using FluentValidation;
 using MediatR;
@@ -15,7 +17,6 @@ namespace Application.Resumes
             public Guid OfferId { get; set; }
             public string JobSeekerId { get; set; }
             public string CV { get; set; }
-            public DateTime Last_Updated { get; set; }
         }
           public class CommandValidator : AbstractValidator<Command>
         {
@@ -23,10 +24,7 @@ namespace Application.Resumes
             {
                 RuleFor(x => x.OfferId).NotEmpty();
                 RuleFor(x => x.JobSeekerId).NotEmpty();
-               
                 RuleFor(x => x.CV).NotEmpty();
-                RuleFor(x => x.Last_Updated).NotEmpty();
-
             }
         }
 
@@ -41,6 +39,11 @@ namespace Application.Resumes
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                var checkResume = await _context.Resumes.FindAsync(request.OfferId, request.JobSeekerId);
+
+                if(checkResume != null) 
+                    throw new RestException(HttpStatusCode.NotAcceptable, "You already applied");
+                
                 var resume = new Resume
                 {
                     OfferId = request.OfferId,

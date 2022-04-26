@@ -1,12 +1,11 @@
 import { observer } from 'mobx-react-lite';
-import React, { Fragment, useContext } from 'react';
-import { Button, Image, Item } from 'semantic-ui-react';
-import { IOffer } from '../../../app/models/offer';
+import { Fragment, useContext } from 'react';
+import { Button, Item } from 'semantic-ui-react';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import './styles.css';
 import { history } from '../../..';
 import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
+import { IResumeFormValues } from '../../../app/models/resume';
 
 
 const OfferDetailedHeader = () => {
@@ -15,6 +14,22 @@ const OfferDetailedHeader = () => {
     const { openModal } = rootStore.modalStore;
     const { user, getUser } = rootStore.userStore;
     const { save, remove } = rootStore.jobSeekerStore;
+    const { createResume } = rootStore.resumeStore;
+
+    const apply = (cv: string) => {
+        const resume: IResumeFormValues = {
+            offerId: offer.id,
+            jobSeekerId: user.id,
+            cv: cv
+        }
+        createResume(resume)
+        .then(() => {
+            toast.success("Resume sent successfully");
+        })
+        .catch(error => {
+            toast.error(error.data.errors);
+        }) ;
+    }
 
     const saveOffer = (id: string) => {
         return save(id);
@@ -45,7 +60,7 @@ const OfferDetailedHeader = () => {
                     color='blue'
                     onClick={
                         () => {user ? (
-                            openModal(<div></div>)) : 
+                            apply('MY CV')) : 
                             history.push('/login')                            
                         }} 
                     style={{ marginTop: '3rem', marginRight: '0.7rem'}}

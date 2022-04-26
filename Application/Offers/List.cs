@@ -11,12 +11,12 @@ namespace Application.Offers
 {
     public class List
     {
-        public class Query : IRequest<List<OfferDto>>
+        public class Query : IRequest<List<OfferPublisherDto>>
         {
 
         }
 
-        public class Handler : IRequestHandler<Query, List<OfferDto>>
+        public class Handler : IRequestHandler<Query, List<OfferPublisherDto>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -27,11 +27,11 @@ namespace Application.Offers
                 _context = context;
 
             }
-            public async Task<List<OfferDto>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<OfferPublisherDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var offers = await _context.Offers.ToListAsync();
 
-                var offerList = _mapper.Map<List<Offer>, List<OfferDto>>(offers);
+                var offerList = _mapper.Map<List<Offer>, List<OfferPublisherDto>>(offers);
 
                 var resumes = await _context.Resumes.ToListAsync();
 

@@ -14,7 +14,7 @@ namespace Application.Resumes
     {
         public class Query : IRequest<List<ApplicantDto>>
         {
-
+            public string Id { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, List<ApplicantDto>>
@@ -30,9 +30,11 @@ namespace Application.Resumes
             }
             public async Task<List<ApplicantDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var resumes = await _context.Resumes.ToListAsync();
+                List<Resume> resumes = await _context.Resumes.ToListAsync();
 
-                var resumeList = _mapper.Map<List<Resume>, List<ApplicantDto>>(resumes);
+                List<Resume> companyResumes = resumes.FindAll(x => x.Offer.CompanyId == request.Id);
+
+                var resumeList = _mapper.Map<List<Resume>, List<ApplicantDto>>(companyResumes);
 
                 return resumeList;
             }

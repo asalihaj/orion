@@ -22,7 +22,7 @@ namespace API.Controllers
 
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<JobSeeker>> Details(string id)
+        public async Task<ActionResult<JobSeekerDto>> Details(string id)
         {
             return await Mediator.Send(new Details.Query{Id = id});
         }

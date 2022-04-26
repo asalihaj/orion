@@ -5,9 +5,7 @@ using Application.Errors;
 using Application.Resumes;
 using Application.User;
 using Application.Offers;
-using Domain;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -18,7 +16,11 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<ApplicantDto>>> List()
         {
-            return await Mediator.Send(new Application.Resumes.List.Query());
+            UserDto user = await GetUser();
+            if (user.Role != "Company")
+                throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to view resumes");
+                
+            return await Mediator.Send(new Application.Resumes.List.Query{Id = user.Id});
         }
 
         [HttpGet("q")]
@@ -26,7 +28,7 @@ namespace API.Controllers
         {
             UserDto user = await GetUser();
             ApplicantDto resume = await Mediator.Send(new Application.Resumes.Details.Query{JobSeeker = id, Offer = offerId});
-            OfferDto offer = await Mediator.Send(new Application.Offers.Details.Query{Id = resume.OfferId});
+            OfferPublisherDto offer = await Mediator.Send(new Application.Offers.Details.Query{Id = resume.Offer.Id});
 
             if (offer.Company.Id != user.Id && user.Role != "Admin")
                 throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to view this resume");
