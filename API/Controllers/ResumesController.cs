@@ -40,8 +40,9 @@ namespace API.Controllers
         public async Task<ActionResult<Unit>> Create(Application.Resumes.Create.Command command)
         {
             UserDto user = await GetUser();
-            if (user.Role != "JobSeeker")
-                throw new RestException(System.Net.HttpStatusCode.Forbidden, "You need to be a JobSeeker to apply to this offer");
+            if (user.Role != "JobSeeker" || user.Id != command.JobSeekerId)
+                throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to complete this action");
+                
             return await Mediator.Send(command);
         }
     }

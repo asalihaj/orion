@@ -6,6 +6,7 @@ import { IOffer } from "../models/offer";
 import { IUser, IUserFormValues } from "../models/user";
 import { IJobSeeker, JobSeekerFormValues } from "../models/jobseeker";
 import { IResume, IResumeFormValues } from "../models/resume";
+import { IReport, IReportFormValues } from "../models/report";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 
@@ -103,10 +104,17 @@ const Resumes = {
   create: (resume: IResumeFormValues) => requests.post("/resumes", resume),
 };
 
+const Reports = {
+  list: (): Promise<IReport[]> => requests.get("/reports"),
+  details: (offerId: string) => requests.get(`/resumes/${offerId}`),
+  create: (report: IReportFormValues) => requests.post("/reports", report)
+}
+
 export default {
   Offers,
   User,
   Company,
   JobSeeker,
   Resumes,
+  Reports
 };

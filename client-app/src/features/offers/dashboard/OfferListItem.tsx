@@ -1,10 +1,9 @@
-import React, { Fragment, useContext } from 'react';
-import { Button, Divider, Grid, Item, Label, Image, Header, Segment, Container } from 'semantic-ui-react';
+import React, { useContext } from 'react';
+import { Item, Label } from 'semantic-ui-react';
 import { IOffer, IPublisher } from '../../../app/models/offer';
 import './styles.css';
 import { format } from 'date-fns';
 import { RootStoreContext } from '../../../app/stores/rootStore';
-import { history } from '../../..';
 import OfferOptions from './OfferOptions';
 import { Link } from 'react-router-dom';
 
@@ -37,7 +36,7 @@ const OfferListItem: React.FC<{ offer: IOffer, publisher: IPublisher }> = ({ off
                 <Item.Extra>
                     <div className='company-info row'>
                         <Label>{format(offer.expDate!, 'dd/MM/yyyy')}</Label>
-                        <Item.Description>{offer.applicants.length} applicants</Item.Description>
+                        <Item.Description>{offer.applicants} {offer.applicants != 1 ? 'applicants' : 'applicant'}</Item.Description>
                     </div>
                 </Item.Extra>
             </Item.Content>

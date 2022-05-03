@@ -115,10 +115,11 @@ const CompanyForm = (props) => {
                     color='linkedin'
                     size='large'
                     circular>
-                    Register
+                        Register
                     <Icon name='sign-in' corner='top right' />
                     </Button>
-                <Button
+                <Button 
+                    animated
                     onClick={() => props.prev(values)}
                     loading={submitting}
                     color='instagram'
@@ -126,7 +127,10 @@ const CompanyForm = (props) => {
                     size='large'
                     circular
                 >
-                    Back
+                    <Button.Content visible>Back</Button.Content>
+                    <Button.Content hidden>
+                        <Icon name='arrow left' />
+                    </Button.Content>
                 </Button>
                     
             </Form>

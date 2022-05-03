@@ -1,10 +1,11 @@
-import { Fragment, useState } from "react";
-import { Icon, Step } from "semantic-ui-react";
+import { useState } from "react";
+import { Button, Container, Icon, Label, Step } from "semantic-ui-react";
 import FormContainer from "../../../../app/common/form/FormContainer";
 import { CompanyFormValues } from "../../../../app/models/company";
 import { JobSeekerFormValues } from "../../../../app/models/jobseeker";
 import CompanyForm from "./CompanyForm";
 import JobSeekerForm from "./JobSeekerForm";
+import { history } from "../../../..";
 
 import UserForm from "./UserForm";
 
@@ -49,7 +50,7 @@ const RegisterForm = ({formType}) => {
       data={data} />];
   
   return (
-      <FormContainer form={steps[step]} header={<RegisterSteps currentStep={step} type={formType} />} />
+      <FormContainer form={steps[step]} header={<RegisterSteps currentStep={step} type={formType} />} footer={<Back />} />
   );
 }
 
@@ -69,6 +70,20 @@ const RegisterSteps = ({currentStep, type}) => {
       </Step.Content>
     </Step>
   </Step.Group>
+
+  )
+}
+
+const Back = () => {
+  return (
+    <Button 
+      labelPosition='left'
+      icon='arrow left'
+      content='Back'
+      basic
+      floated='left'
+      onClick={() => history.push('/register')}
+      />
   )
 }
 

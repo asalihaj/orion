@@ -1,6 +1,6 @@
 import { Field, Form as FinalForm } from 'react-final-form';
 import { combineValidators, isRequired } from 'revalidate';
-import { Button, Form, Header, Label, Message } from 'semantic-ui-react';
+import { Button, Form, Header, Icon, Label, Message } from 'semantic-ui-react';
 import ErrorMessage from '../../../../app/common/form/ErrorMessage';
 import TextInput from '../../../../app/common/form/TextInput';
 import FileInput from '../../../../app/common/form/FileInput';
@@ -110,14 +110,18 @@ const UserForm = (props) => {
                         text='Invalid email or password'
                         />
                     )}
-                    <Button
+                    <Button animated
                         disabled={invalid && !dirtySinceLastSubmit}
                         loading={submitting}
                         primary
-                        size='large'
+                        size='medium'
                         floated='right'
-                        circular>
-                        Next
+                        >
+                            <Button.Content visible>Next</Button.Content>
+                            <Button.Content hidden>
+                                <Icon name='arrow right' />
+                            </Button.Content>
+
                     </Button>
                 </Form>
             )}

@@ -15,17 +15,16 @@ const OfferDetailedInfo = () => {
                     marginBottom: '2rem'
                 }}>
                     <Grid.Column width={8}>
-                        <Header as='h5'>Job</Header>
-                        <List as='ul'>
-                            <List.Item as='li'>{offer.applicants.length} applicants</List.Item>
-                            <List.Item as='li'>{offer.schedule}</List.Item>
+                        <Header as='h5'>Job details</Header>
+                        <List>
+                            <List.Item><b>Schedule:</b> {offer.schedule}</List.Item>
+                            <List.Item><b>Salary:</b> {offer.salary}</List.Item>
                         </List>
                     </Grid.Column>
                     <Grid.Column width={8}>
                         <Header as='h5'>Company</Header>
-                        <List as='ul'>
-                            <List.Item as='li'>100-150 employees</List.Item>
-                            <List.Item as='li'>Information Technology</List.Item>
+                        <List>
+                            <List.Item><b>Category:</b> {offer.category}</List.Item>
                         </List>
                     </Grid.Column>
                 </Grid>

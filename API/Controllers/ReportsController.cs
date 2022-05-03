@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using Application.Errors;
+using Application.Offers;
 using Application.Reports;
 using Application.User;
 using Domain;
@@ -19,24 +21,31 @@ namespace API.Controllers
             if (user.Role != "Admin")
                 throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to complete this action");
                 
-            return await Mediator.Send(new List.Query());
+            return await Mediator.Send(new Application.Reports.List.Query());
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<List<ReportDto>>> Details(Guid id)
+        [HttpGet("q")]
+        public async Task<ActionResult<ReportDto>> Details(Guid offerId, string username)
         {
             UserDto user = await GetUser();
-            List<ReportDto> report = await Mediator.Send(new Details.Query{OfferId = id});
-
             if (user.Role != "Admin")
                 throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to complete this action");
+
+            ReportDto report = await Mediator.Send(new Application.Reports.Details.Query{OfferId = offerId, Username = username});
 
             return report;
         }
 
         [HttpPost]
-        public async Task<ActionResult<Unit>> Create(Create.Command command)
+        public async Task<ActionResult<Unit>> Create(Application.Reports.Create.Command command)
         {
+            UserDto user = await GetUser();
+
+            OfferPublisherDto offer = await Mediator.Send(new Application.Offers.Details.Query{Id = command.OfferId});
+            if(user.Id == offer.Company.Id)
+                throw new RestException(HttpStatusCode.Forbidden, "You can't report your own offer");
+            
+            command.UserId = user.Id;
             return await Mediator.Send(command);
         }
 

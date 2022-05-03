@@ -1,5 +1,3 @@
-import { string } from "yup";
-
 export interface IOffer {
     id: string;
     publisher: IPublisher;
@@ -10,8 +8,7 @@ export interface IOffer {
     salary: string;
     expDate: Date;
     description: string;
-    applicants: IApplicants[];
-    reports: IReports[];
+    applicants: number;
 }
 
 export interface IOfferFormValues extends Partial<IOffer> {
@@ -50,9 +47,4 @@ export interface IApplicants {
     lastName: string;
     cv: string;
     lastUpdated: Date;
-}
-
-export interface IReports {
-    username: string;
-    category: string;
 }

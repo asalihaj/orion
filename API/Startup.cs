@@ -113,7 +113,7 @@ namespace API
             app.UseAuthentication();
             app.UseCors("CorsPolicy");
             app.UseMvc();
-            CreateRoles(services).Wait();
+            //CreateRoles(services).Wait();
         }
 
         private async Task CreateRoles(IServiceProvider serviceProvider)

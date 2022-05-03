@@ -1,6 +1,8 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Errors;
 using Domain;
 using MediatR;
 using Persistence;
@@ -12,9 +14,8 @@ namespace Application.Reports
         public class Command : IRequest
         {
             public string UserId { get; set; }
-            public Offer Offer { get; set; }
+            public Guid OfferId { get; set; }
             public string Category { get; set; }
-            public DateTime LastUpdated { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -27,12 +28,17 @@ namespace Application.Reports
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                var checkReport = await _context.Reports.FindAsync(request.UserId ,request.OfferId);
+
+                if(checkReport != null)
+                    throw new RestException(HttpStatusCode.NotAcceptable, "You already reported this offer");
+
                 var report = new Report
                 {
                     UserId = request.UserId,
-                    Offer = request.Offer,
+                    OfferId = request.OfferId,
                     Category = request.Category,
-                    LastUpdated = request.LastUpdated
+                    LastUpdated = DateTime.Now
                 };
 
                 _context.Reports.Add(report);

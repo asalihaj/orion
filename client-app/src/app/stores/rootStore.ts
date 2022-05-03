@@ -5,6 +5,7 @@ import CompanyStore from "./companyStore";
 import JobSeekerStore from "./jobSeekerStore";
 import ModalStore from "./modalStore";
 import OfferStore from "./offerStore";
+import ReportStore from "./reportStore";
 import ResumeStore from "./resumeStore";
 import UserStore from "./userStore";
 
@@ -18,6 +19,7 @@ export class RootStore {
     companyStore: CompanyStore;
     jobSeekerStore: JobSeekerStore;
     resumeStore: ResumeStore;
+    reportStore: ReportStore;
 
     constructor() {
         this.offerStore = new OfferStore(this);
@@ -27,6 +29,7 @@ export class RootStore {
         this.companyStore = new CompanyStore(this);
         this.jobSeekerStore = new JobSeekerStore(this);
         this.resumeStore = new ResumeStore(this);
+        this.reportStore = new ReportStore(this);
     }
 }
 

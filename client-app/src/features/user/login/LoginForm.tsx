@@ -21,7 +21,7 @@ const LoginForm = () => {
         <FinalForm
         onSubmit={(values: IUserFormValues) => 
             login(values).catch(error => ({
-                [FORM_ERROR]: error
+                [FORM_ERROR]: error.data.errors
             }))
         }
         validate={validate}
@@ -53,7 +53,7 @@ const LoginForm = () => {
             {submitError && !dirtySinceLastSubmit && (
                 <ErrorMessage
                 error={submitError}
-                text='Invalid email or password'
+                text={submitError}
                 />
             )}
             <Button

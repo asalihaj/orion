@@ -128,7 +128,7 @@ const JobSeekerForm = (props) => {
                     Register
                     <Icon name='sign-in' corner='top right' />
                     </Button>
-                <Button
+                <Button animated
                     onClick={() => props.prev(values)}
                     loading={submitting}
                     color='twitter'
@@ -136,7 +136,10 @@ const JobSeekerForm = (props) => {
                     size='large'
                     circular
                 >
-                    Back
+                    <Button.Content visible>Back</Button.Content>
+                    <Button.Content>
+                        <Icon name='arrow left'/>
+                    </Button.Content>
                 </Button>
             </Form>
         )}

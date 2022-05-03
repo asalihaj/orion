@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useState } from "react";
-import { Menu, Container, Button, Dropdown, Image } from "semantic-ui-react";
+import { Menu, Container, Button, Dropdown, Image, Header } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import { Link, NavLink } from "react-router-dom";
 import { RootStoreContext } from "../../app/stores/rootStore";
@@ -11,18 +11,31 @@ const NavBar: React.FC = () => {
 
   return (
     <Menu
-    inverted>
+    inverted
+    borderless
+    >
       <Container style={{ padding: '0' }}>
+        <Menu.Item className="item-padding" >
+          <Header className="nav-item-color">
+          <Image className="logo" size='tiny' src='/assets/logo.png' />
+            <Header.Content>
+              ORION
+              <Header.Subheader className="nav-description">CONNECT TO OPPORTUNITY</Header.Subheader>
+            </Header.Content>
+          </Header>
+        </Menu.Item>
         <Menu.Item
-        className='nav-item'
-        header
         exact 
         as={NavLink} 
         to="/offers">
-          Offers
+          <Header className='nav-item-weight nav-item-color' as='h4'>
+            OFFERS
+          </Header>
         </Menu.Item>
         {user && user.role === 'JobSeeker' && <Menu.Item as={NavLink} to="/saved">
-          Saved
+          <Header className='nav-item-weight nav-item-color' as='h4'>
+            SAVED
+          </Header>
         </Menu.Item>}
         {user ? (
           <Menu.Item position="right">

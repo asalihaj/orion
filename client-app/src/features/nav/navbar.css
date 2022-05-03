@@ -6,6 +6,24 @@
     background-color: rgb(33 133 208);
 }
 
-.nav-item {
+.nav-item-weight {
+    font-weight: 400 !important;
+}
+
+.nav-item-color {
     color: white !important;
+}
+.logo {
+    width: 45px !important;
+    color: #fffcf2 !important;
+}
+
+.nav-description {
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    color: #fffcf2 !important;
+}
+
+.item-padding {
+    padding: 5px !important;
 }

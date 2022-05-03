@@ -79,7 +79,7 @@ namespace Application.User
                         };
                     
                 }
-                throw new RestException(HttpStatusCode.Unauthorized);
+                throw new RestException(HttpStatusCode.Unauthorized, "The password you've entered is incorrect.");
             }
         }
     }

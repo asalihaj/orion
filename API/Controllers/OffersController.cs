@@ -29,6 +29,11 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<Unit>> Create(Create.Command command)
         {
+            UserDto user = await GetUser();
+
+            if (user.Role != "Company")
+                throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to complete this action");
+
             return await Mediator.Send(command);
         }
 

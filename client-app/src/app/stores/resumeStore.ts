@@ -1,5 +1,5 @@
 import { observable, action, configure, runInAction } from 'mobx';
-import { IResume } from '../models/resume';
+import { IResume, IResumeFormValues } from '../models/resume';
 import agent from '../api/agent';
 import { RootStore } from './rootStore';
 
@@ -29,6 +29,7 @@ export default class ResumeStore {
         } catch (error) {
             runInAction(() => {
                 console.log(error)
+                throw error;
             });
         }
     }
@@ -48,7 +49,8 @@ export default class ResumeStore {
                 return resume;
             } catch (error) {
                 runInAction(() => {
-                    console.log(error)
+                    console.log(error);
+                    throw error;
                 });
             }
         }
@@ -62,7 +64,7 @@ export default class ResumeStore {
         this.resume = null;
     } 
 
-    @action createResume = async (resume: IResume) => {
+    @action createResume = async (resume: IResumeFormValues) => {
         this.submitting = true;
         try {
             await agent.Resumes.create(resume);
