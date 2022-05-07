@@ -1,21 +1,21 @@
 import { observer } from "mobx-react-lite";
 import { Fragment, useContext, useEffect } from "react";
-import { Route, Switch, withRouter } from "react-router-dom";
+import { Route, RouteComponentProps, Switch, withRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { Container } from "semantic-ui-react";
 import HomePage from "../../features/home/HomePage";
 import NavBar from "../../features/nav/NavBar";
 import OfferDashboard from "../../features/offers/dashboard/OfferDashboard";
 import Login from "../../features/user/login/Login";
+import OfferForm from "../../features/offers/form/OfferForm";
 import Register from "../../features/user/register/Register";
 import ModalContainer from "../common/modals/ModalContainer";
 import { RootStoreContext } from "../stores/rootStore";
-import LoadingComponent from "./LoadingComponent";
 import NotFound from "./NotFound";
 
-const App = () => {
+const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
-  const { appLoaded, token, setAppLoaded } = rootStore.commonStore;
+  const { token, setAppLoaded } = rootStore.commonStore;
   const { getUser, user } = rootStore.userStore;
 
   useEffect(() => {
@@ -25,8 +25,6 @@ const App = () => {
       setAppLoaded();
     }
   }, [getUser, setAppLoaded, token]);
-
-  if(!appLoaded) return <LoadingComponent content='Loading app...'/>
 
   return (
     <Fragment>
@@ -40,6 +38,10 @@ const App = () => {
         <Fragment>
           <Container style={{ padding: '0' }}>
             <Switch>
+              <Route 
+                key={location.key}
+                path={['/offers/create', '/offers/:id/edit']}
+                component={withRouter(OfferForm)} />
               <Route path='/offers'  component={withRouter(OfferDashboard)} />
               {user && user.role === 'JobSeeker' && <Route path='/saved'  component={withRouter(OfferDashboard)} />}              
               <Route path='/login' component={Login} />

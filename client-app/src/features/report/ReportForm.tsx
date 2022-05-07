@@ -37,15 +37,13 @@ const ReportForm: React.FC<{ offer: IOffer }> = ({offer}) => {
     }
 
     return (
-        <Form size='big' onSubmit={handleSubmit}>
-            
+        <Form size='big'>
             <Header
                 as='h3'
                 content='Please select a problem'
                 color='black'
                 textAlign='left'
             />
-            
             <Form.Field>
                 <Radio 
                     label='Hate Speech'
@@ -86,8 +84,8 @@ const ReportForm: React.FC<{ offer: IOffer }> = ({offer}) => {
                 <Radio 
                     label='Intellectual property violation'
                     name='reportGroup'
-                    value='copyright'
-                    checked={value === 'copyright'}
+                    value='ipv'
+                    checked={value === 'ipv'}
                     onChange={handleChange}
                 />
             </Form.Field>
@@ -97,6 +95,7 @@ const ReportForm: React.FC<{ offer: IOffer }> = ({offer}) => {
                 primary
                 size='small'
                 attached='bottom'
+                onClick={handleSubmit}
             >
                 Submit
             </Button>

@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import { Fragment, useContext } from 'react';
 import { Grid, Header, Item, List } from 'semantic-ui-react';
 import { RootStoreContext } from '../../../app/stores/rootStore';
@@ -25,6 +26,7 @@ const OfferDetailedInfo = () => {
                         <Header as='h5'>Company</Header>
                         <List>
                             <List.Item><b>Category:</b> {offer.category}</List.Item>
+                            <List.Item><b>Ends in:</b> {format(offer.expDate!, 'dd/MM/yyyy HH:mm')}</List.Item>
                         </List>
                     </Grid.Column>
                 </Grid>

@@ -10,6 +10,8 @@ export const DateInput: React.FC<IProps> = ({
     width,
     date = false,
     time = false,
+    min,
+    max,
     placeholder, 
     meta: {touched, error},
     ...rest
@@ -17,6 +19,8 @@ export const DateInput: React.FC<IProps> = ({
     return (
         <Form.Field error={touched && !!error} width={width}>
             <DateTimePicker
+                min={min}
+                max={max}
                 placeholder={placeholder}
                 value={input.value || null}
                 date={date}
@@ -24,7 +28,7 @@ export const DateInput: React.FC<IProps> = ({
                 onChange={input.onChange}
             />
             {touched && error && (
-                <Label basic color='red'>
+                <Label basic prompt  pointing='above' color='red'>
                     {error}
                 </Label>
             )}

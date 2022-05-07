@@ -108,16 +108,19 @@ const CompanyForm = (props) => {
                     />
                 )}
                 <Button
+                    animated
                     disabled={invalid}
                     loading={submitting}
                     type='submit'
                     floated='right'
-                    color='linkedin'
+                    primary
                     size='large'
                     circular>
-                        Register
-                    <Icon name='sign-in' corner='top right' />
-                    </Button>
+                        <Button.Content visible>Register</Button.Content>
+                        <Button.Content hidden>
+                        <Icon name='sign-in' corner='top right' />
+                        </Button.Content>
+                </Button>
                 <Button 
                     animated
                     onClick={() => props.prev(values)}

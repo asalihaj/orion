@@ -71,11 +71,11 @@ export default class OfferStore {
               this.loadingInitial = false;
             });
             return offer;
-          } catch (e) {
+          } catch (error) {
             runInAction(() => {
               this.loadingInitial = false;
+              throw error;
             });
-            console.log(e);
           }
         }
       }
@@ -92,16 +92,17 @@ export default class OfferStore {
         this.submitting = true;
         try {
           await agent.Offers.create(offer);
+          const offerToSave = await agent.Offers.details(offer.id)
           runInAction(() => {
-            this.offerRegistry.set(offer.id, offer);
+            this.offerRegistry.set(offerToSave.id, offerToSave);
             this.submitting = false;
           });
           // history.push(`/offers/${offer.id}`);
         } catch (error) {
           runInAction(() => {
             this.submitting = false;
+            throw error;
           })
-          console.log(error);
         }
       };
     
@@ -109,7 +110,6 @@ export default class OfferStore {
         this.submitting = true;
         try {
           await agent.Offers.update(offer);
-          console.log(offer.title + " :: " + offer.salary);
           runInAction(() => {
             this.offerRegistry.set(offer.id, offer);
             this.offer = offer;
@@ -118,8 +118,8 @@ export default class OfferStore {
         } catch (error) {
           runInAction(() => {
             this.submitting = false;
+            throw error;
           })
-          console.log(error);
         }
       };
     
@@ -132,7 +132,9 @@ export default class OfferStore {
             this.submitting = false;
           })
         } catch (error) {
-          console.log(error);
+          runInAction(() => {
+            throw error;
+          })
         }
       };
     

@@ -118,6 +118,7 @@ const JobSeekerForm = (props) => {
                     />
                 )}
                 <Button
+                    animated
                     disabled={invalid}
                     loading={submitting}
                     type='submit'
@@ -125,10 +126,13 @@ const JobSeekerForm = (props) => {
                     primary
                     size='large'
                     circular>
-                    Register
-                    <Icon name='sign-in' corner='top right' />
-                    </Button>
-                <Button animated
+                        <Button.Content visible>Register</Button.Content>
+                        <Button.Content hidden>
+                        <Icon name='sign-in' corner='top right' />
+                        </Button.Content>
+                </Button>
+                <Button 
+                    animated
                     onClick={() => props.prev(values)}
                     loading={submitting}
                     color='twitter'
@@ -137,7 +141,7 @@ const JobSeekerForm = (props) => {
                     circular
                 >
                     <Button.Content visible>Back</Button.Content>
-                    <Button.Content>
+                    <Button.Content hidden>
                         <Icon name='arrow left'/>
                     </Button.Content>
                 </Button>

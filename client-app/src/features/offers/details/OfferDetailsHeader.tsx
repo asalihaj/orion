@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { Fragment, useContext } from 'react';
+import { Fragment, useContext, useState } from 'react';
 import { Button, Item } from 'semantic-ui-react';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import './styles.css';
@@ -31,12 +31,20 @@ const OfferDetailedHeader = () => {
         }) ;
     }
 
-    const saveOffer = (id: string) => {
-        return save(id);
+    const saveOffer = () => {
+        save(offer.id)
+        .then(() => {
+            toast.info("Offer saved");
+        }).then(() => getUser())
+        .catch(error => toast.error(error));
     }
 
-    const removeOffer = (id: string) => {
-        return remove(id);
+    const removeOffer = () => {
+        remove(offer.id)
+        .then(() => {
+            toast.info("Offer removed");
+        }).then(() => getUser())
+        .catch(error => toast.error(error));;
     }
     
     return (     
@@ -78,15 +86,9 @@ const OfferDetailedHeader = () => {
                     onClick={() => {
                         const saved = user.profile.saved.find(e => e.id === offer.id)
                         if(saved) {
-                            removeOffer(offer.id).then(() => {
-                                toast.success("Offer removed");
-                            }).then(() => getUser())
-                            .catch(error => toast.error(error));
+                            removeOffer()
                         } else {
-                            saveOffer(offer.id).then(() => {
-                                toast.success("Offer saved");
-                            }).then(() => getUser())
-                            .catch(error => toast.error(error));
+                            saveOffer()
                         }
                     }
                 }

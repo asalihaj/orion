@@ -1,19 +1,22 @@
 import { useContext, useEffect } from 'react';
-import { Grid } from 'semantic-ui-react';
+import { Button, Grid } from 'semantic-ui-react';
 import OfferList from './OfferList';
 import { observer } from 'mobx-react-lite';
 import OfferDetails from '../details/OfferDetails';
 import { RootStoreContext } from '../../../app/stores/rootStore';
+import OfferStore from '../../../app/stores/offerStore';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
 
-const OfferDashboard = () => {
+const OfferDashboard:React.FC = () => {
     const rootStore = useContext(RootStoreContext);
-    const { offer, loadOffers, clearOffer } = rootStore.offerStore;
-    const { user } = rootStore.userStore;
+    const { offer, loadOffers, loadingInitial } = rootStore.offerStore;
 
     useEffect(() => {
         loadOffers();
-    }, [loadOffers, user]);
+    }, [loadOffers]);
 
+    if (loadingInitial)
+        return <LoadingComponent content='Loading offers' />;
 
     return (
             <Grid style={{ marginTop: '5rem' }}>

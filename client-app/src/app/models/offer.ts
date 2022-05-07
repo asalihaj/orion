@@ -23,8 +23,8 @@ export class OfferFormValues implements IOfferFormValues {
     location: string = '';
     schedule: string = '';
     salary: string = '';
-    time?: Date = undefined;
     expDate?: Date = undefined;
+    time?: Date = undefined;
     description: string = '';
 
     constructor(init?: IOfferFormValues) {

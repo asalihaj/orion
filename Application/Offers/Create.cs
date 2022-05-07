@@ -23,7 +23,6 @@ namespace Application.Offers
             public double Salary { get; set; }
             public DateTime ExpDate { get; set; }
             public string Description { get; set; }
-            public string File { get; set; }
         }
         public class CommandValidator : AbstractValidator<Command>
         {
@@ -33,7 +32,6 @@ namespace Application.Offers
                 RuleFor(x => x.Description).NotEmpty();
                 RuleFor(x => x.Category).NotEmpty();
                 RuleFor(x => x.Id).NotEmpty();
-                RuleFor(x => x.CompanyId).NotEmpty();
                 RuleFor(x => x.Location).NotEmpty();
                 RuleFor(x => x.Schedule).NotEmpty();
                 RuleFor(x => x.Salary).NotEmpty();

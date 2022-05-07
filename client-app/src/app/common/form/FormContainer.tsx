@@ -1,6 +1,4 @@
-import { Container, Grid, Message, Segment } from "semantic-ui-react";
-import { RootStoreContext } from "../../stores/rootStore";
-import { useContext } from "react";
+import { Container, Grid, Segment } from "semantic-ui-react";
 
 const FormContainer = ({form, header = null, footer = null}) => {
     return (

@@ -1,5 +1,5 @@
 import { FieldRenderProps } from "react-final-form";
-import { Form, FormFieldProps, Label, Radio } from "semantic-ui-react";
+import { Form, FormFieldProps, Radio } from "semantic-ui-react";
 
 interface IProps extends FieldRenderProps<string, HTMLInputElement>, FormFieldProps {}
 

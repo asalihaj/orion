@@ -12,16 +12,13 @@ const OfferOptions: React.FC<{ offer: IOffer }> = ({offer}) => {
     const { openModal } = rootStore.modalStore;
     const { save, remove } = rootStore.jobSeekerStore;
     const { deleteOffer } = rootStore.offerStore;
-    const { createReport } = rootStore.reportStore;
 
-    const [saved, setSaved] = useState(user.profile.saved.find(e => e.id === offer.id));
     
 
     const saveOffer = () => {
         save(offer.id)
         .then(() => {
-            toast.success("Offer saved");
-            setSaved(true);
+            toast.info("Offer saved");
         }).then(() => getUser())
         .catch(error => toast.error(error));
     }
@@ -29,8 +26,7 @@ const OfferOptions: React.FC<{ offer: IOffer }> = ({offer}) => {
     const removeOffer = () => {
         remove(offer.id)
         .then(() => {
-            toast.success("Offer removed");
-            setSaved(false);
+            toast.info("Offer removed");
         }).then(() => getUser())
         .catch(error => toast.error(error));;
     }
@@ -48,7 +44,7 @@ const OfferOptions: React.FC<{ offer: IOffer }> = ({offer}) => {
                     <Dropdown.Menu>
                         <Dropdown.Item 
                         text='Edit'
-                        onClick={() => history.push(`/${offer.id}/edit`)}
+                        onClick={() => history.push(`/offers/${offer.id}/edit`)}
                         />
                         <Dropdown.Item 
                         text='Delete' 
@@ -59,8 +55,9 @@ const OfferOptions: React.FC<{ offer: IOffer }> = ({offer}) => {
                     <Dropdown.Menu>
                         {user.role === 'JobSeeker' &&  
                             <Dropdown.Item 
-                            text= {saved ? 'Unsave' : 'Save'}
+                            text= {user.profile.saved.find(e => e.id === offer.id) ? 'Unsave' : 'Save'}
                             onClick={() => {
+                                    const saved = user.profile.saved.find(e => e.id === offer.id)
                                     if(saved) {
                                         removeOffer();
                                     } else {
@@ -69,8 +66,6 @@ const OfferOptions: React.FC<{ offer: IOffer }> = ({offer}) => {
                                 }
                             }
                             />
-                               
-
                         }
                         {user.role === 'Admin' &&
                             <Dropdown.Item 

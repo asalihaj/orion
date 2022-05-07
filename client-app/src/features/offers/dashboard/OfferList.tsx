@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import OfferListItem from './OfferListItem';
-import { Card, Container, Divider, Item, Segment } from 'semantic-ui-react';
+import { Card, Container, Divider, Header, Icon, Item, Message, Segment } from 'semantic-ui-react';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 
 const OfferList = () => {
@@ -10,6 +10,10 @@ const OfferList = () => {
     const { getOffers } = rootStore.offerStore;
     const { user } = rootStore.userStore;
     const offers = url === '/saved' ? user.profile.saved : getOffers();
+
+    useEffect(() => {
+        getOffers();
+    }, [getOffers]);
     
     return (
         <Item.Group>
@@ -17,9 +21,10 @@ const OfferList = () => {
                 <OfferListItem key={offer.id} offer={offer} publisher={offer.publisher} />
             ))) :
             (
+                (offers.length !== 0 && 
                 offers.map(offer => (
                     <OfferListItem key={offer.id} offer={offer} publisher={offer.publisher} />
-                ))
+                ))) || <Message warning icon='content' header="You haven't saved any offers yet!" content="Once saved, offers will be displayed here." />
             )
             }
             {/* {offers.map(([group, offers]) => (

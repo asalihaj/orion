@@ -7,6 +7,7 @@ using Application.User;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace API.Controllers
 {   
@@ -32,8 +33,9 @@ namespace API.Controllers
             UserDto user = await GetUser();
 
             if (user.Role != "Company")
-                throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to complete this action");
+                throw new RestException(HttpStatusCode.Forbidden, "You don't have premission to complete this action");
 
+            command.CompanyId = user.Id;
             return await Mediator.Send(command);
         }
 
@@ -50,7 +52,7 @@ namespace API.Controllers
                     return await Mediator.Send(command);
                 }
             }
-            throw new RestException(System.Net.HttpStatusCode.Forbidden, "You are not the offer publisher");
+            throw new RestException(HttpStatusCode.Forbidden, "You are not the offer publisher");
         }
 
         [HttpDelete("{id}")]
@@ -59,7 +61,7 @@ namespace API.Controllers
             UserDto user = await GetUser();
             OfferPublisherDto offer = await Mediator.Send(new Details.Query{Id = id});
             if (user.Id != offer.Company.Id)
-                throw new RestException(System.Net.HttpStatusCode.Forbidden, "You are not the offer publisher");
+                throw new RestException(HttpStatusCode.Forbidden, "You are not the offer publisher");
 
             return await Mediator.Send(new Application.Offers.Delete.Command{Id = id});
         }

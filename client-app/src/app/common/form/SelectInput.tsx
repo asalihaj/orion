@@ -20,7 +20,7 @@ const SelectInput: React.FC<IProps> = ({
                 options={options}
             />
             {touched && error && (
-                <Label basic color='red'>
+                <Label basic prompt  pointing='above' color='red'>
                     {error}
                 </Label>
             )}
