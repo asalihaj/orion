@@ -29,6 +29,7 @@ namespace Persistence
             BuildResume(builder);
             BuildJobSeeker(builder);  
             BuildSavedOffer(builder);
+            BuildPhoto(builder);
         }
 
         private void BuildSavedOffer(ModelBuilder builder)
@@ -51,6 +52,12 @@ namespace Persistence
         {
             builder.Entity<JobSeeker>(x => x.HasKey(js =>
             new {js.UserId}));
+        }
+
+        private void BuildPhoto(ModelBuilder builder)
+        {
+            builder.Entity<Photo>(x => x.HasKey(p =>
+            new {p.UserId}));
         }
 
         private void BuildCompany(ModelBuilder builder)

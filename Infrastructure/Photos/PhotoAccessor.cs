@@ -1,8 +1,10 @@
-using System;
+using System.IO;
+using System.Threading.Tasks;
 using Application.Interfaces;
 using Application.Photos;
-using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
+using Dropbox.Api;
+using Dropbox.Api.Files;
+using Infrastructure.Dropbox;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
@@ -11,51 +13,52 @@ namespace Infrastructure.Photos
     public class PhotoAccessor : IPhotoAccessor
     {
 
-        private readonly Cloudinary _cloudinary;
-        public PhotoAccessor(IOptions<CloudinarySettings> config)
+        private readonly DropboxClient _dropbox;
+        public PhotoAccessor(IOptions<DropboxSettings> config)
         {
-            var acc = new Account(
-                config.Value.CloudName,
-                config.Value.ApiKey,
-                config.Value.ApiSecrets
-            );
-            _cloudinary = new Cloudinary(acc);
+            _dropbox = new DropboxClient(config.Value.AccessToken);
         }
 
-        public PhotoUploadResult AddPhoto(IFormFile file)
+        public async Task<PhotoUploadResult> AddPhoto(IFormFile file, string id) 
         {
-            var uploadResult = new ImageUploadResult();
-
-            if (file.Length > 0)
+            var ext = Path.GetExtension(file.FileName);
+            if(file.Length > 0) 
             {
                 using (var stream = file.OpenReadStream())
                 {
-                    var uploadParams = new ImageUploadParams
-                    {
-                        File = new FileDescription(file.FileName, stream),
-                        Transformation = new Transformation().Height(500).Width(500).Crop("fill").Gravity("face")
-                    };
-                    uploadResult = _cloudinary.Upload(uploadParams);
+                    var result = await _dropbox.Files.UploadAsync(
+                        "/photos/" + id + ext,
+                        WriteMode.Overwrite.Instance,
+                        body: stream);
                 }
             }
-            if (uploadResult.Error != null)
-                throw new Exception(uploadResult.Error.Message);
+            
+            var photo = await _dropbox.Sharing.ListSharedLinksAsync("/photos/" + id + ext);
 
-            return new PhotoUploadResult
+            if (photo.Links.Count == 0)
             {
-                PublicId = uploadResult.PublicId,
-                Url = uploadResult.SecureUri.AbsoluteUri
-            };
+                var link = await _dropbox.Sharing.CreateSharedLinkWithSettingsAsync("/photos/" + id + ext);
+                return new PhotoUploadResult
+                {
+                    PhotoId = id + ext,
+                    Url = link.Url + "&raw=1",
+                    Name = id + ext
+                };
+            } else 
+            {
+                return new PhotoUploadResult
+                {
+                    PhotoId = id + ext,
+                    Url = photo.Links[0].Url + "&raw=1",
+                    Name = id + ext
+                };
+            }
         }
 
-      
-        public string DeletePhoto(string publicId)
+        public async Task<string> DeletePhoto(string photoId)
         {
-            var deleteParams = new DeletionParams(publicId);
-
-            var result = _cloudinary.Destroy(deleteParams);
-
-            return result.Result == "ok" ? result.Result : null;
+            var deleteParams = await _dropbox.Files.DeleteV2Async("/photos/" + photoId);
+            return deleteParams != null ? "ok" : null;
         }
     }
 }

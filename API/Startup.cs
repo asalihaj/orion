@@ -8,6 +8,7 @@ using Application.Offers;
 using AutoMapper;
 using Domain;
 using FluentValidation.AspNetCore;
+using Infrastructure.Dropbox;
 using Infrastructure.Photos;
 using Infrastructure.Security;
 using MediatR;
@@ -91,7 +92,7 @@ namespace API
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
-            services.Configure<CloudinarySettings>(Configuration.GetSection("Cloudinary"));
+            services.Configure<DropboxSettings>(Configuration.GetSection("Dropbox"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -141,7 +142,7 @@ namespace API
                 Email = Configuration["Administrator:Email"],
             };
 
-            List<AppUser> users = await Context.Users.ToListAsync(); 
+            List<AppUser> users = await Context.Users.ToListAsync();
             for (var i = 0; i < users.Count; i++)
             {
                 if (users[i].Id != admin.Id)

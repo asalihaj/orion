@@ -1,7 +1,3 @@
-using System;
-using Application.User;
-using Newtonsoft.Json;
-
 namespace Application.Companies
 {
     public class CompanyDto

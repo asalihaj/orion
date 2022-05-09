@@ -1,3 +1,6 @@
+using Application.Companies;
+using Application.Photos;
+using Application.User;
 using AutoMapper;
 using Domain;
 

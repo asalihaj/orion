@@ -9,7 +9,6 @@ using Application.Errors;
 using System.Net;
 using Application.Interfaces;
 using AutoMapper;
-using System.Linq;
 
 namespace Application.User
 {
@@ -35,6 +34,7 @@ namespace Application.User
             private readonly UserManager<AppUser> _userManager;
             private readonly SignInManager<AppUser> _signInManager;
             private readonly IJwtGenerator _jwtGenerator;
+            private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
             private readonly IMapper _mapper;
 
@@ -43,6 +43,7 @@ namespace Application.User
                 SignInManager<AppUser> signInManager,
                 IJwtGenerator jwtGenerator,
                 IUserAccessor userAccessor,
+                DataContext context,
                 IMapper mapper)
             {
                 _jwtGenerator = jwtGenerator;
@@ -50,6 +51,7 @@ namespace Application.User
                 _userManager = userManager;
                 _userAccessor = userAccessor;
                 _mapper = mapper;
+                _context = context;
 
             }
             public async Task<UserDto> Handle(Query request, CancellationToken cancellationToken)
@@ -68,13 +70,14 @@ namespace Application.User
                 if (result.Succeeded)
                 {                    
                     var profile = _userAccessor.GetProfile(user.Id);
+                    var photo = await _context.Photos.FindAsync(appUser.Id);
                     return new UserDto
                         {
                             Id = appUser.Id,
                             Token = _jwtGenerator.CreateToken(appUser),
                             Username = appUser.UserName,
                             Profile = profile,
-                            Photo = appUser.Photo != null ? appUser.Photo.Url : null,
+                            Photo = photo != null ? photo.Url : null,
                             Role = userRole
                         };
                     

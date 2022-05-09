@@ -8,7 +8,7 @@ namespace Application.Companies
         public MappingProfile()
         {
             CreateMap<Company, CompanyDto>()
-            .ForMember(d => d.Id, o => o.MapFrom(s => s.UserId));
+                .ForMember(d => d.Id, o => o.MapFrom(s => s.UserId));
         }
     }
 }

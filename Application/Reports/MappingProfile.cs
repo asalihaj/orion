@@ -8,7 +8,7 @@ namespace Application.Reports
         public MappingProfile()
         {
             CreateMap<Report, ReportDto>()
-            .ForMember(d => d.Username, o => o.MapFrom(s => s.User.UserName));
+                .ForMember(d => d.Username, o => o.MapFrom(s => s.User.UserName));
         }
     }
 }

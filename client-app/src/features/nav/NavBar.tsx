@@ -48,7 +48,7 @@ const NavBar: React.FC = () => {
               avatar
               spaced="right"
 
-              src={user.image || "/assets/user.png"}
+              src={user.photo || "/assets/user.png"}
             />
             <Dropdown pointing="top left" text={user.username}>
               <Dropdown.Menu>

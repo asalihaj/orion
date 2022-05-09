@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Application.Photos;
 using Microsoft.AspNetCore.Http;
 
@@ -5,7 +6,7 @@ namespace Application.Interfaces
 {
     public interface IPhotoAccessor
     {
-         PhotoUploadResult AddPhoto(IFormFile file);
-         string DeletePhoto(string publicId);
+         Task<PhotoUploadResult> AddPhoto(IFormFile file, string id);
+         Task<string> DeletePhoto(string publicId);
     }
 }

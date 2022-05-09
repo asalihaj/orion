@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,20 +31,18 @@ namespace Application.Photos
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername());
-
-                var photo = user.Photo.Id == request.Id ? user.Photo : null;
+                var photo = await _context.Photos.SingleOrDefaultAsync(x => x.UserId == request.Id);
 
                 if (photo == null)
                     throw new RestException(HttpStatusCode.NotFound, new {Photo = "Not found"});
 
-                var result = _photoAccessor.DeletePhoto(photo.Id);
+                var result = await _photoAccessor.DeletePhoto(photo.Name);
 
                 if (result == null)
                     throw new Exception("Problem deleting photo");
 
                 
-                _context.Photos.Remove(user.Photo);
+                _context.Photos.Remove(photo);
 
                 var success = await _context.SaveChangesAsync() > 0;
 

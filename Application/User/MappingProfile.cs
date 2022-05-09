@@ -11,6 +11,8 @@ namespace Application.User
         public MappingProfile()
         {
             CreateMap<AppUser, UserDto>();
+            CreateMap<Photo, UserDto>()
+                .ForMember(d => d.Id, o => o.MapFrom(s => s.UserId));
         }
     }
 }
