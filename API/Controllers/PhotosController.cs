@@ -19,7 +19,7 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Unit>> Delete(string id)
         {
-            Application.User.UserDto user = await GetUser();
+            Application.User.UserDto user = await GetCurrentUser();
 
             if(user.Id != id)
                 throw new RestException(HttpStatusCode.Forbidden, "You don't have premission to complete this action");

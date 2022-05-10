@@ -54,7 +54,7 @@ namespace Infrastructure.Security
             return roleName;
         }
 
-        public dynamic GetProfile(string Id)
+        public dynamic GetProfile(string Id, bool view)
         {
             var user = _context.Users.SingleOrDefault(x => x.Id == Id);
             var role = _context.UserRoles.SingleOrDefault(x => x.UserId == user.Id).RoleId;
@@ -74,7 +74,10 @@ namespace Infrastructure.Security
                     throw new RestException(HttpStatusCode.BadRequest, 
                         new {error = "User is not registered as a company or jobseeker"});
                 
-                var jsProfile = _mapper.Map<JobSeeker, JSProfileDto>(jobSeeker);
+                var jsProfile = view ? 
+                    _mapper.Map<JobSeeker, JobSeekerDto>(jobSeeker) 
+                    :
+                    _mapper.Map<JobSeeker, JSProfileDto>(jobSeeker);
 
                 return jsProfile;
             }

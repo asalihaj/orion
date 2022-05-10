@@ -30,7 +30,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<Unit>> Create(Create.Command command)
         {
-            UserDto user = await GetUser();
+            UserDto user = await GetCurrentUser();
 
             if (user.Role != "Company")
                 throw new RestException(HttpStatusCode.Forbidden, "You don't have premission to complete this action");
@@ -42,7 +42,7 @@ namespace API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<Unit>> Edit(Guid id, Edit.Command command)
         {
-            UserDto user = await GetUser();
+            UserDto user = await GetCurrentUser();
             if (user.Role == "Company")
             {
                 OfferPublisherDto offer = await Mediator.Send(new Details.Query{Id = id});
@@ -58,7 +58,7 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Unit>> Delete(Guid id)
         {
-            UserDto user = await GetUser();
+            UserDto user = await GetCurrentUser();
             OfferPublisherDto offer = await Mediator.Send(new Details.Query{Id = id});
             if (user.Id != offer.Company.Id)
                 throw new RestException(HttpStatusCode.Forbidden, "You are not the offer publisher");

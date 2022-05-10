@@ -54,9 +54,15 @@ const NavBar: React.FC = () => {
               <Dropdown.Menu>
                 <Dropdown.Item
                   as={Link}
-                  to={`/${user.username}/edit`}
-                  text="My profile"
+                  to={`/${user.username}/profile`}
+                  text="Profile"
                   icon="user"
+                />
+                <Dropdown.Item
+                  as={Link}
+                  to={`/${user.username}/edit`}
+                  text="Account"
+                  icon="setting"
                 />
                 <Dropdown.Item onClick={logout}  text="Logout" icon="power" />
               </Dropdown.Menu>

@@ -7,6 +7,13 @@ export interface IUser{
     role: string;
 }
 
+export interface IUserProfile {
+    username: string;
+    profile: any;
+    photo?: string;
+    role: string;
+}
+
 export interface IUserFormValues {
     email: string;
     password: string;

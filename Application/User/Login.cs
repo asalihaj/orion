@@ -69,7 +69,7 @@ namespace Application.User
 
                 if (result.Succeeded)
                 {                    
-                    var profile = _userAccessor.GetProfile(user.Id);
+                    var profile = _userAccessor.GetProfile(user.Id, false);
                     var photo = await _context.Photos.FindAsync(appUser.Id);
                     return new UserDto
                         {

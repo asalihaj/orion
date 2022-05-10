@@ -14,7 +14,6 @@ import { OfferFormValues } from "../../../app/models/offer";
 import { combineValidators, composeValidators, hasLengthGreaterThan, isRequired } from "revalidate";
 import { RouteComponentProps } from "react-router-dom";
 import { toast } from "react-toastify";
-import { history } from "../../..";
 
 const validate = combineValidators({
     title: isRequired({ message: 'The offer title is required' }),

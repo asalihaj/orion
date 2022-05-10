@@ -1,17 +1,17 @@
 import { observer } from 'mobx-react-lite';
-import { Fragment, useContext, useState } from 'react';
+import { Fragment, useContext } from 'react';
 import { Button, Item } from 'semantic-ui-react';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import './styles.css';
 import { history } from '../../..';
 import { toast } from 'react-toastify';
 import { IResumeFormValues } from '../../../app/models/resume';
+import { Link } from 'react-router-dom';
 
 
 const OfferDetailedHeader = () => {
     const rootStore = useContext(RootStoreContext);
     const { offer } = rootStore.offerStore;
-    const { openModal } = rootStore.modalStore;
     const { user, getUser } = rootStore.userStore;
     const { save, remove } = rootStore.jobSeekerStore;
     const { createResume } = rootStore.resumeStore;
@@ -52,7 +52,10 @@ const OfferDetailedHeader = () => {
             <Item.Image src='/assets/fb.png' size='tiny'/>
             <Item.Content>
                 <Item.Header>{offer.title}</Item.Header>
-                <Item.Meta>{offer.publisher.name}</Item.Meta>
+                <div></div>
+                <Item.Meta as={Link} to={`/${offer.publisher.username}/profile`}>
+                    {offer.publisher.name}
+                </Item.Meta>
                 <Item.Meta>
                     {offer.location}
                 </Item.Meta>

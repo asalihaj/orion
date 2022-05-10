@@ -3,7 +3,7 @@ import { history } from "../..";
 import { toast } from "react-toastify";
 import { CompanyFormValues, ICompany } from "../models/company";
 import { IOffer } from "../models/offer";
-import { IUser, IUserFormValues } from "../models/user";
+import { IUser, IUserFormValues, IUserProfile } from "../models/user";
 import { IJobSeeker, JobSeekerFormValues } from "../models/jobseeker";
 import { IResume, IResumeFormValues } from "../models/resume";
 import { IReport, IReportFormValues } from "../models/report";
@@ -74,6 +74,8 @@ const User = {
     requests.post(`/user/login`, user),
   register: (user: IUserFormValues): Promise<IUser> =>
     requests.post(`/user/register`, user),
+  details: (username: string): Promise<IUserProfile> =>
+    requests.get(`/user/${username}`)
 };
 
 const Company = {

@@ -17,6 +17,13 @@ namespace API.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("{username}")]
+        public async Task<ActionResult<UserProfileDto>> GetUser(string username)
+        {
+            return await Mediator.Send(new GetUser.Query{Username = username});
+        }
+
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(Register.Command command)
         {
@@ -32,9 +39,9 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Unit>> Delete(string id)
         {
-            UserDto user = await GetUser();
+            UserDto user = await GetCurrentUser();
             if (user.Id != id && user.Role != "Admin")
-                throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to delete this account");
+                throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have permission to delete this account");
 
             return await Mediator.Send(new Delete.Command{Id = id});
         }

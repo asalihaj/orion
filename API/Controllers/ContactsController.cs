@@ -18,7 +18,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Contact>>> List()
         {
-            UserDto user = await GetUser();
+            UserDto user = await GetCurrentUser();
             if (user.Id != "Admin")
                 throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to complete this action");
                 
@@ -28,7 +28,7 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Contact>> Details(Guid id)
         {
-            UserDto user = await GetUser();
+            UserDto user = await GetCurrentUser();
             if (user.Id != "Admin")
                 throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to complete this action");
 

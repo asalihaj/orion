@@ -37,7 +37,7 @@ namespace Application.User
                 
                 var user = _mapper.Map<AppUser, UserDto>(appUser);      
 
-                var profile = _userAccessor.GetProfile(user.Id);
+                var profile = _userAccessor.GetProfile(user.Id, false);
                 
                 var userRole = await _userManager.GetRolesAsync(appUser);
                 var role = userRole[0];

@@ -1,7 +1,7 @@
 import { action, computed, observable, runInAction } from "mobx";
 import { history } from "../..";
 import agent from "../api/agent";
-import { IUser, IUserFormValues } from "../models/user";
+import { IUser, IUserFormValues, IUserProfile } from "../models/user";
 import { RootStore } from "./rootStore";
 
 export default class UserStore {
@@ -10,6 +10,8 @@ export default class UserStore {
     this.rootStore = rootStore;
   }
   @observable user: IUser | null = null;
+  @observable userProfile: IUserProfile | null = null;
+  @observable loadingInitial = false;
 
   @computed get isLoggedIn() { return !!this.user}
 
@@ -44,13 +46,34 @@ export default class UserStore {
         this.user = user;
       })
     }catch (error) {
-      console.log(error);
+      return error;
     }
+  }
+
+  @action getProfile = async () => {
+    return this.userProfile;
   }
 
   @action logout = () => {
     this.rootStore.commonStore.setToken(null);
     this.user = null;
     history.push('/')
+  }
+
+  @action loadProfile = async (username: string) => {
+    this.loadingInitial = true;
+    try {
+      const user = await agent.User.details(username);
+      runInAction(() => {
+        this.userProfile = user;
+        this.loadingInitial = false;  
+      });
+      return user;
+    } catch (error) {
+      runInAction(() => {
+        this.loadingInitial = false;
+      });
+      return error;
+    }
   }
 }

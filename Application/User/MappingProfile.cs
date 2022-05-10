@@ -13,6 +13,9 @@ namespace Application.User
             CreateMap<AppUser, UserDto>();
             CreateMap<Photo, UserDto>()
                 .ForMember(d => d.Id, o => o.MapFrom(s => s.UserId));
+            CreateMap<AppUser, UserProfileDto>();
+            CreateMap<Photo, UserProfileDto>()
+                .ForMember(d => d.Username, o => o.MapFrom(s => s.User.UserName));
         }
     }
 }

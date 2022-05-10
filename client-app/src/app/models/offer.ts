@@ -39,6 +39,8 @@ export interface IPublisher {
     id: string;
     username: string;
     name: string;
+    description: string;
+    location: string;
 }
 
 export interface IApplicants {

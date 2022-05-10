@@ -37,7 +37,7 @@ namespace API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<Unit>> Edit(string id, Edit.Command command)
         {
-            UserDto user = await GetUser();
+            UserDto user = await GetCurrentUser();
             if (user.Id != id)
                 throw new RestException(System.Net.HttpStatusCode.Forbidden, 
                     "You don't have premission to complete this action");
@@ -49,7 +49,7 @@ namespace API.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<Unit>> SaveOffer(Guid offerId)
         {
-            UserDto user = await GetUser();
+            UserDto user = await GetCurrentUser();
             if (user.Role != "JobSeeker")
                 throw new RestException(System.Net.HttpStatusCode.Forbidden, 
                     "You don't have premission to save offers");
@@ -64,7 +64,7 @@ namespace API.Controllers
         [HttpDelete("remove")]
         public async Task<ActionResult<Unit>> RemoveOffer(Guid offerId)
         {
-            UserDto user = await GetUser();
+            UserDto user = await GetCurrentUser();
             if (user.Role != "JobSeeker")
                 throw new RestException(System.Net.HttpStatusCode.Forbidden, 
                     "You don't have premission to save offers");

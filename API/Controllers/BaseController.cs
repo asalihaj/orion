@@ -15,7 +15,7 @@ namespace API.Controllers
         protected IMediator Mediator => _mediator ?? (_mediator = 
         HttpContext.RequestServices.GetService<IMediator>());
 
-        protected async Task<UserDto> GetUser()
+        protected async Task<UserDto> GetCurrentUser()
         {
             return await Mediator.Send(new CurrentUser.Query());
         }

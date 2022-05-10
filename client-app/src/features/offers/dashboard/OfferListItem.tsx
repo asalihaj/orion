@@ -26,7 +26,7 @@ const OfferListItem: React.FC<{ offer: IOffer, publisher: IPublisher }> = ({ off
                 </Item.Extra>}
                 <Item.Header>{offer.title}</Item.Header>
                 <div className='company-info'>
-                    <Item.Meta as={Link} to='#'>
+                    <Item.Meta as={Link} to={`/${publisher.username}/profile`}>
                         {publisher.name}
                     </Item.Meta>
                     <Item.Meta>

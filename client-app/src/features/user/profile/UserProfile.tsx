@@ -1,17 +1,55 @@
-import React from "react";
-import { Container, Grid, GridColumn, Image } from "semantic-ui-react";
+import { useContext, useEffect, useState } from "react";
+import { RouteComponentProps } from "react-router-dom";
+import { Button, Card, Container, Grid, GridColumn, Header, Image } from "semantic-ui-react";
+import LoadingComponent from "../../../app/layout/LoadingComponent";
+import { RootStoreContext } from "../../../app/stores/rootStore";
+import './styles.css';
+import { history } from "../../..";
+import JobSeekerProfile from "./JobSeekerProfile";
+import { IUserProfile } from "../../../app/models/user";
+import CompanyProfile from "./CompanyProfile";
 
-const UserProfile = () => {
+interface DetailParams {
+  username: string
+}
+
+const UserProfile: React.FC<RouteComponentProps<DetailParams>> = ({
+  match
+}) => {
+  const rootStore = useContext(RootStoreContext);
+  const { loadProfile, loadingInitial } = rootStore.userStore;
+
+  const [profile, setProfile] = useState();
+  const [username, setUsername] = useState();
+  const [role, setRole] = useState();
+  const [photo, setPhoto] = useState();
+  
+  useEffect(() => {
+    loadProfile(match.params.username)
+    .then((res) => {
+      setProfile(res.profile);
+      setUsername(res.username);
+      setRole(res.role);
+      setPhoto(res.photo);
+    })
+  }, [loadProfile, match.params.username]);
+
+  const user = {
+    profile: profile,
+    role: role,
+    username: username,
+    photo: photo
+  }
+
+  if (loadingInitial)
+    <LoadingComponent content="Loading user's profile" />
+
   return (
     <Container>
-      <Grid columns={3}>
-        <Grid.Column>
-          <Image src="https://react.semantic-ui.com/images/wireframe/media-paragraph.png" />
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe doloremque veniam aut facere tempora quam, reiciendis molestias labore voluptates odio nulla voluptate pariatur quas mollitia laborum nam fuga porro quia.</p>
+      <Grid columns={1}>
+        <Grid.Column style ={{ marginTop: '3rem' }}>
+          {role === 'Company' ? <CompanyProfile user={user} /> : <JobSeekerProfile user={user} />}
         </Grid.Column>
-        <GridColumn>
-
-        </GridColumn>
       </Grid>
     </Container>
   );
