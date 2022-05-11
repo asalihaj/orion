@@ -20,7 +20,9 @@ const LoginForm = () => {
     return (
         <FinalForm
         onSubmit={(values: IUserFormValues) => 
-            login(values).catch(error => ({
+            login(values)
+            .then((res) => console.log(res))
+            .catch(error => ({
                 [FORM_ERROR]: error.data.errors
             }))
         }

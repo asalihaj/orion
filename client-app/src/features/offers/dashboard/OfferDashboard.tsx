@@ -19,7 +19,7 @@ const OfferDashboard:React.FC = () => {
         return <LoadingComponent content='Loading offers' />;
 
     return (
-            <Grid style={{ marginTop: '5rem' }}>
+            <Grid style={{ marginTop: '3.7rem' }}>
                 <Grid.Column width={7}>
                     <OfferList />
                 </Grid.Column>

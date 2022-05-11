@@ -1,10 +1,12 @@
 import { FORM_ERROR } from 'final-form';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Field, Form as FinalForm } from 'react-final-form';
+import ReactQuill from 'react-quill';
 import { combineValidators, isRequired } from 'revalidate';
 import { Button, Form, Header, Icon } from 'semantic-ui-react';
 import { DateInput } from '../../../../app/common/form/DateInput';
 import ErrorMessage from '../../../../app/common/form/ErrorMessage';
+import { modules, formats } from '../../../../app/common/options/quill/quillOptions';
 import SelectInput from '../../../../app/common/form/SelectInput';
 import TextInput from '../../../../app/common/form/TextInput';
 import { gender } from '../../../../app/common/options/gender/genderOptions';
@@ -22,7 +24,14 @@ const validate = combineValidators({
 const JobSeekerForm = (props) => {
     const rootStore = useContext(RootStoreContext);
     const { register, getUser } = rootStore.userStore;
+    const { setToken } = rootStore.commonStore;
     const { create } = rootStore.jobSeekerStore;
+
+    const [ bio, setBio] = useState('');
+
+    const handleChange = (e) => {
+        setBio(e);
+    }
     
     const handleSubmit = (values) => {
         const user: IUserFormValues = {
@@ -30,38 +39,39 @@ const JobSeekerForm = (props) => {
             email: values.email,
             password: values.password
         }
-        const result = register(user);
-
-        result.then(data => {
-            const profile: JobSeekerFormValues = {
-                userId: data.id,
-                firstName: values.firstName,
-                lastName: values.lastName,
-                gender: values.gender,
-                birthday: values.birthday
-            }
-            create(profile)
-            .then(() => getUser())
-            .catch(error => ({
-                [FORM_ERROR]: error
-            }))
-        }).catch(error => {
-            const errorType = error.data.errors;
-            if(errorType.Email) {
-                values.errorCode = 1;
-                values.errorMessage = errorType.Email;
-            } else if (errorType.Username) {
-                values.errorCode = 2;
-                values.errorMessage = errorType.Username;
-            } else if (errorType.Password) {
-                values.errorCode = 3;
-                values.errorMessage = errorType.Password;
-            } else {
-                values.errorCode = 4;
-                values.errorMessage = 'Something went wrong during registration'
-            }
-            props.prev(values);
-        });
+        register(user)
+            .then(data => {
+                const profile: JobSeekerFormValues = {
+                    userId: data.id,
+                    firstName: values.firstName,
+                    lastName: values.lastName,
+                    gender: values.gender,
+                    bio: bio,
+                    birthday: values.birthday
+                }
+                create(profile)
+                .then(() => setToken(data.token))
+                .finally(() => getUser())
+                .catch(error => ({
+                    [FORM_ERROR]: error
+                }));
+            }).catch(error => {
+                const errorType = error.data.errors;
+                if(errorType.Email) {
+                    values.errorCode = 1;
+                    values.errorMessage = errorType.Email;
+                } else if (errorType.Username) {
+                    values.errorCode = 2;
+                    values.errorMessage = errorType.Username;
+                } else if (errorType.Password) {
+                    values.errorCode = 3;
+                    values.errorMessage = errorType.Password;
+                } else {
+                    values.errorCode = 4;
+                    values.errorMessage = 'Something went wrong during registration'
+                }
+                props.prev(values);
+            });
     }
 
     return (
@@ -110,6 +120,15 @@ const JobSeekerForm = (props) => {
                     date={true}
                     component={DateInput}
                     placeholder='Birthday'
+                />
+                <ReactQuill 
+                    className='margin-bottom'
+                    theme="snow" 
+                    value={bio} 
+                    placeholder='Write description here... (optional)'
+                    modules={modules}
+                    formats={formats}
+                    onChange={handleChange}
                 />
                 {submitError && !dirtySinceLastSubmit && (
                     <ErrorMessage

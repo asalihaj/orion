@@ -11,7 +11,7 @@ const OfferDetails: React.FC = () => {
     const rootStore = useContext(RootStoreContext);
     const { offer } = rootStore.offerStore;
     return (
-        <Segment>
+        <Segment className='offer-details-segment'>
             <Item.Group>
                 <OfferDetailedHeader />
                 <OfferDetailedInfo />

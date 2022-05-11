@@ -59,11 +59,13 @@ namespace Application.User
                 var user = new AppUser
                 {
                     Email = request.Email,
-                    UserName = request.Username
+                    UserName = request.Username,
+                    DateCreated = DateTime.Now,
+                    LastUpdated = DateTime.Now
                 };
 
                 var result = await _userManager.CreateAsync(user, request.Password);
-
+                
                 if (result.Succeeded)
                 {
                     var photo = await _context.Photos.FindAsync(user.Id);

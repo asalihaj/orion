@@ -183,7 +183,8 @@ namespace Persistence.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
                     Title = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true)
+                    Description = table.Column<string>(nullable: true),
+                    DateCreated = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -204,6 +205,7 @@ namespace Persistence.Migrations
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     Gender = table.Column<string>(nullable: true),
+                    Bio = table.Column<string>(nullable: true),
                     Birthday = table.Column<DateTime>(nullable: false),
                     LastUpdated = table.Column<DateTime>(nullable: false)
                 },
@@ -297,7 +299,7 @@ namespace Persistence.Migrations
                     OfferId = table.Column<Guid>(nullable: false),
                     JobSeekerId = table.Column<string>(nullable: false),
                     CV = table.Column<string>(nullable: true),
-                    Last_Updated = table.Column<DateTime>(nullable: false)
+                    LastUpdated = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {

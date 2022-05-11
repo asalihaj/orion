@@ -15,6 +15,7 @@ namespace Application.JobSeekers
             public string FirstName { get; set; }
             public string LastName { get; set; }
             public string Gender { get; set; }
+            public string Bio { get; set; }
             public DateTime? Birthday { get; set; }
         }
 
@@ -37,6 +38,7 @@ namespace Application.JobSeekers
                 jobSeekers.FirstName = request.FirstName ?? jobSeekers.FirstName;
                 jobSeekers.LastName = request.LastName ?? jobSeekers.LastName;
                 jobSeekers.Gender = request.Gender ?? jobSeekers.Gender;
+                jobSeekers.Bio = request.Bio ?? jobSeekers.Bio;
                 jobSeekers.Birthday = request.Birthday ?? jobSeekers.Birthday;
                 jobSeekers.LastUpdated = DateTime.Now;
 

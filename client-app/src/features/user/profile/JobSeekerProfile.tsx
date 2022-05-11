@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
+import ReactQuill from "react-quill";
 import { Button, Card, Grid, Image } from "semantic-ui-react";
 import { IUserProfile } from "../../../app/models/user";
 
@@ -9,12 +10,14 @@ const JobSeekerProfile:React.FC<{user: IUserProfile}> = ({user}) => {
     const [lastName, setLastname] = useState();
     const [gender, setGender] = useState();
     const [birthday, setBirthday] = useState();
+    const [bio, setBio] = useState();
 
     useEffect(() => {
         setFirstname(user.profile?.firstName);
         setLastname(user.profile?.lastName);
         setGender(user.profile?.gender);
         setBirthday(user.profile?.birthday);
+        setBio(user.profile?.bio);
     }, [
         user.profile?.firstName,
         user.profile?.lastName,
@@ -43,6 +46,13 @@ const JobSeekerProfile:React.FC<{user: IUserProfile}> = ({user}) => {
                     <Card.Description>{format(birthday, 'dd/MM/yyyy')}</Card.Description>
                     </Card.Content>
                 </Card>
+            </Grid.Column>
+            <Grid.Column>
+            <ReactQuill 
+                    theme="bubble"
+                    readOnly={true}
+                    value={bio || ''}
+                />
             </Grid.Column>
         </Grid>
     );

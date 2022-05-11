@@ -10,7 +10,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220509104738_DbSchema")]
+    [Migration("20220510225755_DbSchema")]
     partial class DbSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -97,6 +97,8 @@ namespace Persistence.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("DateCreated");
+
                     b.Property<string>("Description");
 
                     b.Property<string>("Title");
@@ -113,6 +115,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.JobSeeker", b =>
                 {
                     b.Property<string>("UserId");
+
+                    b.Property<string>("Bio");
 
                     b.Property<DateTime>("Birthday");
 
@@ -200,7 +204,7 @@ namespace Persistence.Migrations
 
                     b.Property<string>("CV");
 
-                    b.Property<DateTime>("Last_Updated");
+                    b.Property<DateTime>("LastUpdated");
 
                     b.HasKey("OfferId", "JobSeekerId");
 

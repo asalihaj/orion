@@ -9,5 +9,6 @@ namespace Domain
         public virtual AppUser User { get; set; }
         public string Title { get; set; }
         public string Description { get; set; } 
+        public DateTime DateCreated { get; set; }
     }
 }

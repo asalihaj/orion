@@ -9,21 +9,17 @@ import NumberInput from "../../../app/common/form/NumberInput";
 import { DateInput } from "../../../app/common/form/DateInput";
 import SelectInput from "../../../app/common/form/SelectInput";
 import { combineDateAndTime, offerCategoryOptions, offerScheduleOptions } from "../../../app/common/util/util";
-import { TextAreaInput } from "../../../app/common/form/TextAreaInput";
 import { OfferFormValues } from "../../../app/models/offer";
 import { combineValidators, composeValidators, hasLengthGreaterThan, isRequired } from "revalidate";
 import { RouteComponentProps } from "react-router-dom";
 import { toast } from "react-toastify";
+import ReactQuill from "react-quill";
+import { modules ,formats } from '../../../app/common/options/quill/quillOptions';
+import './styles.css';
 
 const validate = combineValidators({
     title: isRequired({ message: 'The offer title is required' }),
     category: isRequired('Category'),
-    description: composeValidators(
-      isRequired('Description'),
-      hasLengthGreaterThan(10)({
-        message: 'Description needs to be at least 10 characters'
-      })
-    )(),
     salary: isRequired('Salary'),
     location: isRequired('Location'),
     schedule: isRequired('Venue'),
@@ -41,12 +37,13 @@ const OfferForm: React.FC<RouteComponentProps<DetailParams>> = ({
     history
 }) => {
     const rootStore = useContext(RootStoreContext);
-    const { loadOffer, loadOffers, createOffer, editOffer, clearOffer } = rootStore.offerStore;
+    const { loadOffer, createOffer, editOffer, clearOffer } = rootStore.offerStore;
     const { user } = rootStore.userStore;
     const url = window.location.pathname;
 
     const [offer, setOffer] = useState(new OfferFormValues());
     const [loading, setLoading] = useState(false);
+    const [description, setDescription] = useState('');
 
     useEffect(() => {
         if (user && user.role !== 'Company') {
@@ -61,6 +58,7 @@ const OfferForm: React.FC<RouteComponentProps<DetailParams>> = ({
                         history.push('/offers');
                     }
                     setOffer(new OfferFormValues(offer));
+                    setDescription(offer.description);
                 })
                 .finally(() => setLoading(false));
         }
@@ -74,8 +72,10 @@ const OfferForm: React.FC<RouteComponentProps<DetailParams>> = ({
             let newOffer = {
                 ...offer,
                 id: uuid(),
+                description: description,
                 companyId: user.id
             };
+
             createOffer(newOffer)
             .then(() => {
                 toast.success("Offer created successfully", { autoClose: 1350});
@@ -84,7 +84,7 @@ const OfferForm: React.FC<RouteComponentProps<DetailParams>> = ({
                 }, 1500)
             })
             .catch(error => {
-                console.log(error);
+                console.log(error.data.errors.Description[0]);
             });
         } else {
             editOffer(offer)
@@ -110,6 +110,10 @@ const OfferForm: React.FC<RouteComponentProps<DetailParams>> = ({
         return date;
     }
 
+    const handleChange = (e) => {
+        setDescription(e);
+    }
+
 
     return (
         <Container style={{ marginTop: '3rem' }}>
@@ -127,76 +131,80 @@ const OfferForm: React.FC<RouteComponentProps<DetailParams>> = ({
                             dirtySinceLastSubmit
                         }) => (
                             <Form size='big' onSubmit={handleSubmit} error>
-                            <Header
-                                as='h2'
-                                content='Create post'
-                                color='blue'
-                                textAlign='left'
-                            />
-                            <Form.Group>
-                            <Field
-                                name='title' 
-                                component={TextInput} 
-                                placeholder='Title' />
-                            <Field
-                                name='category'
-                                component={SelectInput}
-                                placeholder='Category'
-                                options={categoryOptions}
-                            />
-                            </Form.Group>
-                            <Field
-                                name='location'
-                                component={TextInput}
-                                placeholder='Location'
-                            />
-                            <Form.Group>
-                            <Field
-                                name='schedule'
-                                component={SelectInput}
-                                placeholder='Schedule'
-                                options={scheduleOptions}
-                            />
-                            <Field
-                                name='salary'
-                                component={NumberInput}
-                                placeholder='Salary'
-                            />
-                            </Form.Group>
-                            <Form.Group>
-                            <Field
-                                name='expDate'
-                                date={true}
-                                component={DateInput}
-                                min={minDate()}
-                                placeholder='Active until(date)'
-                            />
-                            <Field
-                                name='time'
-                                time={true}
-                                component={DateInput}
-                                placeholder='Active until(time)'
-                            />
-                            </Form.Group>
-                            <Field
-                                name='description'
-                                component={TextAreaInput}
-                                placeholder='Description'
-                            />
-                            <Button
-                                loading={submitting}
-                                primary
-                                content={url === '/offers/create' ? 'Create' : 'Edit'}
-                                size='big'
-                                fluid
-                                circular
-                            />
-                            {submitError && !dirtySinceLastSubmit && (
-                                <ErrorMessage
-                                error={submitError}
-                                text={submitError}
+                                <Header
+                                    as='h2'
+                                    content='Create post'
+                                    color='blue'
+                                    textAlign='left'
                                 />
-                            )}
+                                <Form.Group>
+                                    <Field
+                                        name='title' 
+                                        component={TextInput} 
+                                        placeholder='Title' />
+                                    <Field
+                                        name='category'
+                                        component={SelectInput}
+                                        placeholder='Category'
+                                        options={categoryOptions}
+                                    />
+                                </Form.Group>
+                                <Field
+                                    name='location'
+                                    component={TextInput}
+                                    placeholder='Location'
+                                />
+                                <Form.Group>
+                                    <Field
+                                        name='schedule'
+                                        component={SelectInput}
+                                        placeholder='Schedule'
+                                        options={scheduleOptions}
+                                    />
+                                    <Field
+                                        name='salary'
+                                        component={NumberInput}
+                                        placeholder='Salary'
+                                    />
+                                </Form.Group>
+                                <Form.Group>
+                                    <Field
+                                        name='expDate'
+                                        date={true}
+                                        component={DateInput}
+                                        min={minDate()}
+                                        placeholder='Active until(date)'
+                                    />
+                                    <Field
+                                        name='time'
+                                        time={true}
+                                        component={DateInput}
+                                        placeholder='Active until(time)'
+                                    />
+                                </Form.Group>
+                                <ReactQuill 
+                                    className='margin-bottom'
+                                    theme="snow" 
+                                    value={description} 
+                                    placeholder='Write description here... (optional)'
+                                    modules={modules}
+                                    formats={formats}
+                                    onChange={handleChange}
+                                />
+                                <Button
+                                    loading={submitting}
+                                    primary
+                                    content={url === '/offers/create' ? 'Create' : 'Edit'}
+                                    size='big'
+                                    fluid
+                                    circular
+                                />
+                                {submitError && !dirtySinceLastSubmit && (
+                                    <ErrorMessage
+                                    error={submitError}
+                                    text={submitError}
+                                    />
+                                )}
                             </Form>
                             
                         )}

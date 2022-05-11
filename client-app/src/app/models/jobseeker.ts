@@ -6,6 +6,7 @@ export interface IJobSeeker {
     lastName: string;
     gender: string;
     birthday: Date;
+    bio: string;
     saved: string;
     offersApplied: IOffer[];
 }
@@ -15,5 +16,6 @@ export class JobSeekerFormValues {
     firstName: string;
     lastName: string;
     gender: string;
+    bio: string
     birthday: Date;
 }

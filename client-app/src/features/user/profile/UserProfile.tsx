@@ -1,12 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
-import { Button, Card, Container, Grid, GridColumn, Header, Image } from "semantic-ui-react";
+import { Container, Grid } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import './styles.css';
-import { history } from "../../..";
 import JobSeekerProfile from "./JobSeekerProfile";
-import { IUserProfile } from "../../../app/models/user";
 import CompanyProfile from "./CompanyProfile";
 
 interface DetailParams {
@@ -31,6 +29,7 @@ const UserProfile: React.FC<RouteComponentProps<DetailParams>> = ({
       setUsername(res.username);
       setRole(res.role);
       setPhoto(res.photo);
+      console.log(res);
     })
   }, [loadProfile, match.params.username]);
 

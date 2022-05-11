@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ReactQuill from "react-quill";
 import { Card, Image, Button, Grid, GridColumn, Header } from "semantic-ui-react";
 import { IUserProfile } from "../../../app/models/user";
 
@@ -51,12 +52,13 @@ const CompanyProfile:React.FC<{user: IUserProfile}> = ({user}) => {
                     </Card.Content>
                 </Card>
             </Grid.Column>
-            <GridColumn style={paddingLeft}>
-                <Header>Description</Header>
-                <div>
-                    {description}
-                </div>
-            </GridColumn>
+            <Grid.Column>
+                <ReactQuill 
+                    theme="bubble"
+                    readOnly={true}
+                    value={description || ''}
+                />
+            </Grid.Column>
         </Grid>
     );
 }

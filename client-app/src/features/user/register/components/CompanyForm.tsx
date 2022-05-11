@@ -1,25 +1,32 @@
 import { FORM_ERROR } from 'final-form';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Field, Form as FinalForm } from 'react-final-form';
 import { combineValidators, isRequired } from 'revalidate';
 import { Form, Button, Header, Icon } from 'semantic-ui-react';
 import ErrorMessage from '../../../../app/common/form/ErrorMessage';
-import { TextAreaInput } from '../../../../app/common/form/TextAreaInput';
+import { modules, formats } from '../../../../app/common/options/quill/quillOptions';
 import TextInput from '../../../../app/common/form/TextInput';
 import { CompanyFormValues } from '../../../../app/models/company';
 import { IUserFormValues } from '../../../../app/models/user';
 import { RootStoreContext } from '../../../../app/stores/rootStore';
+import ReactQuill from 'react-quill';
 
 const validate = combineValidators({
     name: isRequired('Name'),
-    location: isRequired('Location'),
-    description: isRequired('Description')
+    location: isRequired('Location')
 });
 
 const CompanyForm = (props) => {
     const rootStore = useContext(RootStoreContext);
+    const { setToken } = rootStore.commonStore;
     const { register, getUser } = rootStore.userStore;
     const { create } = rootStore.companyStore;
+
+    const [ description, setDescription] = useState('');
+
+    const handleChange = (e) => {
+        setDescription(e);
+    }
     
     const handleSubmit = (values) => {
         const user: IUserFormValues = {
@@ -34,10 +41,11 @@ const CompanyForm = (props) => {
                 userId: data.id,
                 name: values.name,
                 location: values.location,
-                description: values.description
+                description: description
             }
             create(profile)
-            .then(() => getUser())
+                .then(() => setToken(data.token))
+                .finally(() => getUser())
             .catch(error => ({
                 [FORM_ERROR]: error
             }))
@@ -56,6 +64,7 @@ const CompanyForm = (props) => {
                 values.errorCode = 4;
                 values.errorMessage = 'Something went wrong during registration'
             }
+            console.log("USER ERROR:: " + error);
             props.prev(values);
         });;
     }
@@ -94,12 +103,14 @@ const CompanyForm = (props) => {
                     iconPosition='left'
                     initialValue={props.data.location}
                     placeholder='Location' />
-                <Field
-                    name='description'
-                    component={TextAreaInput}
-                    rows={6}
-                    initialValue={props.data.description}
-                    placeholder='Description'
+                <ReactQuill 
+                    className='margin-bottom'
+                    theme="snow" 
+                    value={description} 
+                    placeholder='Write description here... (optional)'
+                    modules={modules}
+                    formats={formats}
+                    onChange={handleChange}
                 />
                 {submitError && !dirtySinceLastSubmit && (
                     <ErrorMessage

@@ -17,7 +17,7 @@ export interface IOfferFormValues extends Partial<IOffer> {
 
 export class OfferFormValues implements IOfferFormValues {
     id?: string = undefined;
-    publisher?: IPublisher;
+    companyId: string = '';
     title: string = '';
     category: string = '';
     location: string = '';

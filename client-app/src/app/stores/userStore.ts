@@ -32,7 +32,6 @@ export default class UserStore {
   @action register = async (values: IUserFormValues) => {
     try {
       const user = await agent.User.register(values);
-      this.rootStore.commonStore.setToken(user.token);
       return user;
     } catch (error) {
       throw error;
@@ -45,7 +44,7 @@ export default class UserStore {
       runInAction(() => {
         this.user = user;
       })
-    }catch (error) {
+    } catch (error) {
       return error;
     }
   }

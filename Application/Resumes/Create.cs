@@ -49,7 +49,7 @@ namespace Application.Resumes
                     OfferId = request.OfferId,
                     JobSeekerId = request.JobSeekerId,
                     CV = request.CV,
-                    Last_Updated = DateTime.Now
+                    LastUpdated = DateTime.Now
                 };
 
                 _context.Resumes.Add(resume);

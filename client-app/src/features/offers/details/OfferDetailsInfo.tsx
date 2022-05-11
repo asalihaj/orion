@@ -1,5 +1,6 @@
 import { format } from 'date-fns';
 import { Fragment, useContext } from 'react';
+import ReactQuill from 'react-quill';
 import { Grid, Header, Item, List } from 'semantic-ui-react';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 
@@ -30,11 +31,13 @@ const OfferDetailedInfo = () => {
                         </List>
                     </Grid.Column>
                 </Grid>
-                <div className='offer-description'>
-                    <Header as='h2'>Description</Header>
-                    <p>
-                        {offer.description}
-                    </p>
+                <div >
+                    <ReactQuill 
+                        className='offer-description'
+                        value={offer.description || ''}
+                        readOnly={true}
+                        theme={'bubble'}
+                    />
                 </div>
             </Item.Content>
         </Item>

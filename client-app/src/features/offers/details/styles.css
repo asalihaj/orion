@@ -1,3 +1,8 @@
+.offer-details-segment {
+    position: sticky !important;
+    top: 1.7rem;
+}
+
 .date-views-container {
     display: flex;
     justify-content: flex-start;
@@ -13,6 +18,5 @@
 }
 
 .offer-description {
-    height: 500px;
-    overflow-y: scroll;
+    height: 490px;
 }

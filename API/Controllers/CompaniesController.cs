@@ -25,6 +25,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult<Unit>> Create(Create.Command command)
         {
             return await Mediator.Send(command);

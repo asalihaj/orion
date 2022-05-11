@@ -17,6 +17,7 @@ namespace Application.JobSeekers
             public string FirstName { get; set; }
             public string LastName { get; set; }
             public string Gender { get; set; }
+            public string Bio { get; set; }
             public DateTime Birthday { get; set; }
         }
         public class CommandValidator : AbstractValidator<Command>
@@ -50,6 +51,7 @@ namespace Application.JobSeekers
                     FirstName = request.FirstName,
                     LastName = request.LastName,
                     Gender = request.Gender,
+                    Bio = request.Bio,
                     Birthday = request.Birthday,
                     LastUpdated = DateTime.Now
                 };

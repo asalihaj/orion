@@ -103,6 +103,7 @@ namespace Persistence
                     FirstName = "Rio",
                     LastName = "Williams",
                     Gender = "m",
+                    Bio = "I'm from Kosovo",
                     Birthday = DateTime.Now,
                     LastUpdated = DateTime.Now
                 },
@@ -112,6 +113,7 @@ namespace Persistence
                     FirstName = "John",
                     LastName = "Adams",
                     Gender = "m",
+                    Bio = "I'm from Georgia",
                     Birthday = DateTime.Now,
                     LastUpdated = DateTime.Now
                 }
