@@ -1,6 +1,7 @@
-using System;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
+using Application.Errors;
 using Application.Interfaces;
 using Application.Photos;
 using Dropbox.Api;
@@ -23,6 +24,10 @@ namespace Infrastructure.Photos
         public async Task<PhotoUploadResult> AddPhoto(IFormFile file, string id) 
         {
             var ext = Path.GetExtension(file.FileName);
+
+            if (ext != "png" && ext != "jpg" && ext != "jpeg")
+                throw new RestException(HttpStatusCode.UnsupportedMediaType, "File should be an image");
+
             if(file.Length > 0) 
             {
                 using (var stream = file.OpenReadStream())

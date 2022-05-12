@@ -299,6 +299,7 @@ namespace Persistence.Migrations
                     OfferId = table.Column<Guid>(nullable: false),
                     JobSeekerId = table.Column<string>(nullable: false),
                     CV = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
                     LastUpdated = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>

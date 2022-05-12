@@ -24,10 +24,10 @@ namespace API.Controllers
         }
 
         [HttpGet("q")]
-        public async Task<ActionResult<ApplicantDto>> Details(string id, Guid offerId)
+        public async Task<ActionResult<ApplicantDto>> Details(string jobseekerId, Guid offerId)
         {
             UserDto user = await GetCurrentUser();
-            ApplicantDto resume = await Mediator.Send(new Application.Resumes.Details.Query{JobSeeker = id, Offer = offerId});
+            ApplicantDto resume = await Mediator.Send(new Application.Resumes.Details.Query{JobSeeker = jobseekerId, Offer = offerId});
             OfferPublisherDto offer = await Mediator.Send(new Application.Offers.Details.Query{Id = resume.Offer.Id});
 
             if (offer.Company.Id != user.Id && user.Role != "Admin")
@@ -37,13 +37,25 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Unit>> Create(Application.Resumes.Create.Command command)
+        public async Task<ActionResult<Unit>> Create([FromForm]Application.Resumes.Create.Command command)
         {
             UserDto user = await GetCurrentUser();
-            if (user.Role != "JobSeeker" || user.Id != command.JobSeekerId)
+            if (user.Role != "JobSeeker")
                 throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to complete this action");
                 
             return await Mediator.Send(command);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<DownloadDto>> Download(Guid id)
+        {
+            UserDto user = await GetCurrentUser();
+            OfferPublisherDto offer = await Mediator.Send(new Application.Offers.Details.Query{Id = id});
+
+            if (offer.Company.Id != user.Id)
+                throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to complete this");
+
+            return await Mediator.Send(new Download.Command{OfferId = id});
         }
     }
 }

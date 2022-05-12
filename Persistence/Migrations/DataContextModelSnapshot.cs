@@ -204,6 +204,8 @@ namespace Persistence.Migrations
 
                     b.Property<DateTime>("LastUpdated");
 
+                    b.Property<string>("Name");
+
                     b.HasKey("OfferId", "JobSeekerId");
 
                     b.HasIndex("JobSeekerId");

@@ -10,6 +10,7 @@ namespace Domain
         public string JobSeekerId { get; set; }
         public virtual JobSeeker JobSeeker { get; set; }
         public string CV { get; set; }
+        public string Name { get; set; }
         public DateTime LastUpdated { get; set; }
     }
 }

@@ -36,6 +36,11 @@ namespace Application.Resumes
 
                 var resumeList = _mapper.Map<List<Resume>, List<ApplicantDto>>(companyResumes);
 
+                foreach (var resume in resumeList)
+                {
+                    resume.Offer.Applicants = resumeList.FindAll(x => x.Offer == resume.Offer).Count;
+                }
+
                 return resumeList;
             }
         }

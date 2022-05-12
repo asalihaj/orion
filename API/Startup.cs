@@ -10,6 +10,7 @@ using Domain;
 using FluentValidation.AspNetCore;
 using Infrastructure.Dropbox;
 using Infrastructure.Photos;
+using Infrastructure.Resumes;
 using Infrastructure.Security;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -92,6 +93,7 @@ namespace API
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+            services.AddScoped<IResumeAccessor, ResumeAccessor>();
             services.Configure<DropboxSettings>(Configuration.GetSection("Dropbox"));
         }
 

@@ -10,7 +10,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220510225755_DbSchema")]
+    [Migration("20220512193545_DbSchema")]
     partial class DbSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -205,6 +205,8 @@ namespace Persistence.Migrations
                     b.Property<string>("CV");
 
                     b.Property<DateTime>("LastUpdated");
+
+                    b.Property<string>("Name");
 
                     b.HasKey("OfferId", "JobSeekerId");
 

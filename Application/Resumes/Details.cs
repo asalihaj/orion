@@ -35,7 +35,6 @@ namespace Application.Resumes
                 if (resume == null)
                     throw new RestException(System.Net.HttpStatusCode.NotFound, 
                     new {resume = "Not found"});
-
                 var resumeToReturn = _mapper.Map<Resume, ApplicantDto>(resume);
 
                 return resumeToReturn;
