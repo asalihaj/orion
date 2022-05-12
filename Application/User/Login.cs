@@ -77,6 +77,7 @@ namespace Application.User
                             Token = _jwtGenerator.CreateToken(appUser),
                             Username = appUser.UserName,
                             Profile = profile,
+                            Email = appUser.Email,
                             Photo = photo != null ? photo.Url : null,
                             Role = userRole
                         };

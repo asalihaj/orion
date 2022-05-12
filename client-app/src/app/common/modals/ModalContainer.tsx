@@ -10,12 +10,12 @@ const ModalContainer = () => {
         <Modal 
         open={open} 
         onClose={closeModal} 
-        size='mini' 
+        size='small'
         style={{ 
             position: 'static',
             height: '350px',
             }}>
-            <Modal.Content>{body}</Modal.Content>
+            <Modal.Content image scrolling>{body}</Modal.Content>
         </Modal>
     )
 }

@@ -1,6 +1,6 @@
 import { action, observable, runInAction } from "mobx";
 import agent from "../api/agent";
-import { CompanyFormValues, ICompany } from "../models/company";
+import { ICompanyFormValues, ICompany } from "../models/company";
 import { IUser } from "../models/user";
 import { RootStore } from "./rootStore";
 
@@ -26,7 +26,7 @@ export default class CompanyStore {
         return this.company;
     }
 
-    @action create = async (company: CompanyFormValues) => {
+    @action create = async (company: ICompanyFormValues) => {
         try {
             await agent.Company.create(company);
         } catch (error) {

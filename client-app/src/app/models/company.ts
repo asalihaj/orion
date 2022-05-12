@@ -1,11 +1,12 @@
 export interface ICompany {
-    userId: string;
+    id: string;
     name: string;
     location: string;
+    description: string;
 }
 
-export class CompanyFormValues {
-    userId: string;
+export interface ICompanyFormValues extends Partial<ICompany> {
+    id: string;
     name: string;
     location: string;
     description: string;

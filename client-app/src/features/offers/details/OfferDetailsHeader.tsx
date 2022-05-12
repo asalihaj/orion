@@ -46,10 +46,16 @@ const OfferDetailedHeader = () => {
         }).then(() => getUser())
         .catch(error => toast.error(error));;
     }
+
+    const imageBorder = {
+        borderRadius: '50%',
+        width: '80px',
+        height: '80px'
+    }
     
     return (     
         <Item>
-            <Item.Image src='/assets/fb.png' size='tiny'/>
+            <Item.Image style={imageBorder}  src={offer.publisher.url ? offer.publisher.url : '/assets/fb.png'} size='tiny' circular/>
             <Item.Content>
                 <Item.Header>{offer.title}</Item.Header>
                 <div></div>
@@ -70,10 +76,7 @@ const OfferDetailedHeader = () => {
                     <Button 
                     color='blue'
                     onClick={
-                        () => {user ? (
-                            apply('MY CV')) : 
-                            history.push('/login')                            
-                        }} 
+                        () => {getUser().then(() => console.log(user))}} 
                     style={{ marginTop: '3rem', marginRight: '0.7rem'}}
                     size='medium'
                     >

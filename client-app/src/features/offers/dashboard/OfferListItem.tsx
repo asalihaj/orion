@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Item, Label } from 'semantic-ui-react';
+import { Item, Label, Image } from 'semantic-ui-react';
 import { IOffer, IPublisher } from '../../../app/models/offer';
 import './styles.css';
 import { format } from 'date-fns';
@@ -12,13 +12,19 @@ const OfferListItem: React.FC<{ offer: IOffer, publisher: IPublisher }> = ({ off
     const { user } = rootStore.userStore;
     const { loadOffer } = rootStore.offerStore;
 
+    const imageBorder = {
+        borderRadius: '50%',
+        width: '80px',
+        height: '80px'
+    }
+
     return (
         <Item 
         className='offer'
          onClick={() => loadOffer(offer.id)}
          style={{ border: '1px solid black !important'}}
         >
-            <Item.Image size='tiny' src='/assets/fb.png' />
+            <Image style={imageBorder} size='tiny' src={publisher.url ? publisher.url : '/assets/fb.png'} />
             <Item.Content>
                 {user &&
                 <Item.Extra >

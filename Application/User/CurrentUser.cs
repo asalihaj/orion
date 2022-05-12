@@ -48,6 +48,7 @@ namespace Application.User
                     Username = user.Username,
                     Token = _jwtGenerator.CreateToken(appUser),
                     Photo = appUser.Photo != null ? appUser.Photo.Url : null,
+                    Email = user.Email,
                     Role = role,
                     Profile = profile
 

@@ -10,7 +10,7 @@ import { modules, formats } from '../../../../app/common/options/quill/quillOpti
 import SelectInput from '../../../../app/common/form/SelectInput';
 import TextInput from '../../../../app/common/form/TextInput';
 import { gender } from '../../../../app/common/options/gender/genderOptions';
-import { JobSeekerFormValues } from '../../../../app/models/jobseeker';
+import { IJobSeekerFormValues } from '../../../../app/models/jobseeker';
 import { IUserFormValues } from '../../../../app/models/user';
 import { RootStoreContext } from '../../../../app/stores/rootStore';
 
@@ -41,8 +41,8 @@ const JobSeekerForm = (props) => {
         }
         register(user)
             .then(data => {
-                const profile: JobSeekerFormValues = {
-                    userId: data.id,
+                const profile: IJobSeekerFormValues = {
+                    id: data.id,
                     firstName: values.firstName,
                     lastName: values.lastName,
                     gender: values.gender,

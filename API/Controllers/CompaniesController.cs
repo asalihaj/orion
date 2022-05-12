@@ -32,7 +32,7 @@ namespace API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Unit>> Edit(string id, Edit.Command command)
+        public async Task<ActionResult<Unit>> Edit(string id, Application.Companies.Edit.Command command)
         {
             UserDto user = await GetCurrentUser();
             if (user.Id != id)

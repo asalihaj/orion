@@ -6,7 +6,7 @@ import { Form, Button, Header, Icon } from 'semantic-ui-react';
 import ErrorMessage from '../../../../app/common/form/ErrorMessage';
 import { modules, formats } from '../../../../app/common/options/quill/quillOptions';
 import TextInput from '../../../../app/common/form/TextInput';
-import { CompanyFormValues } from '../../../../app/models/company';
+import { ICompanyFormValues } from '../../../../app/models/company';
 import { IUserFormValues } from '../../../../app/models/user';
 import { RootStoreContext } from '../../../../app/stores/rootStore';
 import ReactQuill from 'react-quill';
@@ -37,8 +37,8 @@ const CompanyForm = (props) => {
         const result = register(user);
 
         result.then(data => {
-            const profile: CompanyFormValues = {
-                userId: data.id,
+            const profile: ICompanyFormValues = {
+                id: data.id,
                 name: values.name,
                 location: values.location,
                 description: description

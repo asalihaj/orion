@@ -8,3 +8,33 @@
 .left-space {
     padding-left: '2.4rem' !important;
 }
+
+.image-content {
+    padding-top: 50px;
+    position: relative;
+}
+
+.profile-image {
+    cursor: pointer;
+}
+
+.profile-image:hover {
+    opacity: 50%;
+}
+
+.image-edit-icon {
+    position: absolute;
+    bottom: 41%;
+    left: 75px;
+    display: none !important;
+    z-index: 0;
+}
+
+.profile-image:hover + .image-edit-icon {
+    display: inline-block !important;
+}
+
+.image-edit-icon:hover {
+    display: inline-block !important;
+    cursor: pointer;
+}

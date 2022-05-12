@@ -1,4 +1,5 @@
 import { action, computed, observable, runInAction } from "mobx";
+import { toast } from "react-toastify";
 import { history } from "../..";
 import agent from "../api/agent";
 import { IUser, IUserFormValues, IUserProfile } from "../models/user";
@@ -12,6 +13,7 @@ export default class UserStore {
   @observable user: IUser | null = null;
   @observable userProfile: IUserProfile | null = null;
   @observable loadingInitial = false;
+  @observable loadingProfile = false;
 
   @computed get isLoggedIn() { return !!this.user}
 
@@ -45,7 +47,7 @@ export default class UserStore {
         this.user = user;
       })
     } catch (error) {
-      return error;
+      throw error;
     }
   }
 
@@ -60,19 +62,64 @@ export default class UserStore {
   }
 
   @action loadProfile = async (username: string) => {
-    this.loadingInitial = true;
+    this.loadingProfile = true;
     try {
       const user = await agent.User.details(username);
       runInAction(() => {
         this.userProfile = user;
-        this.loadingInitial = false;  
+        this.loadingProfile = false;  
       });
       return user;
     } catch (error) {
       runInAction(() => {
-        this.loadingInitial = false;
+        this.loadingProfile = false;
       });
       return error;
+    }
+  }
+
+  @action editUser = async (user: IUserFormValues) => {
+    try {
+      const updatedUser = await agent.User.update(user);
+      runInAction(() => {
+        this.user = updatedUser;
+      });
+    } catch (error) {
+      runInAction(() => {
+        throw error;
+      })
+    }
+  }
+
+  @action uploadPhoto = async (file: Blob) => {
+    this.loadingInitial = true;
+    try {
+      const photo = await agent.User.uploadPhoto(file);
+      runInAction(() => {
+        if (this.user) {
+          this.user.photo = photo.url;
+          this.loadingInitial = false;
+        }
+      })
+    } catch (error) {
+      console.log(error)
+      toast.error('Problem uploading photo');
+      runInAction(() => {
+        this.loadingInitial = false;
+      })
+    }
+  }
+
+  @action deletePhoto = async (id: string) => {
+    try {
+      await agent.User.deletePhoto(id);
+      runInAction(() => {
+        this.user.photo = null;
+      })
+    } catch (error) {
+      runInAction(() => {
+        throw error;
+      })
     }
   }
 }

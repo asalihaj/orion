@@ -40,7 +40,7 @@ namespace API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Unit>> Edit(Guid id, Edit.Command command)
+        public async Task<ActionResult<Unit>> Edit(Guid id, Application.Offers.Edit.Command command)
         {
             UserDto user = await GetCurrentUser();
             if (user.Role == "Company")

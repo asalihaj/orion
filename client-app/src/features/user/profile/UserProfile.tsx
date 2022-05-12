@@ -6,6 +6,8 @@ import { RootStoreContext } from "../../../app/stores/rootStore";
 import './styles.css';
 import JobSeekerProfile from "./JobSeekerProfile";
 import CompanyProfile from "./CompanyProfile";
+import { observable } from "mobx";
+import { observer } from "mobx-react-lite";
 
 interface DetailParams {
   username: string
@@ -15,7 +17,7 @@ const UserProfile: React.FC<RouteComponentProps<DetailParams>> = ({
   match
 }) => {
   const rootStore = useContext(RootStoreContext);
-  const { loadProfile, loadingInitial } = rootStore.userStore;
+  const { loadProfile, loadingProfile } = rootStore.userStore;
 
   const [profile, setProfile] = useState();
   const [username, setUsername] = useState();
@@ -40,18 +42,18 @@ const UserProfile: React.FC<RouteComponentProps<DetailParams>> = ({
     photo: photo
   }
 
-  if (loadingInitial)
+  if (loadingProfile)
     <LoadingComponent content="Loading user's profile" />
 
   return (
     <Container>
       <Grid columns={1}>
         <Grid.Column style ={{ marginTop: '3rem' }}>
-          {role === 'Company' ? <CompanyProfile user={user} /> : <JobSeekerProfile user={user} />}
+          {role === 'Company' ? <CompanyProfile userProfile={user} /> : <JobSeekerProfile userProfile={user} />}
         </Grid.Column>
       </Grid>
     </Container>
   );
 };
 
-export default UserProfile;
+export default observer(UserProfile);

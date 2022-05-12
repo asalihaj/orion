@@ -4,7 +4,6 @@ import OfferList from './OfferList';
 import { observer } from 'mobx-react-lite';
 import OfferDetails from '../details/OfferDetails';
 import { RootStoreContext } from '../../../app/stores/rootStore';
-import OfferStore from '../../../app/stores/offerStore';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 
 const OfferDashboard:React.FC = () => {

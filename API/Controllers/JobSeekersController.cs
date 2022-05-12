@@ -35,7 +35,7 @@ namespace API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Unit>> Edit(string id, Edit.Command command)
+        public async Task<ActionResult<Unit>> Edit(string id, Application.JobSeekers.Edit.Command command)
         {
             UserDto user = await GetCurrentUser();
             if (user.Id != id)

@@ -97,13 +97,6 @@ const UserForm = (props) => {
                                 {props.data.errorMessage[3]}<br/>
                             </Label>}
                     </div>
-                    <div className='field-container'>
-                    <Field
-                        name='photo'
-                        component={FileInput}
-                        placeholder='photo'
-                    />
-                    </div>
                     {submitError && !dirtySinceLastSubmit && (
                         <ErrorMessage
                         error={submitError}
@@ -114,7 +107,8 @@ const UserForm = (props) => {
                         disabled={invalid && !dirtySinceLastSubmit}
                         loading={submitting}
                         primary
-                        size='medium'
+                        circular
+                        size='big'
                         floated='right'
                         >
                             <Button.Content visible>Next</Button.Content>

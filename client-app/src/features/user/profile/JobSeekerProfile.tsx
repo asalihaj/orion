@@ -1,33 +1,59 @@
 import { format } from "date-fns";
-import { useEffect, useState } from "react";
+import { observer } from "mobx-react-lite";
+import { useContext, useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill";
-import { Button, Card, Grid, Image } from "semantic-ui-react";
+import { Button, Card, Grid, Icon, Image, Input } from "semantic-ui-react";
+import PhotoUploadWidget from "../../../app/common/photoUpload/PhotoUploadWidget";
 import { IUserProfile } from "../../../app/models/user";
+import { RootStoreContext } from "../../../app/stores/rootStore";
 
-const JobSeekerProfile:React.FC<{user: IUserProfile}> = ({user}) => {
+const JobSeekerProfile:React.FC<{userProfile: IUserProfile}> = ({userProfile}) => {
+    const rootStore = useContext(RootStoreContext);
+    const { user, uploadPhoto, deletePhoto } = rootStore.userStore;
+    const { openModal, closeModal } = rootStore.modalStore;
+
+
+    const handleUploadImage = (photo: Blob) => {
+        uploadPhoto(photo).then(() => closeModal()).finally(() => window.location.reload());
+    }
+
+    const handleDeleteImage = () => {
+        if (user && user.username === userProfile.username) {
+            deletePhoto(user.id).then(() => closeModal()).finally(() => window.location.reload());
+        }
+    }
 
     const [firstName, setFirstname] = useState();
     const [lastName, setLastname] = useState();
     const [gender, setGender] = useState();
     const [birthday, setBirthday] = useState();
     const [bio, setBio] = useState();
+    
+    const isCurrentUser = () => {
+        if (user) {
+            return user.username === userProfile.username;
+        } else {
+            return false;
+        }
+    }
 
     useEffect(() => {
-        setFirstname(user.profile?.firstName);
-        setLastname(user.profile?.lastName);
-        setGender(user.profile?.gender);
-        setBirthday(user.profile?.birthday);
-        setBio(user.profile?.bio);
+        setFirstname(userProfile.profile?.firstName);
+        setLastname(userProfile.profile?.lastName);
+        setGender(userProfile.profile?.gender);
+        setBirthday(userProfile.profile?.birthday);
+        setBio(userProfile.profile?.bio);
     }, [
-        user.profile?.firstName,
-        user.profile?.lastName,
-        user.profile?.gender,
-        user.profile?.birthday
+        userProfile.profile?.firstName,
+        userProfile.profile?.lastName,
+        userProfile.profile?.gender,
+        userProfile.profile?.birthday
     ]);
 
     const paddingLeft = {
         paddingLeft: '2.4rem'
     }
+
 
     return(
         <Grid columns={1}>
@@ -35,8 +61,22 @@ const JobSeekerProfile:React.FC<{user: IUserProfile}> = ({user}) => {
                 <Card fluid>
                     <div className="profile-cover"> 
                     </div>
-                    <Card.Content style={{ paddingTop: '50px'}}>
-                    <Image src={user.photo || '/assets/user.png'} size="small" bordered circular />
+                    <Card.Content className='image-content'>
+                    <Image 
+                        className={isCurrentUser() ? "profile-image" : ""}
+                        src={userProfile.photo || '/assets/user.png'} 
+                        size="small" 
+                        bordered 
+                        circular 
+                        onClick={() => {
+                            if (isCurrentUser())
+                                openModal(<PhotoUploadWidget uploadPhoto={handleUploadImage} deletePhoto={handleDeleteImage} />)
+                            }} />
+                            <Icon 
+                            name='edit' 
+                            size='big' 
+                            disabled 
+                            className="image-edit-icon" />
                     </Card.Content>
                     <Card.Content style={paddingLeft}>
                     <Card.Header>
@@ -58,4 +98,4 @@ const JobSeekerProfile:React.FC<{user: IUserProfile}> = ({user}) => {
     );
 }
 
-export default JobSeekerProfile;
+export default observer(JobSeekerProfile);

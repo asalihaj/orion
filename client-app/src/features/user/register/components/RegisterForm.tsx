@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Button, Container, Icon, Label, Step } from "semantic-ui-react";
 import FormContainer from "../../../../app/common/form/FormContainer";
-import { CompanyFormValues } from "../../../../app/models/company";
-import { JobSeekerFormValues } from "../../../../app/models/jobseeker";
+import { ICompanyFormValues } from "../../../../app/models/company";
+import { IJobSeekerFormValues } from "../../../../app/models/jobseeker";
 import CompanyForm from "./CompanyForm";
 import JobSeekerForm from "./JobSeekerForm";
 import { history } from "../../../..";
@@ -11,8 +11,8 @@ import UserForm from "./UserForm";
 
 const RegisterForm = ({formType}) => {
 
-  let companyProfile: CompanyFormValues;
-  let jobseekerProfile: JobSeekerFormValues;
+  let companyProfile: ICompanyFormValues;
+  let jobseekerProfile: IJobSeekerFormValues;
 
   const [data, setData] = useState({
     username: '',

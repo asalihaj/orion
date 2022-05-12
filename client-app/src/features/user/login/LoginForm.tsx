@@ -21,7 +21,6 @@ const LoginForm = () => {
         <FinalForm
         onSubmit={(values: IUserFormValues) => 
             login(values)
-            .then((res) => console.log(res))
             .catch(error => ({
                 [FORM_ERROR]: error.data.errors
             }))
@@ -52,14 +51,14 @@ const LoginForm = () => {
                 placeholder='Password'
                 type='password'
             />
-            {submitError && !dirtySinceLastSubmit && (
+            {submitError && (
                 <ErrorMessage
                 error={submitError}
                 text={submitError}
                 />
             )}
             <Button
-                disabled={(invalid && !dirtySinceLastSubmit) || pristine}
+                disabled={pristine}
                 loading={submitting}
                 primary
                 content='Login'

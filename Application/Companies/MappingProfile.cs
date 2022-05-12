@@ -10,7 +10,8 @@ namespace Application.Companies
         {
             CreateMap<Company, CompanyDto>()
                 .ForMember(d => d.Id, o => o.MapFrom(s => s.UserId))
-                .ForMember(d => d.Username, o => o.MapFrom(s => s.User.UserName));
+                .ForMember(d => d.Username, o => o.MapFrom(s => s.User.UserName))
+                .ForMember(d => d.Url, o => o.MapFrom(s => s.User.Photo.Url));
             
         }
     }

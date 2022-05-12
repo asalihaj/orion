@@ -1,7 +1,7 @@
 import { IOffer } from "./offer";
 
 export interface IJobSeeker {
-    userId: string;
+    id: string;
     firstName: string;
     lastName: string;
     gender: string;
@@ -11,8 +11,8 @@ export interface IJobSeeker {
     offersApplied: IOffer[];
 }
 
-export class JobSeekerFormValues {
-    userId: string;
+export interface IJobSeekerFormValues {
+    id: string;
     firstName: string;
     lastName: string;
     gender: string;

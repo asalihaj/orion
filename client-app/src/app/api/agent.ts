@@ -1,10 +1,10 @@
 import axios, { AxiosResponse } from "axios";
 import { history } from "../..";
 import { toast } from "react-toastify";
-import { CompanyFormValues, ICompany } from "../models/company";
+import { ICompanyFormValues, ICompany } from "../models/company";
 import { IOffer } from "../models/offer";
-import { IUser, IUserFormValues, IUserProfile } from "../models/user";
-import { IJobSeeker, JobSeekerFormValues } from "../models/jobseeker";
+import { IPhoto, IUser, IUserFormValues, IUserProfile } from "../models/user";
+import { IJobSeeker, IJobSeekerFormValues } from "../models/jobseeker";
 import { IResume, IResumeFormValues } from "../models/resume";
 import { IReport, IReportFormValues } from "../models/report";
 
@@ -52,12 +52,16 @@ const responseBody = (response: AxiosResponse) => response.data;
 
 const requests = {
   get: (url: string) => axios.get(url).then(sleep(400)).then(responseBody),
-  post: (url: string, body: {}) =>
-    axios.post(url, body).then(sleep(400)).then(responseBody),
-  put: (url: string, body: {}) =>
-    axios.put(url, body).then(sleep(400)).then(responseBody),
-  delete: (url: string) =>
-    axios.delete(url).then(sleep(400)).then(responseBody),
+  post: (url: string, body: {}) => axios.post(url, body).then(sleep(400)).then(responseBody),
+  put: (url: string, body: {}) => axios.put(url, body).then(sleep(400)).then(responseBody),
+  delete: (url: string) => axios.delete(url).then(sleep(400)).then(responseBody),
+  postForm: (url: string, file: Blob) => {
+    let formData = new FormData();
+    formData.append('File', file);
+    return axios.post(url, formData, {
+      headers: {'Content-type': 'multipart/form-data'}
+    }).then(responseBody);
+  }
 };
 
 const Offers = {
@@ -74,26 +78,29 @@ const User = {
     requests.post(`/user/login`, user),
   register: (user: IUserFormValues): Promise<IUser> =>
     requests.post(`/user/register`, user),
+  update: (user: IUserFormValues) => requests.put(`/user/${user.id}`, user),
   details: (username: string): Promise<IUserProfile> =>
-    requests.get(`/user/${username}`)
+    requests.get(`/user/${username}`),
+  uploadPhoto: (photo: Blob): Promise<IPhoto> => requests.postForm('/photos', photo),
+  deletePhoto: (id: string) => requests.delete(`/photos/${id}`)
 };
 
 const Company = {
   list: (): Promise<ICompany[]> => requests.get("/companies"),
   details: (id: string) => requests.get(`/companies/${id}`),
-  create: (company: CompanyFormValues) => requests.post("/companies", company),
+  create: (company: ICompanyFormValues) => requests.post("/companies", company),
   update: (company: ICompany) =>
-    requests.put(`/companies/${company.userId}`, company),
+    requests.put(`/companies/${company.id}`, company),
   delete: (id: string) => requests.delete(`/companies/${id}`),
 };
 
 const JobSeeker = {
   list: (): Promise<IJobSeeker[]> => requests.get("/jobseekers"),
   details: (id: string) => requests.get(`/jobseekers/${id}`),
-  create: (jobSeeker: JobSeekerFormValues) =>
+  create: (jobSeeker: IJobSeekerFormValues) =>
     requests.post("/jobseekers", jobSeeker),
-  update: (jobSeeker: IJobSeeker) =>
-    requests.put(`/jobseekers/${jobSeeker.userId}`, jobSeeker),
+  update: (jobSeeker: IJobSeekerFormValues) =>
+    requests.put(`/jobseekers/${jobSeeker.id}`, jobSeeker),
   delete: (id: string) => requests.delete(`/jobseekers/${id}`),
   save: (id: string) => requests.post(`/jobseekers/save?offerId=${id}`, id),
   remove: (id: string) => requests.delete(`/jobseekers/remove?offerId=${id}`),

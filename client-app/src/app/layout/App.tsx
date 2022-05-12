@@ -13,6 +13,7 @@ import ModalContainer from "../common/modals/ModalContainer";
 import { RootStoreContext } from "../stores/rootStore";
 import NotFound from "./NotFound";
 import UserProfile from "../../features/user/profile/UserProfile";
+import ProfileSettings from "../../features/user/profile/settings/ProfileSettings";
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -48,6 +49,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
               <Route path='/login' component={Login} />
               <Route path='/register' component={Register} />
               <Route exact path='/:username/profile' component={UserProfile} />
+              {user && <Route path={`/${user.username}/edit`} component={withRouter(ProfileSettings)} />}
               <Route component={NotFound}/>
             </Switch>
           </Container>

@@ -1,0 +1,13 @@
+.pw-toggler {
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 7px;
+}
+
+.pw-toggler:hover {
+    text-decoration: underline;
+}
+
+.hidden-password {
+    display: none;
+}

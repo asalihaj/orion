@@ -41,6 +41,7 @@ export interface IPublisher {
     name: string;
     description: string;
     location: string;
+    url: string;
 }
 
 export interface IApplicants {

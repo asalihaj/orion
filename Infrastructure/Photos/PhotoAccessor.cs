@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Application.Interfaces;
@@ -27,20 +28,20 @@ namespace Infrastructure.Photos
                 using (var stream = file.OpenReadStream())
                 {
                     var result = await _dropbox.Files.UploadAsync(
-                        "/photos/" + id + ext,
+                        "/photos/" + id + ".png",
                         WriteMode.Overwrite.Instance,
                         body: stream);
                 }
             }
             
-            var photo = await _dropbox.Sharing.ListSharedLinksAsync("/photos/" + id + ext);
+            var photo = await _dropbox.Sharing.ListSharedLinksAsync("/photos/" + id + ".png");
 
             if (photo.Links.Count == 0)
             {
-                var link = await _dropbox.Sharing.CreateSharedLinkWithSettingsAsync("/photos/" + id + ext);
+                var link = await _dropbox.Sharing.CreateSharedLinkWithSettingsAsync("/photos/" + id + ".png");
                 return new PhotoUploadResult
                 {
-                    PhotoId = id + ext,
+                    PhotoId = id + ".png",
                     Url = link.Url + "&raw=1",
                     Name = id + ext
                 };
@@ -48,7 +49,7 @@ namespace Infrastructure.Photos
             {
                 return new PhotoUploadResult
                 {
-                    PhotoId = id + ext,
+                    PhotoId = id + ".png",
                     Url = photo.Links[0].Url + "&raw=1",
                     Name = id + ext
                 };
