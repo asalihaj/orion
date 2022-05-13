@@ -10,7 +10,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220512193545_DbSchema")]
+    [Migration("20220513213049_DbSchema")]
     partial class DbSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,6 +100,8 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("DateCreated");
 
                     b.Property<string>("Description");
+
+                    b.Property<string>("Email");
 
                     b.Property<string>("Title");
 

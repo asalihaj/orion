@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
+using AutoMapper;
 using Domain;
 using MediatR;
 using Persistence;
@@ -10,20 +11,22 @@ namespace Application.Contacts
 {
     public class Details
     {
-        public class Query : IRequest<Contact>
+        public class Query : IRequest<ContactDto>
         {
             public Guid Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Contact>
+        public class Handler : IRequestHandler<Query, ContactDto>
         {
             private readonly DataContext _context;
-            public Handler(DataContext context)
+            private readonly IMapper _mapper;
+            public Handler(DataContext context, IMapper mapper)
             {
                 _context = context;
+                _mapper = mapper;
             }
 
-            public async Task<Contact> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<ContactDto> Handle(Query request, CancellationToken cancellationToken)
             {
                 var contact = await _context.Contacts.FindAsync(request.Id);
 
@@ -31,8 +34,9 @@ namespace Application.Contacts
                     throw new RestException(System.Net.HttpStatusCode.NotFound, 
                     new { contact = "Not found" });
 
+                var contactToReturn = _mapper.Map<Contact, ContactDto>(contact);
 
-                return contact;
+                return contactToReturn;
             }
         }
     }

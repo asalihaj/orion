@@ -182,6 +182,7 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
                     Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false)

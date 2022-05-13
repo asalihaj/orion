@@ -16,17 +16,17 @@ namespace API.Controllers
     {
         
         [HttpGet]
-        public async Task<ActionResult<List<Contact>>> List()
+        public async Task<ActionResult<List<ContactDto>>> List()
         {
             UserDto user = await GetCurrentUser();
-            if (user.Id != "Admin")
-                throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to complete this action");
+            if (user.Role != "Admin")
+                throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to complete this action@!");
                 
             return await Mediator.Send(new List.Query());
         }
         
         [HttpGet("{id}")]
-        public async Task<ActionResult<Contact>> Details(Guid id)
+        public async Task<ActionResult<ContactDto>> Details(Guid id)
         {
             UserDto user = await GetCurrentUser();
             if (user.Id != "Admin")
@@ -35,6 +35,7 @@ namespace API.Controllers
             return await Mediator.Send(new Details.Query { Id = id });
         }
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult<Unit>> Create(Create.Command command)
         {
             return await Mediator.Send(command);

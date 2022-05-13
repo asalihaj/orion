@@ -116,7 +116,7 @@ namespace API
             app.UseAuthentication();
             app.UseCors("CorsPolicy");
             app.UseMvc();
-            //CreateRoles(services).Wait();
+            CreateRoles(services).Wait();
         }
 
         private async Task CreateRoles(IServiceProvider serviceProvider)
@@ -127,6 +127,12 @@ namespace API
             var UserManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
             string[] roleNames = { "Admin", "Company", "JobSeeker" };
             IdentityResult roleResult;
+
+            var exist = await Context.UserRoles.AnyAsync();
+
+            if (exist) {
+                return;
+            }
 
             foreach (var roleName in roleNames)
             {

@@ -14,6 +14,7 @@ namespace Application.Contacts
         {
             public Guid Id { get; set; }
             public string UserId { get; set; }
+            public string Email { get; set; }
             public string Title { get; set; }
             public string Description { get; set; }
         }
@@ -23,9 +24,8 @@ namespace Application.Contacts
             {
                 RuleFor(x => x.Id).NotEmpty();
                 RuleFor(x => x.Description).NotEmpty();
-                RuleFor(x => x.UserId).NotEmpty();
+                RuleFor(x => x.Email).NotEmpty();
                 RuleFor(x => x.Title).NotEmpty();
-                
             }
         }
 
@@ -41,11 +41,12 @@ namespace Application.Contacts
             {
                 var contact = new Contact
                 {
-                    Id = request.Id,
+                    Id = new Guid(),
                     UserId = request.UserId,
+                    Email = request.Email,
                     Title = request.Title,
                     Description = request.Description,
-              
+                    DateCreated = DateTime.Now
                 };
 
                 _context.Contacts.Add(contact);

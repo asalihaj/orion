@@ -2,6 +2,7 @@ import { configure } from "mobx";
 import { createContext } from "react";
 import CommonStore from "./commonStore";
 import CompanyStore from "./companyStore";
+import ContactStore from "./contactStore";
 import JobSeekerStore from "./jobSeekerStore";
 import ModalStore from "./modalStore";
 import OfferStore from "./offerStore";
@@ -20,7 +21,8 @@ export class RootStore {
     jobSeekerStore: JobSeekerStore;
     resumeStore: ResumeStore;
     reportStore: ReportStore;
-
+    contactStore: ContactStore;
+    
     constructor() {
         this.offerStore = new OfferStore(this);
         this.modalStore = new ModalStore(this);
@@ -30,6 +32,7 @@ export class RootStore {
         this.jobSeekerStore = new JobSeekerStore(this);
         this.resumeStore = new ResumeStore(this);
         this.reportStore = new ReportStore(this);
+        this.contactStore = new ContactStore(this);
     }
 }
 

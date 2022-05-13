@@ -7,6 +7,7 @@ import { IPhoto, IUser, IUserFormValues, IUserProfile } from "../models/user";
 import { IJobSeeker, IJobSeekerFormValues } from "../models/jobseeker";
 import { IResume, IResumeFormValues } from "../models/resume";
 import { IReport, IReportFormValues } from "../models/report";
+import { IContact, IContactFormValues } from "../models/contact";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 
@@ -70,9 +71,9 @@ const requests = {
 };
 
 const Offers = {
-  list: (): Promise<IOffer[]> => requests.get("/offers"),
+  list: (): Promise<IOffer[]> => requests.get('/offers'),
   details: (id: string) => requests.get(`/offers/${id}`),
-  create: (offer: IOffer) => requests.post("/offers", offer),
+  create: (offer: IOffer) => requests.post('/offers', offer),
   update: (offer: IOffer) => requests.put(`/offers/${offer.id}`, offer),
   delete: (id: string) => requests.delete(`/offers/${id}`),
 };
@@ -91,19 +92,19 @@ const User = {
 };
 
 const Company = {
-  list: (): Promise<ICompany[]> => requests.get("/companies"),
+  list: (): Promise<ICompany[]> => requests.get('/companies'),
   details: (id: string) => requests.get(`/companies/${id}`),
-  create: (company: ICompanyFormValues) => requests.post("/companies", company),
+  create: (company: ICompanyFormValues) => requests.post('/companies', company),
   update: (company: ICompany) =>
     requests.put(`/companies/${company.id}`, company),
   delete: (id: string) => requests.delete(`/companies/${id}`),
 };
 
 const JobSeeker = {
-  list: (): Promise<IJobSeeker[]> => requests.get("/jobseekers"),
+  list: (): Promise<IJobSeeker[]> => requests.get('/jobseekers'),
   details: (id: string) => requests.get(`/jobseekers/${id}`),
   create: (jobSeeker: IJobSeekerFormValues) =>
-    requests.post("/jobseekers", jobSeeker),
+    requests.post('/jobseekers', jobSeeker),
   update: (jobSeeker: IJobSeekerFormValues) =>
     requests.put(`/jobseekers/${jobSeeker.id}`, jobSeeker),
   delete: (id: string) => requests.delete(`/jobseekers/${id}`),
@@ -112,17 +113,23 @@ const JobSeeker = {
 };
 
 const Resumes = {
-  list: (): Promise<IResume[]> => requests.get("/resumes"),
+  list: (): Promise<IResume[]> => requests.get('/resumes'),
   details: (id: string, offerId: string) =>
     requests.get(`/resumes/q?jobseekerId=${id}&offerId=${offerId}`),
-  create: (file: Blob, values: object) => requests.postForm("/resumes", 'CV',file, values),
+  create: (file: Blob, values: object) => requests.postForm('/resumes', 'CV',file, values),
   download: (offerId: string) => requests.get(`/resumes/${offerId}`) 
 };
 
 const Reports = {
-  list: (): Promise<IReport[]> => requests.get("/reports"),
+  list: (): Promise<IReport[]> => requests.get('/reports'),
   details: (offerId: string) => requests.get(`/resumes/${offerId}`),
-  create: (report: IReportFormValues) => requests.post("/reports", report)
+  create: (report: IReportFormValues) => requests.post('/reports', report)
+}
+
+const Contacts = {
+  list: (): Promise<IContact[]> => requests.get('/contacts'),
+  details: (id: string) => requests.get(`/contacts/${id}`),
+  create: (contact: IContactFormValues) => requests.post('/contacts', contact)
 }
 
 export default {
@@ -131,5 +138,6 @@ export default {
   Company,
   JobSeeker,
   Resumes,
-  Reports
+  Reports,
+  Contacts
 };

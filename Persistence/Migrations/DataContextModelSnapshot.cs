@@ -99,6 +99,8 @@ namespace Persistence.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<string>("Email");
+
                     b.Property<string>("Title");
 
                     b.Property<string>("UserId");
