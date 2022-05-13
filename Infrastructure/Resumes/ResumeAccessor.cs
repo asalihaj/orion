@@ -1,6 +1,8 @@
 using System;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
+using Application.Errors;
 using Application.Interfaces;
 using Application.Resumes;
 using Dropbox.Api;

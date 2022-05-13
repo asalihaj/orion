@@ -97,7 +97,6 @@ export default class OfferStore {
             this.offerRegistry.set(offerToSave.id, offerToSave);
             this.submitting = false;
           });
-          // history.push(`/offers/${offer.id}`);
         } catch (error) {
           runInAction(() => {
             this.submitting = false;

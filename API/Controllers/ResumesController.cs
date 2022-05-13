@@ -14,13 +14,13 @@ namespace API.Controllers
     public class ResumesController : BaseController
     {
         [HttpGet]
-        public async Task<ActionResult<List<ApplicantDto>>> List()
+        public async Task<ActionResult<List<OfferApplicantsList>>> List()
         {
             UserDto user = await GetCurrentUser();
             if (user.Role != "Company")
                 throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to view resumes");
                 
-            return await Mediator.Send(new Application.Resumes.List.Query{Id = user.Id});
+            return await Mediator.Send(new Application.Resumes.CompanyList.Query{Id = user.Id});
         }
 
         [HttpGet("q")]

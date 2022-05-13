@@ -13,7 +13,7 @@ namespace Application.JobSeekers
     {
         public class Command : IRequest
         {
-            public string UserId { get; set; }
+            public string Id { get; set; }
             public string FirstName { get; set; }
             public string LastName { get; set; }
             public string Gender { get; set; }
@@ -24,12 +24,11 @@ namespace Application.JobSeekers
         {
             public CommandValidator()
             {
-                RuleFor(x => x.UserId).NotEmpty();
+                RuleFor(x => x.Id).NotEmpty();
                 RuleFor(x => x.FirstName).NotEmpty();
                 RuleFor(x => x.LastName).NotEmpty();
                 RuleFor(x => x.Gender).NotEmpty();
                 RuleFor(x => x.Birthday).NotEmpty();
-
             }
         }
 
@@ -47,7 +46,7 @@ namespace Application.JobSeekers
             {
                 var jobSeekers = new JobSeeker
                 {
-                    UserId = request.UserId,
+                    UserId = request.Id,
                     FirstName = request.FirstName,
                     LastName = request.LastName,
                     Gender = request.Gender,
@@ -59,7 +58,7 @@ namespace Application.JobSeekers
                 _context.JobSeekers.Add(jobSeekers);
                 var success = await _context.SaveChangesAsync() > 0;
 
-                var user  = await _userManager.FindByIdAsync(request.UserId);
+                var user  = await _userManager.FindByIdAsync(request.Id);
                 await _userManager.AddToRoleAsync(user, "JobSeeker");
 
                 if (success) return Unit.Value;

@@ -68,13 +68,11 @@ namespace Application.User
                 
                 if (result.Succeeded)
                 {
-                    var photo = await _context.Photos.FindAsync(user.Id);
                     return new UserDto
                     {
                         Id = user.Id,
                         Token = _jwtGenerator.CreateToken(user),
-                        Username = user.UserName,
-                        Photo = photo != null ? photo.Url : null
+                        Username = user.UserName
                     };
                 }
 

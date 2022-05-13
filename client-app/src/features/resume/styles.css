@@ -1,0 +1,22 @@
+.item-button-display {
+    display: flex !important;
+    justify-content: end !important;
+    align-items: end !important;
+}
+
+.resume-arrow {
+    display: flex !important;
+    justify-content: center !important;
+}
+
+.arrow-container {
+    margin: 0 !important;
+    cursor: pointer !important;
+}
+
+.applicants-container {
+    padding-top: 10px !important;
+    padding-bottom: 20px !important;
+    height: 400px !important;
+    overflow-y: scroll !important;
+}

@@ -11,20 +11,15 @@ const ContactUs = () => {
       }}
     >
       <Form.Field>
-        <label>First Name</label>
-        <input placeholder="First Name" />
-      </Form.Field>
-      <Form.Field>
-        <label>Last Name</label>
-        <input placeholder="Last Name" />
-      </Form.Field>
-      <Form.Field>
         <label>Email Address</label>
         <input placeholder="Email Address" />
       </Form.Field>
-
       <Form.Field>
-        <TextArea placeholder="Tell us more" style={{ minHeight: 100 }} />
+        <label>Subject</label>
+        <input placeholder="Subject" />
+      </Form.Field>
+      <Form.Field>
+        <TextArea placeholder="Message..." style={{ minHeight: 100 }} />
       </Form.Field>
       <Form.Field>
         <Checkbox label="I agree to the Terms and Conditions" />

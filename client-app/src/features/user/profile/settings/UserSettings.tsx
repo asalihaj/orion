@@ -42,7 +42,9 @@ const UserSettings: React.FC<IProps> = ({ user }) => {
                 username: userData.username
             }
             login(newData)
-            .then(() => getUser().then(() => history.push(`/${userData.username}/edit`)))
+            .then(() => getUser()
+                .then(() => history.push(`/${userData.username}/edit`))
+                .then(() => toast.success("Updated successfully")))
             .catch(e => logout())
         })
         .catch(error => toast.warning(error.data.errors));

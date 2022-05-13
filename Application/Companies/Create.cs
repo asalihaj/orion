@@ -13,7 +13,7 @@ namespace Application.Companies
     {
         public class Command : IRequest
         {
-            public string UserId { get; set; }
+            public string Id { get; set; }
             public string Name { get; set; }
             public string Location { get; set; }
             public string Description { get; set; }
@@ -22,8 +22,7 @@ namespace Application.Companies
         {
             public CommandValidator()
             {
-                RuleFor(x => x.UserId).NotEmpty();
-                RuleFor(x => x.Description).NotEmpty();
+                RuleFor(x => x.Id).NotEmpty();
                 RuleFor(x => x.Name).NotEmpty();
                 RuleFor(x => x.Location).NotEmpty();
             }
@@ -43,7 +42,7 @@ namespace Application.Companies
             {
                 var company = new Company
                 {
-                    UserId = request.UserId,
+                    UserId = request.Id,
                     Name = request.Name,
                     Location = request.Location,
                     Description = request.Description,
@@ -53,7 +52,7 @@ namespace Application.Companies
                 _context.Companies.Add(company);
                 var success = await _context.SaveChangesAsync() > 0;
 
-                var user = await _userManager.FindByIdAsync(request.UserId);
+                var user = await _userManager.FindByIdAsync(request.Id);
                 await _userManager.AddToRoleAsync(user, "Company");
 
                 if (success) return Unit.Value;

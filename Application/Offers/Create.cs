@@ -60,6 +60,7 @@ namespace Application.Offers
                     Schedule = request.Schedule,
                     Salary = request.Salary,
                     ExpDate = request.ExpDate,
+                    DateCreated = DateTime.Now,
                     Description = request.Description,
                     LastUpdated = DateTime.Now
                 };

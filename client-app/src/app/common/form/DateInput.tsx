@@ -11,6 +11,7 @@ export const DateInput: React.FC<IProps> = ({
     date = false,
     time = false,
     min,
+    defaultValue,
     max,
     placeholder, 
     meta: {touched, error},
@@ -21,6 +22,7 @@ export const DateInput: React.FC<IProps> = ({
             <DateTimePicker
                 min={min}
                 max={max}
+                defaultValue={defaultValue}
                 placeholder={placeholder}
                 value={input.value || null}
                 date={date}

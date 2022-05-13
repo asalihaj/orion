@@ -13,6 +13,8 @@ import { gender } from '../../../../app/common/options/gender/genderOptions';
 import { IJobSeekerFormValues } from '../../../../app/models/jobseeker';
 import { IUserFormValues } from '../../../../app/models/user';
 import { RootStoreContext } from '../../../../app/stores/rootStore';
+import { getBirthday } from '../../../../app/common/util/util';
+import { toast } from 'react-toastify';
 
 const validate = combineValidators({
     firstName: isRequired('First Name'),
@@ -34,6 +36,12 @@ const JobSeekerForm = (props) => {
     }
     
     const handleSubmit = (values) => {
+        if (getBirthday(values.birthday) < 18)
+        {
+            toast.warning("You should be at least 18 in order to register");
+            return;
+        } 
+        
         const user: IUserFormValues = {
             username: values.username,
             email: values.email,
@@ -70,6 +78,8 @@ const JobSeekerForm = (props) => {
                     values.errorCode = 4;
                     values.errorMessage = 'Something went wrong during registration'
                 }
+
+                console.log(error);
                 props.prev(values);
             });
     }

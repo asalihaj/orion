@@ -22,9 +22,6 @@ const PhotoWidgetCropper: React.FC<IProps> = ({ setImage, imagePreview }) => {
         }, 'image/jpeg');
     }
 
-    const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
-        console.log(croppedArea, croppedAreaPixels)
-  }, [])
     return(
         <Cropper
             ref={cropper}

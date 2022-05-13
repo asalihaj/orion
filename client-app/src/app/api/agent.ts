@@ -55,9 +55,14 @@ const requests = {
   post: (url: string, body: {}) => axios.post(url, body).then(sleep(400)).then(responseBody),
   put: (url: string, body: {}) => axios.put(url, body).then(sleep(400)).then(responseBody),
   delete: (url: string) => axios.delete(url).then(sleep(400)).then(responseBody),
-  postForm: (url: string, file: Blob) => {
+  postForm: (url: string, fileName: string, file: Blob, params: object = null) => {
     let formData = new FormData();
-    formData.append('File', file);
+    formData.append(fileName, file);
+    if (params != null) {
+      for (const [key, value] of Object.entries(params)) {
+        formData.append(key, value)
+      }
+    }
     return axios.post(url, formData, {
       headers: {'Content-type': 'multipart/form-data'}
     }).then(responseBody);
@@ -81,7 +86,7 @@ const User = {
   update: (user: IUserFormValues) => requests.put(`/user/${user.id}`, user),
   details: (username: string): Promise<IUserProfile> =>
     requests.get(`/user/${username}`),
-  uploadPhoto: (photo: Blob): Promise<IPhoto> => requests.postForm('/photos', photo),
+  uploadPhoto: (photo: Blob): Promise<IPhoto> => requests.postForm('/photos', 'File', photo),
   deletePhoto: (id: string) => requests.delete(`/photos/${id}`)
 };
 
@@ -109,8 +114,9 @@ const JobSeeker = {
 const Resumes = {
   list: (): Promise<IResume[]> => requests.get("/resumes"),
   details: (id: string, offerId: string) =>
-    requests.get(`/resumes/q?id=${id}&offerId=${offerId}`),
-  create: (resume: IResumeFormValues) => requests.post("/resumes", resume),
+    requests.get(`/resumes/q?jobseekerId=${id}&offerId=${offerId}`),
+  create: (file: Blob, values: object) => requests.postForm("/resumes", 'CV',file, values),
+  download: (offerId: string) => requests.get(`/resumes/${offerId}`) 
 };
 
 const Reports = {

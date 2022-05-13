@@ -1,3 +1,4 @@
+import { observer } from "mobx-react-lite";
 import { useContext } from "react";
 import { Container, Segment, Tab } from "semantic-ui-react";
 import LoadingComponent from "../../../../app/layout/LoadingComponent";
@@ -9,7 +10,7 @@ import UserSettings from "./UserSettings";
 
 const ProfileSettings: React.FC = () => {
     const rootStore = useContext(RootStoreContext);
-    const { user, loadingInitial } =  rootStore.userStore;
+    const { user, loadingProfile } =  rootStore.userStore;
     const panes = [
         { menuItem: 'Account', render: () => <Tab.Pane>
             <UserSettings user={user} />
@@ -21,8 +22,8 @@ const ProfileSettings: React.FC = () => {
         {user.role === 'Company' ? <CompanySettings profile={user.profile} /> : user.role === 'JobSeeker' ? <JobSeekerSettings profile={user.profile} /> : null}
     </Tab.Pane> })
 
-    if (loadingInitial)
-        <LoadingComponent content="Loading user"/>
+    if (loadingProfile)
+        return <LoadingComponent content="Loading user"/>
     
     }
     return(
@@ -32,4 +33,4 @@ const ProfileSettings: React.FC = () => {
     );
 }
 
-export default ProfileSettings;
+export default observer(ProfileSettings);

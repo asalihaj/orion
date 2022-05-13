@@ -13,6 +13,8 @@ namespace Application.Resumes
             CreateMap<Resume, DownloadDto>()
                 .ForMember(x => x.OfferId, o => o.MapFrom(s => s.OfferId))
                 .ForMember(x => x.Url, o => o.MapFrom(s => s.CV));
+            CreateMap<Resume, ResumeDto>()
+                .ForMember(x => x.Jobseeker, o => o.MapFrom(s => s.JobSeeker));
         }
     }
 }

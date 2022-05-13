@@ -3,10 +3,10 @@ import { Fragment, useContext } from 'react';
 import { Button, Item } from 'semantic-ui-react';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import './styles.css';
-import { history } from '../../..';
 import { toast } from 'react-toastify';
 import { IResumeFormValues } from '../../../app/models/resume';
 import { Link } from 'react-router-dom';
+import ResumeUploadWidget from '../../../app/common/resumeUpload/ResumeUploadWidget';
 
 
 const OfferDetailedHeader = () => {
@@ -15,20 +15,18 @@ const OfferDetailedHeader = () => {
     const { user, getUser } = rootStore.userStore;
     const { save, remove } = rootStore.jobSeekerStore;
     const { createResume } = rootStore.resumeStore;
+    const { openModal, closeModal } = rootStore.modalStore;
 
-    const apply = (cv: string) => {
+    const apply = (file: Blob) => {
         const resume: IResumeFormValues = {
             offerId: offer.id,
-            jobSeekerId: user.id,
-            cv: cv
+            jobSeekerId: user.id
         }
-        createResume(resume)
-        .then(() => {
-            toast.success("Resume sent successfully");
-        })
-        .catch(error => {
-            toast.error(error.data.errors);
-        }) ;
+
+        createResume(file, resume)
+        .then(() => toast.success("Resume sent!"))
+        .catch(e => toast.error(e.data.errors))
+        .finally(() => closeModal());
     }
 
     const saveOffer = () => {
@@ -49,8 +47,8 @@ const OfferDetailedHeader = () => {
 
     const imageBorder = {
         borderRadius: '50%',
-        width: '80px',
-        height: '80px'
+        width: '70px',
+        height: '70px'
     }
     
     return (     
@@ -76,7 +74,7 @@ const OfferDetailedHeader = () => {
                     <Button 
                     color='blue'
                     onClick={
-                        () => {getUser().then(() => console.log(user))}} 
+                        () => {openModal(<ResumeUploadWidget uploadResume={apply} />)}} 
                     style={{ marginTop: '3rem', marginRight: '0.7rem'}}
                     size='medium'
                     >

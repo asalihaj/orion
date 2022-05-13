@@ -41,12 +41,15 @@ export default class UserStore {
   }
 
   @action getUser = async () => {
+    this.loadingProfile = true;
     try {
       const user = await agent.User.current();
       runInAction(() => {
         this.user = user;
+        this.loadingProfile = false;
       })
     } catch (error) {
+      this.loadingProfile = false;
       throw error;
     }
   }

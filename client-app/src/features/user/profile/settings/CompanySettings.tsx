@@ -1,3 +1,4 @@
+import { observer } from "mobx-react-lite";
 import { useContext, useEffect, useState } from "react";
 import { Field, Form as FinalForm } from "react-final-form";
 import ReactQuill from "react-quill";
@@ -112,4 +113,4 @@ const CompanySettings: React.FC<IProps> = ({ profile }) => {
     );
 }
 
-export default CompanySettings;
+export default observer(CompanySettings);

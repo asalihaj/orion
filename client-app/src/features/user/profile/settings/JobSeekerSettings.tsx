@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { observer } from "mobx-react-lite";
 import { useContext, useEffect, useState } from "react";
 import { Field, Form as FinalForm } from "react-final-form";
 import ReactQuill from "react-quill";
@@ -50,7 +51,6 @@ const JobSeekerSettings: React.FC<IProps> = ({ profile }) => {
             birthday: values.birthday,
             bio: bio
         }
-        console.log(jobseeker);
         edit(jobseeker)
         .then(() => getUser())
         .catch(error => console.log(error))
@@ -137,4 +137,4 @@ const JobSeekerSettings: React.FC<IProps> = ({ profile }) => {
     );
 }
 
-export default JobSeekerSettings;
+export default observer(JobSeekerSettings);

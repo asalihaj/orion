@@ -48,7 +48,8 @@ namespace Application.Resumes
                 var checkResume = await _context.Resumes.FindAsync(request.OfferId, request.JobSeekerId);
                 var jobSeeker = await _context.JobSeekers.SingleOrDefaultAsync(x => x.UserId == request.JobSeekerId);
 
-                var fileName = jobSeeker.FirstName + "_" + jobSeeker.LastName;
+                var fileName = jobSeeker.FirstName + "_" + jobSeeker.LastName + "_" + jobSeeker.User.UserName;
+                
 
                 if(checkResume != null) 
                     throw new RestException(HttpStatusCode.NotAcceptable, "You already applied");

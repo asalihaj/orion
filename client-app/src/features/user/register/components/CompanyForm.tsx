@@ -45,10 +45,7 @@ const CompanyForm = (props) => {
             }
             create(profile)
                 .then(() => setToken(data.token))
-                .finally(() => getUser())
-            .catch(error => ({
-                [FORM_ERROR]: error
-            }))
+                .catch(error => console.log(error)).finally(() => getUser())
         }).catch(error => {
             const errorType = error.data.errors;
             if(errorType.Email) {
@@ -64,7 +61,6 @@ const CompanyForm = (props) => {
                 values.errorCode = 4;
                 values.errorMessage = 'Something went wrong during registration'
             }
-            console.log("USER ERROR:: " + error);
             props.prev(values);
         });;
     }

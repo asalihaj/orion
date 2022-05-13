@@ -12,6 +12,7 @@ namespace Application.JobSeekers
         public string LastName { get; set; }
         public string Gender { get; set; }
         public string Bio { get; set; }
+        public string Url { get; set; }
         public DateTime Birthday { get; set; }
     }
 }

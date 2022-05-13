@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Application.Companies;
+using Application.Resumes;
+using Domain;
 using Newtonsoft.Json;
 
 namespace Application.Offers
@@ -14,6 +16,7 @@ namespace Application.Offers
         public string Schedule { get; set; }
         public double Salary { get; set; }
         public DateTime ExpDate { get; set; }
+        public DateTime DateCreated { get; set; }
         public string Description { get; set; }
         public int Applicants { get; set; }
     }

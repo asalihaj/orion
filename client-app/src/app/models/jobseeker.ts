@@ -7,6 +7,7 @@ export interface IJobSeeker {
     gender: string;
     birthday: Date;
     bio: string;
+    url: string;
     saved: string;
     offersApplied: IOffer[];
 }

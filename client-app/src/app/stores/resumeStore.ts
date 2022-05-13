@@ -1,5 +1,5 @@
 import { observable, action, configure, runInAction } from 'mobx';
-import { IResume, IResumeFormValues } from '../models/resume';
+import { IOfferResumes, IResume, IResumeFormValues } from '../models/resume';
 import agent from '../api/agent';
 import { RootStore } from './rootStore';
 
@@ -11,24 +11,33 @@ export default class ResumeStore {
         this.rootStore = rootStore;
     }
     @observable resumeRegistry = new Map();
+    @observable offerResumes: IOfferResumes | null = null;
     @observable resume: IResume | null = null;
     @observable submitting = false;
+    @observable loadingInitial = false;
 
     @action getResumes = () => {
-        return this.resumeRegistry;
+        let resumes = new Array();
+        this.resumeRegistry.forEach(value => {
+            resumes.push(value)
+        })
+        return resumes;
     }
 
     @action loadResumes = async () => {
+        this.loadingInitial = true;
         try {
             const resumes = await agent.Resumes.list();
             runInAction(() => {
                 resumes.forEach(resume => {
-                    this.resumeRegistry.set([resume.offerId, resume.jobSeekerId], resume);
+                    this.resumeRegistry.set([resume.id], resume);
+                    this.loadingInitial = false;
                 });
             })
         } catch (error) {
             runInAction(() => {
                 console.log(error)
+                this.loadingInitial = false;
                 throw error;
             });
         }
@@ -44,7 +53,7 @@ export default class ResumeStore {
                 resume = await agent.Resumes.details(offerId, jobSeekerId);
                 runInAction(() => {
                     this.resume = resume;
-                    this.resumeRegistry.set([resume.offerId, resume.jobSeekerId], resume);
+                    this.resumeRegistry.set([resume.offer.id, resume.applicant.id], resume);
                 });
                 return resume;
             } catch (error) {
@@ -56,6 +65,17 @@ export default class ResumeStore {
         }
     }
 
+    @action downloadResumesLink = async (offerId: string) => {
+        try {
+            let offerResumes = await agent.Resumes.download(offerId);
+            return offerResumes;
+        } catch (error) {
+            runInAction(() => {
+                return error;
+              })
+        }
+    }
+
     getResume = (offerId: string, jobSeekerId: string) => {
         return this.resumeRegistry.get([offerId, jobSeekerId]);
     }
@@ -64,16 +84,16 @@ export default class ResumeStore {
         this.resume = null;
     } 
 
-    @action createResume = async (resume: IResumeFormValues) => {
+    @action createResume = async (file: Blob, resume: IResumeFormValues) => {
         this.submitting = true;
         try {
-            await agent.Resumes.create(resume);
+            await agent.Resumes.create(file, resume);
             runInAction(() => {
-                this.resumeRegistry.set([resume.offerId, resume.jobSeekerId], resume);
                 this.submitting = false;
             })
         } catch (error) {
             runInAction(() => {
+                this.submitting = false;
                 throw error;
               })
         }

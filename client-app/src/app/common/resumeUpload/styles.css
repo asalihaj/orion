@@ -1,0 +1,32 @@
+.main-grid {
+    width: 250px !important;
+    border-radius: 13px !important;
+}
+
+.grid-main-row {
+    border-radius: 13px !important;
+}
+
+.grid-file-info {
+    font-weight: 600 !important;
+    padding-top: 23px !important;
+    color: white !important;
+    border-radius: 13px 0 0 13px !important;
+    font-size: 16px !important;
+    padding-left: 14px !important;
+}
+
+.grid-file-name {
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+}
+
+.pdf {
+    background: #cc1016;
+    padding-left: 21px !important;
+}
+
+.docx {
+    background: #004182;
+}

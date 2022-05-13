@@ -51,7 +51,6 @@ namespace Application.User
                     Email = user.Email,
                     Role = role,
                     Profile = profile
-
                 };
             }
         }

@@ -10,7 +10,8 @@ namespace Application.JobSeekers
         public MappingProfile()
         {
             CreateMap<JobSeeker, JobSeekerDto>()
-                .ForMember(d => d.Id, o => o.MapFrom(s => s.UserId));
+                .ForMember(d => d.Id, o => o.MapFrom(s => s.UserId))
+                .ForMember(d => d.Url, o => o.MapFrom(s => s.User.Photo.Url));
             CreateMap<JobSeeker, JSProfileDto>()
                 .ForMember(d => d.Id, o => o.MapFrom(s => s.UserId));
             CreateMap<SavedOffer, OfferPublisherDto>()

@@ -42,6 +42,11 @@ const NavBar: React.FC = () => {
             Create
           </Header>
         </Menu.Item>}
+        {user && user.role === 'Company' && <Menu.Item as={NavLink} to={`/${user.username}/resumes`}>
+          <Header className='nav-item-weight nav-item-color' as='h4'>
+            Resumes
+          </Header>
+        </Menu.Item>}
         {user ? (
           <Menu.Item position="right">
             <Image

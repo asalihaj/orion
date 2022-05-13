@@ -14,6 +14,7 @@ import { RootStoreContext } from "../stores/rootStore";
 import NotFound from "./NotFound";
 import UserProfile from "../../features/user/profile/UserProfile";
 import ProfileSettings from "../../features/user/profile/settings/ProfileSettings";
+import ResumeDashboard from "../../features/resume/ResumeDashboard";
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -48,6 +49,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
               {user && user.role === 'JobSeeker' && <Route path='/saved'  component={withRouter(OfferDashboard)} />}              
               <Route path='/login' component={Login} />
               <Route path='/register' component={Register} />
+              {user && user.role === 'Company' && <Route exact path='/:username/resumes' component={withRouter(ResumeDashboard)}/>}
               <Route exact path='/:username/profile' component={UserProfile} />
               {user && <Route path={`/${user.username}/edit`} component={withRouter(ProfileSettings)} />}
               <Route component={NotFound}/>

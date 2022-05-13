@@ -31,7 +31,6 @@ const UserProfile: React.FC<RouteComponentProps<DetailParams>> = ({
       setUsername(res.username);
       setRole(res.role);
       setPhoto(res.photo);
-      console.log(res);
     })
   }, [loadProfile, match.params.username]);
 
@@ -43,7 +42,7 @@ const UserProfile: React.FC<RouteComponentProps<DetailParams>> = ({
   }
 
   if (loadingProfile)
-    <LoadingComponent content="Loading user's profile" />
+    return <LoadingComponent content="Loading user's profile" />
 
   return (
     <Container>

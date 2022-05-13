@@ -4,6 +4,7 @@ import PhotoWidgetCropper from "./PhotoWidgetCropper";
 import PhotoUploadDropzone from "./PhotoUploadDropzone";
 import './styles.css';
 import { RootStoreContext } from "../../stores/rootStore";
+import { observer } from "mobx-react-lite";
 
 interface IProps {
     uploadPhoto: (file: Blob) => void;
@@ -12,7 +13,7 @@ interface IProps {
 
 const PhotoUploadWidget: React.FC<IProps>= ({ uploadPhoto, deletePhoto }) => {
     const rootStore = useContext(RootStoreContext);
-    const { user } = rootStore.userStore;
+    const { user, loadingInitial } = rootStore.userStore;
     const [files, setFiles] = useState<any[]>([]);
     const [image, setImage] = useState<Blob | null>(null);
       
@@ -31,7 +32,7 @@ const PhotoUploadWidget: React.FC<IProps>= ({ uploadPhoto, deletePhoto }) => {
                 </Grid.Column>
                 <Grid.Column className="button-column">
                     
-                    <Button primary floated="right" onClick={() => uploadPhoto(image)}>Save</Button>
+                    <Button primary floated="right" loading={loadingInitial} onClick={() => uploadPhoto(image)}>Save</Button>
                     {user && user.photo && 
                     <Button color="red" floated="right" onClick={() => deletePhoto()}>Delete current</Button>}
                     {files.length > 0 &&
@@ -42,4 +43,4 @@ const PhotoUploadWidget: React.FC<IProps>= ({ uploadPhoto, deletePhoto }) => {
     );
 }
 
-export default PhotoUploadWidget;
+export default observer(PhotoUploadWidget);

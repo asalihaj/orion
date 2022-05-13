@@ -7,10 +7,10 @@ interface IProps {
 }
 
 
-const PhotoUploadDropzone: React.FC<IProps> = ({ setFiles }) => {
+const ResumeUploadDropzone: React.FC<IProps> = ({ setFiles }) => {
     const onDrop = useCallback(acceptedFiles => {
         const ext = acceptedFiles[0].path.split('.').pop()
-        const allowedExts = ['png', 'jpg', 'jpeg']
+        const allowedExts = ['pdf', 'doc', 'docx']
         if (!allowedExts.includes(ext)) {
             return;
         }
@@ -32,7 +32,7 @@ const PhotoUploadDropzone: React.FC<IProps> = ({ setFiles }) => {
                                 Drag &amp; Drop to Upload 
                                 <Divider horizontal>Or</Divider>
                                 <Button color='twitter' size='tiny' disabled>Upload</Button> 
-                                <p>(.png .jpg .jpeg)</p>
+                                <p>(.pdf .doc .docx)</p>
                             </Header>
                         </Segment>
                         ) :
@@ -43,7 +43,7 @@ const PhotoUploadDropzone: React.FC<IProps> = ({ setFiles }) => {
                                 Drag &amp; Drop to Upload
                                 <Divider horizontal>Or</Divider>
                                 <Button color='twitter' size='tiny'>Upload</Button> 
-                                <p>(.png .jpg .jpeg)</p>
+                                <p>(.pdf .doc .docx)</p>
                             </Header>
                         </Segment>
                     )
@@ -52,4 +52,4 @@ const PhotoUploadDropzone: React.FC<IProps> = ({ setFiles }) => {
     );
 }
 
-export default PhotoUploadDropzone;
+export default ResumeUploadDropzone;

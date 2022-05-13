@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,7 +32,19 @@ namespace Application.Offers
             {
                 var offers = await _context.Offers.ToListAsync();
 
-                var offerList = _mapper.Map<List<Offer>, List<OfferPublisherDto>>(offers);
+                var activeOffers = new List<Offer>();
+
+                foreach (var offer in offers)
+                {
+                    var active = DateTime.Compare(offer.ExpDate, DateTime.Now);
+                    if (active > 0)
+                    {
+                        activeOffers.Add(offer);
+                    }
+
+                }
+
+                var offerList = _mapper.Map<List<Offer>, List<OfferPublisherDto>>(activeOffers);
 
                 var resumes = await _context.Resumes.ToListAsync();
 
