@@ -60,7 +60,7 @@ namespace API.Controllers
         {
             UserDto user = await GetCurrentUser();
             OfferPublisherDto offer = await Mediator.Send(new Details.Query{Id = id});
-            if (user.Id != offer.Company.Id)
+            if (user.Id != offer.Company.Id && user.Role != "Admin")
                 throw new RestException(HttpStatusCode.Forbidden, "You are not the offer publisher");
 
             return await Mediator.Send(new Application.Offers.Delete.Command{Id = id});

@@ -19,15 +19,15 @@ namespace Persistence
                     {
                         new AppUser
                         {
-                            UserName = "michaeljackson",
-                            Email = "mj21@gmail.com",
+                            UserName = "mark",
+                            Email = "mark@gmail.com",
                             DateCreated = DateTime.Now,
                             LastUpdated = DateTime.Now
                         },
                         new AppUser
                         {
-                            UserName = "markzuck",
-                            Email = "mz15@gmail.com",
+                            UserName = "jeff",
+                            Email = "jeff@gmail.com",
                             DateCreated = DateTime.Now,
                             LastUpdated = DateTime.Now
                         },
@@ -131,7 +131,8 @@ namespace Persistence
                     User = users.ElementAt(0),
                     Name = "Facebook",
                     Location = "California",
-                    Description = "Connect the world",
+                    Description = "Meta Platforms, Inc., doing business as Meta and formerly known as Facebook, Inc., " + 
+                        "and TheFacebook, Inc., is an American multinational technology conglomerate based in Menlo Park, California.",
                     LastUpdated = DateTime.Now
                 },
                 new Company
@@ -139,7 +140,9 @@ namespace Persistence
                     User = users.ElementAt(1),
                     Name = "Instagram",
                     Location = "California",
-                    Description = "Connect the world",
+                    Description = "Instagram is an American photo and video sharing social networking service founded in 2010 by Kevin " +
+                       "Systrom and Mike Krieger, and later acquired by Facebook Inc.. The app allows users to upload media that can be " + 
+                       "edited with filters and organized by hashtags and geographical tagging.",
                     LastUpdated = DateTime.Now
                 },
                 new Company
@@ -147,7 +150,9 @@ namespace Persistence
                     User = users.ElementAt(2),
                     Name = "Snapchat",
                     Location = "California",
-                    Description = "Connect with friends",
+                    Description = "Snapchat is an American multimedia instant messaging app and service developed by Snap Inc., originally " + 
+                        "Snapchat Inc. One of the principal features of Snapchat is that pictures and messages are usually only available for a " + 
+                        "short time before they become inaccessible to their recipients.",
                     LastUpdated = DateTime.Now
                 },
             };

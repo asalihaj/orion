@@ -23,7 +23,7 @@ const ContactListItem: React.FC<IProps> = ({ contact }) => {
                 .then(() => setUser(returnProfile()))
                 .catch(error => console.log(error))
         }
-    }, [contact.username, loadProfile, setUser, returnProfile])
+    }, [])
 
     const formatDate = () => {
         let date = new Date(contact.dateCreated);

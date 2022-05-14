@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import { Item, Label, Image } from 'semantic-ui-react';
-import { IOffer, IPublisher } from '../../../app/models/offer';
+import { IOffer } from '../../../app/models/offer';
 import './styles.css';
 import { format } from 'date-fns';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import OfferOptions from './OfferOptions';
 import { Link } from 'react-router-dom';
 
-const OfferListItem: React.FC<{ offer: IOffer, publisher: IPublisher }> = ({ offer, publisher }) => {
+const OfferListItem: React.FC<{ offer: IOffer }> = ({ offer }) => {
     const rootStore = useContext(RootStoreContext);
     const { user } = rootStore.userStore;
     const { loadOffer } = rootStore.offerStore;
@@ -24,7 +24,7 @@ const OfferListItem: React.FC<{ offer: IOffer, publisher: IPublisher }> = ({ off
          onClick={() => loadOffer(offer.id)}
          style={{ border: '1px solid black !important'}}
         >
-            <Image style={imageBorder} size='tiny' src={publisher.url ? publisher.url : '/assets/fb.png'} />
+            <Image style={imageBorder} size='tiny' src={offer.publisher.url ? offer.publisher.url : '/assets/fb.png'} />
             <Item.Content>
                 {user &&
                 <Item.Extra >
@@ -32,8 +32,8 @@ const OfferListItem: React.FC<{ offer: IOffer, publisher: IPublisher }> = ({ off
                 </Item.Extra>}
                 <Item.Header>{offer.title}</Item.Header>
                 <div className='company-info'>
-                    <Item.Meta as={Link} to={`/${publisher.username}/profile`}>
-                        {publisher.name}
+                    <Item.Meta as={Link} to={`/${offer.publisher.username}/profile`}>
+                        {offer.publisher.name}
                     </Item.Meta>
                     <Item.Meta>
                         {offer.location}

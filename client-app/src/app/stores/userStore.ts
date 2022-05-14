@@ -24,7 +24,6 @@ export default class UserStore {
         this.user = user;
       });
       this.rootStore.commonStore.setToken(user.token);
-      console.log(user);
       history.push('/');
     } catch (error) {
       throw error;

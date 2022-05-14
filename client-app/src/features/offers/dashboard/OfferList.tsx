@@ -14,12 +14,12 @@ const OfferList = () => {
     return (
         <Item.Group>
             { url === '/offers' ? (offers.map(offer => (
-                <OfferListItem key={offer.id} offer={offer} publisher={offer.publisher} />
+                <OfferListItem key={offer.id} offer={offer} />
             ))) :
             (
                 (offers.length !== 0 && 
                 offers.map(offer => (
-                    <OfferListItem key={offer.id} offer={offer} publisher={offer.publisher} />
+                    <OfferListItem key={offer.id} offer={offer} />
                 ))) || <Message warning icon='content' header="You haven't saved any offers yet!" content="Once saved, offers will be displayed here." />
             )
             }

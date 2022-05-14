@@ -17,6 +17,7 @@ import ProfileSettings from "../../features/user/profile/settings/ProfileSetting
 import ResumeDashboard from "../../features/resume/ResumeDashboard";
 import ContactUs from "../../features/contact/ContactUs";
 import ContactsDashboard from "../../features/contact/ContactsDashboard";
+import ReportsDashboard from "../../features/report/ReportsDashboard";
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -54,7 +55,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
               <Route path='/register' component={Register} />
               {user && user.role === 'Company' && <Route exact path='/resumes' component={withRouter(ResumeDashboard)}/>}
               {user && user.role === 'Admin' && <Route exact path='/contacts' component={withRouter(ContactsDashboard)}/>}
-              {user && user.role === 'Admin' && <Route exact path='/reports' component={withRouter(ContactsDashboard)}/>}
+              {user && user.role === 'Admin' && <Route exact path='/reports' component={withRouter(ReportsDashboard)}/>}
               <Route exact path='/:username/profile' component={UserProfile} />
               {user && <Route path={`/${user.username}/edit`} component={withRouter(ProfileSettings)} />}
               <Route component={NotFound}/>

@@ -28,6 +28,7 @@ export default class ResumeStore {
         this.loadingInitial = true;
         try {
             const resumes = await agent.Resumes.list();
+            this.resumeRegistry.clear();
             runInAction(() => {
                 resumes.forEach(resume => {
                     this.resumeRegistry.set([resume.id], resume);

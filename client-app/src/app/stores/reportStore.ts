@@ -13,22 +13,29 @@ export default class ReportStore {
     }
     @observable reportRegistry = new Map();
     @observable report: IReport | null = null;
+    @observable loadingInitial = false;
 
     @action getReports = () => {
-        return this.reportRegistry;
+        let reports = new Array();
+        this.reportRegistry.forEach(report => reports.push(report));
+        return reports;
     }
 
     @action loadReports = async () => {
+        this.loadingInitial = true;
         try {
             const reports = await agent.Reports.list();
+            this.reportRegistry.clear();
             runInAction(() => {
                 reports.forEach(report => {
                     this.reportRegistry.set([report.offer, report.username], report);
+                    this.loadingInitial = false;
                 });
             })
         } catch (error) {
             runInAction(() => {
                 console.log(error);
+                this.loadingInitial = false;
                 throw error;
             })
         }

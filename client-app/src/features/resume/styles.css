@@ -1,7 +1,7 @@
 .item-button-display {
     display: flex !important;
-    justify-content: end !important;
-    align-items: end !important;
+    justify-content: flex-end !important;
+    align-items: flex-end !important;
 }
 
 .resume-arrow {
