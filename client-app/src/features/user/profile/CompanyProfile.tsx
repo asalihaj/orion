@@ -79,15 +79,6 @@ const CompanyProfile:React.FC<{userProfile: IUserProfile}> = ({userProfile}) => 
                     <Card.Description>{}</Card.Description>
                     </Card.Content>
                     <Card.Content style={paddingLeft}>
-                    <Card.Content>
-                        <Button 
-                        circular
-                        primary
-                        onClick={() => console.log("SS")}
-                        >
-                        See jobs
-                        </Button>
-                    </Card.Content>
                     </Card.Content>
                 </Card>
             </Grid.Column>

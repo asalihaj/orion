@@ -88,6 +88,12 @@ namespace Persistence
                     {
                         context.SavedOffers.AddRange(savedoffers);
                     }
+
+                    var reports = CreateReports(offers, users);
+                    if(!context.Reports.Any())
+                    {
+                        context.Reports.AddRange(reports);
+                    }
                 }
                 
             context.SaveChanges();
@@ -248,6 +254,56 @@ namespace Persistence
                 },
             };
             return savedOffers;
+        }
+
+        private static List<Report> CreateReports(List<Offer> offers, List<AppUser> users)
+        {
+            var reports = new List<Report>
+            {
+                new Report
+                {
+                    UserId = users.ElementAt(1).Id,
+                    OfferId = offers.ElementAt(0).Id,
+                    Category = "Copyright",
+                    LastUpdated = DateTime.Now
+                },
+                new Report
+                {
+                    UserId = users.ElementAt(2).Id,
+                    OfferId = offers.ElementAt(0).Id,
+                    Category = "Copyright",
+                    LastUpdated = DateTime.Now
+                },
+                new Report
+                {
+                    UserId = users.ElementAt(3).Id,
+                    OfferId = offers.ElementAt(0).Id,
+                    Category = "Copyright",
+                    LastUpdated = DateTime.Now
+                },
+                new Report
+                {
+                    UserId = users.ElementAt(4).Id,
+                    OfferId = offers.ElementAt(0).Id,
+                    Category = "Copyright",
+                    LastUpdated = DateTime.Now
+                },
+                new Report
+                {
+                    UserId = users.ElementAt(0).Id,
+                    OfferId = offers.ElementAt(3).Id,
+                    Category = "Copyright",
+                    LastUpdated = DateTime.Now
+                },
+                new Report
+                {
+                    UserId = users.ElementAt(4).Id,
+                    OfferId = offers.ElementAt(2).Id,
+                    Category = "Copyright",
+                    LastUpdated = DateTime.Now
+                }
+            };
+            return reports;
         }
     }
 }

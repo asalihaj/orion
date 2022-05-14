@@ -79,11 +79,16 @@ export default class ContactStore {
     }
 
     @action createContact =async (contact: IContactFormValues) => {
+        this.loadingInitial = true;
         try {
             await agent.Contacts.create(contact);
+            runInAction(() => {
+                this.loadingInitial = false;
+            })
         } catch (error) {
             runInAction(() => {
-              throw error;
+                this.loadingInitial = false;
+                throw error;
             })
         }
     } 

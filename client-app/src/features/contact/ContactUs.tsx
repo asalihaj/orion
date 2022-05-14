@@ -29,6 +29,10 @@ const ContactUs = () => {
       setTimeout(() => history.push('/offers'), 1350);
       return;
     }
+
+    if (!user && !values.email) {
+      return;
+    }
     const contact: IContactFormValues = {
       id: uuid(),
       userId: user ? user.id : null,

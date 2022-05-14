@@ -31,6 +31,12 @@ const OfferOptions: React.FC<{ offer: IOffer }> = ({offer}) => {
         .catch(error => toast.error(error));;
     }
 
+    const handleDelete = () => {
+        deleteOffer(offer.id)
+            .then(() => toast.success("Offer deleted successfully"))
+            .catch(error => console.log(error));
+    }
+
     return (
         <Dropdown
         style={{
@@ -48,7 +54,7 @@ const OfferOptions: React.FC<{ offer: IOffer }> = ({offer}) => {
                         />
                         <Dropdown.Item 
                         text='Delete' 
-                        onClick={() => deleteOffer(offer.id) }
+                        onClick={handleDelete}
                         />
                     </Dropdown.Menu>
                 ) : (
@@ -70,7 +76,7 @@ const OfferOptions: React.FC<{ offer: IOffer }> = ({offer}) => {
                         {user.role === 'Admin' &&
                             <Dropdown.Item 
                             text= 'Delete'
-                            onClick={() => console.log('Delete')}
+                            onClick={handleDelete}
                             />
                         }
                        

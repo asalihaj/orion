@@ -69,6 +69,8 @@ const OfferForm: React.FC<RouteComponentProps<DetailParams>> = ({
         const {date, time, ...offer} = values;
         dateAndTime.setTime(dateAndTime.getTime() + 2 * 3600 * 1000);
         offer.expDate = dateAndTime;
+        offer.description = description;
+
         if (!offer.id) {
             let newOffer = {
                 ...offer,

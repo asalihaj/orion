@@ -83,7 +83,7 @@ const JobSeekerProfile:React.FC<{userProfile: IUserProfile}> = ({userProfile}) =
                         {firstName + ' ' + lastName}
                     </Card.Header>
                     <Card.Meta>{gender === 'm' ? 'Male' : 'Female'}</Card.Meta>
-                    <Card.Description>{format(birthday, 'dd/MM/yyyy')}</Card.Description>
+                    <Card.Description>Birthday {format(birthday, 'dd/MM/yyyy')}</Card.Description>
                     </Card.Content>
                 </Card>
             </Grid.Column>

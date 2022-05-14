@@ -32,8 +32,8 @@ export default class ResumeStore {
             runInAction(() => {
                 resumes.forEach(resume => {
                     this.resumeRegistry.set([resume.id], resume);
-                    this.loadingInitial = false;
                 });
+                this.loadingInitial = false;
             })
         } catch (error) {
             runInAction(() => {

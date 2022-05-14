@@ -132,6 +132,7 @@ export default class OfferStore {
           })
         } catch (error) {
           runInAction(() => {
+            this.submitting = false;
             throw error;
           })
         }
