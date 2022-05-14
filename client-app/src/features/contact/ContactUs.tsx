@@ -1,14 +1,18 @@
 import { useContext } from "react";
 import { Field, Form as FinalForm } from "react-final-form";
 import { combineValidators, isRequired } from "revalidate";
-import { Button, Checkbox, Container, Form, Grid, Header, Segment, TextArea } from "semantic-ui-react";
+import { v4 as uuid } from 'uuid';
+import { Button, Container, Form, Grid, Header, Segment } from "semantic-ui-react";
 import ErrorMessage from "../../app/common/form/ErrorMessage";
 import { TextAreaInput } from "../../app/common/form/TextAreaInput";
 import TextInput from "../../app/common/form/TextInput";
+import { IContactFormValues } from "../../app/models/contact";
 import { RootStoreContext } from "../../app/stores/rootStore";
+import { values } from "mobx";
+import { toast } from "react-toastify";
+import { history } from "../..";
 
 const validate = combineValidators({
-  email: isRequired('Email'),
   title: isRequired('Title'),
   description: isRequired('Message')
 });
@@ -16,8 +20,31 @@ const validate = combineValidators({
 const ContactUs = () => {
   const rootStore = useContext(RootStoreContext);
   const { user } = rootStore.userStore;
-  const handleFormSubmit = () => {
-    
+  const { createContact } = rootStore.contactStore;
+
+
+  const handleSubmit = (values: any) => {
+    if (user && user.role === 'Admin') {
+      toast.error('Admins cannot use this form')
+      setTimeout(() => history.push('/offers'), 1350);
+      return;
+    }
+    const contact: IContactFormValues = {
+      id: uuid(),
+      userId: user ? user.id : null,
+      email: user ? user.email : values.email,
+      title: values.title,
+      description: values.description
+    }
+
+    createContact(contact)
+      .then(() => {
+        toast.success('Message sent!')
+        setTimeout(() => {
+          history.push('/offers');
+        }, 1350);
+      })
+      .catch(error => console.log(error));
   }
 
   return(
@@ -26,7 +53,7 @@ const ContactUs = () => {
       <Grid.Column width={8}>
         <Segment>
           <FinalForm
-            onSubmit={handleFormSubmit}
+            onSubmit={handleSubmit}
             validate={validate}
             render={({
               handleSubmit, submitting, submitError, dirtySinceLastSubmit
@@ -54,6 +81,7 @@ const ContactUs = () => {
                   loading={submitting}
                   primary
                   content='Submit'
+                  type='submit'
                   size='big'
                   fluid
                   circular />

@@ -13,6 +13,7 @@ namespace Application.Offers
         {
             CreateMap<Offer, OfferDto>();
             CreateMap<Offer, OfferApplicantsList>();
+            CreateMap<Offer, OfferReportsDto>();
             CreateMap<Offer, OfferPublisherDto>();
             CreateMap<Offer, ResumeDto>();
         }

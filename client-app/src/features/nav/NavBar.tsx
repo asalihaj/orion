@@ -37,12 +37,22 @@ const NavBar: React.FC = () => {
             Saved
           </Header>
         </Menu.Item>}
+        {user && user.role === 'Admin' && <Menu.Item as={NavLink} to='/reports'>
+          <Header className='nav-item-weight nav-item-color' as='h4'>
+            Reports
+          </Header>
+        </Menu.Item>}
+        {user && user.role === 'Admin' && <Menu.Item as={NavLink} to='/contacts'>
+          <Header className='nav-item-weight nav-item-color' as='h4'>
+            Contacts
+          </Header>
+        </Menu.Item>}
         {user && user.role === 'Company' && <Menu.Item as={NavLink} to='/offers/create'>
           <Header className='nav-item-weight nav-item-color' as='h4'>
             Create
           </Header>
         </Menu.Item>}
-        {user && user.role === 'Company' && <Menu.Item as={NavLink} to={`/${user.username}/resumes`}>
+        {user && user.role === 'Company' && <Menu.Item as={NavLink} to={`/resumes`}>
           <Header className='nav-item-weight nav-item-color' as='h4'>
             Resumes
           </Header>
@@ -57,12 +67,13 @@ const NavBar: React.FC = () => {
             />
             <Dropdown pointing="top left" text={user.username}>
               <Dropdown.Menu>
+                {user && user.role !== 'Admin' &&
                 <Dropdown.Item
                   as={Link}
                   to={`/${user.username}/profile`}
                   text="Profile"
                   icon="user"
-                />
+                />}
                 <Dropdown.Item
                   as={Link}
                   to={`/${user.username}/edit`}

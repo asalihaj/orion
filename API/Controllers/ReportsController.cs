@@ -15,13 +15,13 @@ namespace API.Controllers
     public class ReportsController : BaseController
     {
         [HttpGet]
-        public async Task<ActionResult<List<ReportDto>>> List()
+        public async Task<ActionResult<List<OfferReportsDto>>> List()
         {
             UserDto user = await GetCurrentUser();
             if (user.Role != "Admin")
                 throw new RestException(System.Net.HttpStatusCode.Forbidden, "You don't have premission to complete this action");
                 
-            return await Mediator.Send(new Application.Reports.List.Query());
+            return await Mediator.Send(new Application.Reports.OfferList.Query());
         }
 
         [HttpGet("q")]

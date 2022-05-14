@@ -1,0 +1,25 @@
+.contact-time {
+    font-weight: 400;
+    font-size: 11px;
+    color: #767676;
+}
+
+
+.message-text {
+    max-height: 40px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    overflow-wrap: break-word !important;
+}
+
+.segment-list-style {
+    height: 700px !important;
+    overflow-y: scroll !important;
+}
+
+.image-border {
+    border: none !important;
+    border-radius: 50% !important;
+    height: 70px !important;
+    width: 70px !important;
+}

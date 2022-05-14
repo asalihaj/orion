@@ -31,6 +31,16 @@ export default class UserStore {
     }
   }
 
+  @action returnProfile = () => {
+    let profile: IUserProfile = {
+      username: this.userProfile.username,
+      profile: this.userProfile.profile,
+      photo: this.userProfile.photo,
+      role: this.userProfile.role
+    }
+    return profile;
+  }
+
   @action register = async (values: IUserFormValues) => {
     try {
       const user = await agent.User.register(values);

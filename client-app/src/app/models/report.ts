@@ -1,7 +1,7 @@
 import { IOffer } from "./offer";
 
 export interface IReport {
-    offer: IOffer;
+    offer: any;
     username: string;
     category: string;
     lastUpdated: string;

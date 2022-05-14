@@ -10,6 +10,7 @@ export default class ContactStore {
     }
     @observable contactList = new Map();
     @observable contact: IContact | null = null;
+    @observable loadingInitial = false;
 
     @action getContacts = () => {
         let contacts = new Array();
@@ -34,16 +35,19 @@ export default class ContactStore {
         }
     }
 
-    @action loadContacts =async (contact: IContactFormValues) => {
+    @action loadContacts =async () => {
+        this.loadingInitial = true;
         try {
             const contacts = await agent.Contacts.list();
             runInAction(() => {
                 contacts.forEach(contact => {
                     this.contactList.set(contact.id, contact);
                 });
+                this.loadingInitial = false;
             })
         } catch (error) {
             runInAction(() => {
+                this.loadingInitial = false;
                 throw error;
             });
         }
@@ -77,10 +81,6 @@ export default class ContactStore {
     @action createContact =async (contact: IContactFormValues) => {
         try {
             await agent.Contacts.create(contact);
-            const contactToSave = await agent.Contacts.details(contact.id);
-            runInAction(() => {
-                this.contactList.set(contactToSave.id, contactToSave);
-            })
         } catch (error) {
             runInAction(() => {
               throw error;

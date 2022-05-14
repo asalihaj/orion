@@ -8,6 +8,7 @@ import JobSeekerProfile from "./JobSeekerProfile";
 import CompanyProfile from "./CompanyProfile";
 import { observable } from "mobx";
 import { observer } from "mobx-react-lite";
+import { history } from "../../..";
 
 interface DetailParams {
   username: string
@@ -25,8 +26,13 @@ const UserProfile: React.FC<RouteComponentProps<DetailParams>> = ({
   const [photo, setPhoto] = useState();
   
   useEffect(() => {
+    
     loadProfile(match.params.username)
     .then((res) => {
+      if (res.role === 'Admin') {
+        history.push('/offers');
+        return;
+      }
       setProfile(res.profile);
       setUsername(res.username);
       setRole(res.role);

@@ -9,7 +9,7 @@ namespace Application.Contacts
         public MappingProfile()
         {
             CreateMap<Contact, ContactDto>()
-                .ForMember(x => x.UserId, o => o.MapFrom(s => s.UserId));
+                .ForMember(x => x.Username, o => o.MapFrom(s => s.User.UserName));
         }
     }
 }

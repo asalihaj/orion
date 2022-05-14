@@ -41,7 +41,7 @@ namespace Application.Contacts
             {
                 var contact = new Contact
                 {
-                    Id = new Guid(),
+                    Id = request.Id,
                     UserId = request.UserId,
                     Email = request.Email,
                     Title = request.Title,

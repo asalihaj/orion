@@ -9,6 +9,7 @@ interface IProps {
 
 const ApplicantListItem: React.FC<IProps> = ({ applicant }) => {
     const { jobseeker } = applicant;
+    
     const applicationDate = () => {
         const date = format(new Date(applicant.lastUpdated), 'dd/MM/yyyy HH:mm')
         return date;

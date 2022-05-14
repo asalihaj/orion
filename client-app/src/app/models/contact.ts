@@ -1,13 +1,14 @@
 export interface IContact {
     id: string;
-    user: any;
+    username: any;
     title: string;
     description: string;
-    lastUpdated: string;
+    dateCreated: string;
 }
 
 export interface IContactFormValues {
     id: string;
+    userId: string;
     email: string;
     title: string;
     description: string;

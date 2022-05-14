@@ -11,9 +11,9 @@ export default class CompanyStore {
     }
     @observable company: ICompany | null = null;
 
-    @action get = async (user: IUser) => {
+    @action get = async (id: string) => {
         try {
-            const company = await agent.Company.details(user.id);
+            const company = await agent.Company.details(id);
             runInAction(() => {
                 this.company = company;
             });

@@ -65,6 +65,7 @@ const ResumeListItem: React.FC<IProps> = ({ resume }) => {
                         onClick={() => setApplicantDisplay(!applicantDisplay)} 
                         name={applicantDisplay ? 'arrow up' : 'arrow down'} 
                         size='large'
+                        disabled={resume.applicants > 0 ? false : true}
                         color={applicantDisplay ? 'grey' : 'black'} />
                 </div>
             </Item.Extra>
