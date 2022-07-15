@@ -6,6 +6,14 @@ To run this project you need to have:
 React js installed in your device
 PostgreSQL 13 
 PgAdmin 4
+A Dropbox account
+
+How to run the project:
+Install the code in your device
+Start Dotnet Core application using "dotnet watch run" in your console (run this command inside API folder)
+Start NPM server using "npm start" (run this command inside client-app folder)
+Add appsettings.json file ()
+
 
 What you can do in this platform:
 Post your job offers
